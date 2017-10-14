@@ -3,7 +3,9 @@ package nl.rostykerei.planes.server.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "country")
+@Table(name = "country", indexes = {
+        @Index(name = "country_iso3_code_idx", columnList = "iso3_code")
+})
 public class Country {
 
     @Id
@@ -15,16 +17,4 @@ public class Country {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    public String getIso2Code() {
-        return iso2Code;
-    }
-
-    public String getIso3Code() {
-        return iso3Code;
-    }
-
-    public String getName() {
-        return name;
-    }
 }
