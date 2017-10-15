@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "flight_log", indexes = {
-        @Index(name = "flight_log_flight_idx", columnList = "flight_id"),
+        @Index(name = "flight_log_flight_idx", columnList = "flight"),
 })
 public class FlightLog {
 
@@ -15,7 +15,7 @@ public class FlightLog {
     private int id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "flight_id", foreignKey = @ForeignKey(name = "flight_log_flight_fk"), nullable = false)
+    @JoinColumn(name = "flight", foreignKey = @ForeignKey(name = "flight_log_flight_fk"), nullable = false)
     private Flight flight;
 
     @Column(name = "altitide")

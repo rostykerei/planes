@@ -1,7 +1,0 @@
-CREATE TABLE country
-(
-  code VARCHAR(2)   NOT NULL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL
-)
-  ENGINE = InnoDB;
-

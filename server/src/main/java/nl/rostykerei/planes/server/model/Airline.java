@@ -1,11 +1,12 @@
 package nl.rostykerei.planes.server.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "airline", indexes = {
         @Index(name = "airline_iata_code_idx", columnList = "iata_code"),
-        @Index(name = "airline_country_code_idx", columnList = "country_code")
+        @Index(name = "airline_country_idx", columnList = "country")
 })
 public class Airline {
 
@@ -17,7 +18,7 @@ public class Airline {
     private String iataCode;
 
     @ManyToOne
-    @JoinColumn(name = "country_code", foreignKey = @ForeignKey(name = "airline_country_fk"))
+    @JoinColumn(name = "country", foreignKey = @ForeignKey(name = "airline_country_fk"))
     private Country country;
 
     @Column(name = "name", nullable = false)
@@ -25,4 +26,11 @@ public class Airline {
 
     @Column(name = "callsign")
     private String callsign;
+
+    @Column(name = "status", length = 16, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Column(name = "last_updated", nullable = false)
+    private Date lastUpdated;
 }
