@@ -39,4 +39,67 @@ public class Aircraft {
     @Column(name = "last_updated", nullable = false)
     private Date lastUpdated;
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public Airline getAirline() {
+        return airline;
+    }
+
+    public void setAirline(Airline airline) {
+        this.airline = airline;
+    }
+
+    public String getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(String registration) {
+        this.registration = registration;
+    }
+
+    public String getRegistrationCompact() {
+        return registrationCompact;
+    }
+
+    public void setRegistrationCompact(String registrationCompact) {
+        this.registrationCompact = registrationCompact;
+    }
+
+    public AircraftType getType() {
+        return type;
+    }
+
+    public void setType(AircraftType type) {
+        this.type = type;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
 }
