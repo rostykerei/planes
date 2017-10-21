@@ -99,9 +99,11 @@ CREATE INDEX route_airport_to_idx
 CREATE TABLE aircraft_type
 (
   type           VARCHAR(4)   NOT NULL PRIMARY KEY,
-  classification VARCHAR(255) NULL,
   manufacturer   VARCHAR(255) NULL,
-  model          VARCHAR(255) NULL
+  model          VARCHAR(255) NULL,
+  classification VARCHAR(255) NULL,
+  status         VARCHAR(16)  NOT NULL,
+  last_updated   DATETIME     NOT NULL ON UPDATE CURRENT_TIMESTAMP
 )
   ENGINE = InnoDB;
 
@@ -144,7 +146,7 @@ CREATE TABLE flight
 (
   id            INT        NOT NULL AUTO_INCREMENT PRIMARY KEY,
   aircraft      VARCHAR(6) NOT NULL,
-  route         VARCHAR(8) NOT NULL,
+  route         VARCHAR(8) NULL,
   first_contact DATETIME   NOT NULL,
   last_contact  DATETIME   NOT NULL,
   CONSTRAINT flight_aircraft_fk FOREIGN KEY (aircraft) REFERENCES aircraft (code),
@@ -168,13 +170,14 @@ CREATE INDEX flight_last_contact_idx
 
 CREATE TABLE flight_log
 (
-  id        INT   NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  flight    INT   NOT NULL,
-  altitide  INT   NULL,
-  heading   INT   NULL,
-  latitude  FLOAT NULL,
-  longitude FLOAT NULL,
-  speed     INT   NULL,
+  id            INT   NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  flight        INT   NOT NULL,
+  altitide      INT   NULL,
+  heading       INT   NULL,
+  vertical_rate INT   NULL,
+  latitude      FLOAT NULL,
+  longitude     FLOAT NULL,
+  speed         INT   NULL,
   CONSTRAINT flight_log_flight_fk FOREIGN KEY (flight) REFERENCES flight (id)
 )
   ENGINE = InnoDB;

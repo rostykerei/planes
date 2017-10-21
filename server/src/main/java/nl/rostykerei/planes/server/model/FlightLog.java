@@ -27,6 +27,9 @@ public class FlightLog {
     @Column(name = "heading")
     private Integer heading;
 
+    @Column(name = "vertical_rate")
+    private Integer verticalRate;
+
     @Column(name = "latitude")
     private Float latitude;
 

@@ -1,6 +1,7 @@
 package nl.rostykerei.planes.server.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "aircraft_type", indexes = {
@@ -21,4 +22,11 @@ public class AircraftType {
 
     @Column(name = "classification")
     private String classification;
+
+    @Column(name = "status", length = 16, nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    @Column(name = "last_updated", nullable = false)
+    private Date lastUpdated;
 }

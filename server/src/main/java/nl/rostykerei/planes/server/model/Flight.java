@@ -21,8 +21,8 @@ public class Flight {
     @JoinColumn(name = "aircraft", foreignKey = @ForeignKey(name = "flight_aircraft_fk"), nullable = false)
     private Aircraft aircraft;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "route", foreignKey = @ForeignKey(name = "flight_route_fk"), nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "route", foreignKey = @ForeignKey(name = "flight_route_fk"))
     private Route route;
 
     @Column(name = "first_contact", nullable = false)
