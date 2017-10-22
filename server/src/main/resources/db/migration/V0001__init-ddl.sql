@@ -172,7 +172,7 @@ CREATE TABLE flight_log
 (
   id            INT   NOT NULL AUTO_INCREMENT PRIMARY KEY,
   flight        INT   NOT NULL,
-  altitide      INT   NULL,
+  altitude      INT   NULL,
   heading       INT   NULL,
   vertical_rate INT   NULL,
   latitude      FLOAT NULL,

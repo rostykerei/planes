@@ -18,8 +18,8 @@ public class FlightLog {
     @JoinColumn(name = "flight", foreignKey = @ForeignKey(name = "flight_log_flight_fk"), nullable = false)
     private Flight flight;
 
-    @Column(name = "altitide")
-    private Integer altitide;
+    @Column(name = "altitude")
+    private Integer altitude;
 
     @Column(name = "speed")
     private Integer speed;
