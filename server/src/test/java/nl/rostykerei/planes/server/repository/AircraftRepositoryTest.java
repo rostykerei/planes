@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Rollback
@@ -22,7 +20,6 @@ public class AircraftRepositoryTest {
 
     @Test
     public void findOrCreate() throws Exception {
-
         Assert.assertEquals(0, repository.count());
 
         Aircraft aircraft = repository.findOrCreate("a1b2c3");

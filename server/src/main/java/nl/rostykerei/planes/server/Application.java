@@ -1,21 +1,23 @@
 package nl.rostykerei.planes.server;
 
-import nl.rostykerei.planes.server.dump1090.Dump1090Json;
+import nl.rostykerei.planes.server.service.dump1090.Dump1090Response;
+import nl.rostykerei.planes.server.service.dump1090.Dump1090Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 @RestController
 @SpringBootApplication
 public class Application {
 
+    @Autowired
+    Dump1090Service dump1090Service;
+
     @RequestMapping("/")
     String home() {
-        RestTemplate restTemplate = new RestTemplate();
-        Dump1090Json json = restTemplate.getForObject("http://mediacenter/dump1090/data/aircraft.json", Dump1090Json.class);
+        Dump1090Response json = dump1090Service.getData();
 
         return "Hello World! >>> " + json.getAircraft().size() + " aircrafts";
     }

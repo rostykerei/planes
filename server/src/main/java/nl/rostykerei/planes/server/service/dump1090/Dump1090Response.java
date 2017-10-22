@@ -1,12 +1,13 @@
-package nl.rostykerei.planes.server.dump1090;
+package nl.rostykerei.planes.server.service.dump1090;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Dump1090Json {
+public class Dump1090Response {
 
     private double now;
 
@@ -49,11 +50,13 @@ public class Dump1090Json {
 
         private Integer nucp;
 
-        private Double seen_pos;
+        @JsonProperty("seen_pos")
+        private Double seenPos;
 
         private Integer altitude;
 
-        private Integer vert_rate;
+        @JsonProperty("vert_rate")
+        private Integer vertRate;
 
         private Integer track;
 
@@ -72,7 +75,7 @@ public class Dump1090Json {
         }
 
         public void setHex(String hex) {
-            this.hex = hex;
+            this.hex = hex != null ? hex.trim().toLowerCase() : null;
         }
 
         public Integer getSquawk() {
@@ -88,7 +91,7 @@ public class Dump1090Json {
         }
 
         public void setFlight(String flight) {
-            this.flight = flight;
+            this.flight = flight != null ? flight.trim().toUpperCase() : null;
         }
 
         public Double getLat() {
@@ -115,12 +118,12 @@ public class Dump1090Json {
             this.nucp = nucp;
         }
 
-        public Double getSeen_pos() {
-            return seen_pos;
+        public Double getSeenPos() {
+            return seenPos;
         }
 
-        public void setSeen_pos(Double seen_pos) {
-            this.seen_pos = seen_pos;
+        public void setSeenPos(Double seenPos) {
+            this.seenPos = seenPos;
         }
 
         public Integer getAltitude() {
@@ -131,12 +134,12 @@ public class Dump1090Json {
             this.altitude = altitude;
         }
 
-        public Integer getVert_rate() {
-            return vert_rate;
+        public Integer getVertRate() {
+            return vertRate;
         }
 
-        public void setVert_rate(Integer vert_rate) {
-            this.vert_rate = vert_rate;
+        public void setVertRate(Integer vertRate) {
+            this.vertRate = vertRate;
         }
 
         public Integer getTrack() {
