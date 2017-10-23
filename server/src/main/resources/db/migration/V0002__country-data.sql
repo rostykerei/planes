@@ -244,6 +244,7 @@ INSERT INTO country(code, name) VALUES ('VG', 'Virgin Islands (British)');
 INSERT INTO country(code, name) VALUES ('VI', 'Virgin Islands (U.S.)');
 INSERT INTO country(code, name) VALUES ('WF', 'Wallis and Futuna');
 INSERT INTO country(code, name) VALUES ('EH', 'Western Sahara');
+INSERT INTO country (code, name) VALUES ('XK', 'Kosovo');
 INSERT INTO country(code, name) VALUES ('YE', 'Yemen');
 INSERT INTO country(code, name) VALUES ('ZM', 'Zambia');
 INSERT INTO country(code, name) VALUES ('ZW', 'Zimbabwe');
