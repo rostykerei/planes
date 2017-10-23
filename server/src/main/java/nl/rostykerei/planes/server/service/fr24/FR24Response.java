@@ -8,17 +8,7 @@ import java.util.List;
 @JsonDeserialize(using = FR24ResponseDeserializer.class)
 public class FR24Response {
 
-    private int version;
-
     private List<Flight> flights = new ArrayList<>();
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
 
     public List<Flight> getFlights() {
         return flights;
@@ -57,6 +47,8 @@ public class FR24Response {
         private String to;
 
         private String flight;
+
+        private Boolean onGround;
 
         private Integer verticalRate;
 
@@ -172,6 +164,14 @@ public class FR24Response {
 
         public void setFlight(String flight) {
             this.flight = flight;
+        }
+
+        public Boolean getOnGround() {
+            return onGround;
+        }
+
+        public void setOnGround(Boolean onGround) {
+            this.onGround = onGround;
         }
 
         public Integer getVerticalRate() {
