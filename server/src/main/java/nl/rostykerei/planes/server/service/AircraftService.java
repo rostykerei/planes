@@ -31,4 +31,9 @@ public class AircraftService {
             return repository.save(newAircraft);
         });
     }
+
+    @Transactional
+    public long countAll() {
+        return repository.count();
+    }
 }

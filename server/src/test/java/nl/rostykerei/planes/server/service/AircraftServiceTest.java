@@ -16,15 +16,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Rollback
 public class AircraftServiceTest {
 
-    @Autowired
-    private AircraftRepository repository;
 
     @Autowired
     private AircraftService service;
 
     @Test
     public void findOrCreate() throws Exception {
-        Assert.assertEquals(0, repository.count());
+        Assert.assertEquals(0, service.countAll());
 
         Aircraft aircraft = service.findOrCreate("a1b2c3");
 
@@ -32,18 +30,13 @@ public class AircraftServiceTest {
         Assert.assertEquals(Status.NEW, aircraft.getStatus());
         Assert.assertNotNull(aircraft.getLastUpdated());
 
-        Assert.assertEquals(1, repository.count());
-
-        aircraft.setRegistration("PH-TEST");
-
-        repository.save(aircraft);
+        Assert.assertEquals(1, service.countAll());
 
         Aircraft aircraft2 = service.findOrCreate("a1b2c3");
 
         Assert.assertEquals("a1b2c3", aircraft2.getCode());
-        Assert.assertEquals("PH-TEST", aircraft2.getRegistration());
 
-        Assert.assertEquals(1, repository.count());
+        Assert.assertEquals(1, service.countAll());
     }
 
 }
