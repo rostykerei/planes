@@ -14,7 +14,7 @@ public class Airline {
     @Column(name = "code", length = 3, nullable = false, unique = true)
     private String code;
 
-    @Column(name = "iata_code", length = 2, unique = true)
+    @Column(name = "iata_code", length = 2)
     private String iataCode;
 
     @ManyToOne

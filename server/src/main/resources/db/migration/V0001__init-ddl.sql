@@ -52,7 +52,6 @@ CREATE TABLE airline
   callsign     VARCHAR(255) NULL,
   status       VARCHAR(16)  NOT NULL,
   last_updated DATETIME     NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT airline_iata_code_unique UNIQUE (iata_code),
   CONSTRAINT airline_country_fk FOREIGN KEY (country) REFERENCES country (code),
   CONSTRAINT airline_status_fk FOREIGN KEY (status) REFERENCES status (name)
 )
