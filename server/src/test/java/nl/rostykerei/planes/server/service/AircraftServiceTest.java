@@ -1,7 +1,8 @@
-package nl.rostykerei.planes.server.repository;
+package nl.rostykerei.planes.server.service;
 
 import nl.rostykerei.planes.server.model.Aircraft;
 import nl.rostykerei.planes.server.model.Status;
+import nl.rostykerei.planes.server.repository.AircraftRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,16 +14,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Rollback
-public class AircraftRepositoryTest {
+public class AircraftServiceTest {
 
     @Autowired
     private AircraftRepository repository;
+
+    @Autowired
+    private AircraftService service;
 
     @Test
     public void findOrCreate() throws Exception {
         Assert.assertEquals(0, repository.count());
 
-        Aircraft aircraft = repository.findOrCreate("a1b2c3");
+        Aircraft aircraft = service.findOrCreate("a1b2c3");
 
         Assert.assertEquals("a1b2c3", aircraft.getCode());
         Assert.assertEquals(Status.NEW, aircraft.getStatus());
@@ -34,7 +38,7 @@ public class AircraftRepositoryTest {
 
         repository.save(aircraft);
 
-        Aircraft aircraft2 = repository.findOrCreate("a1b2c3");
+        Aircraft aircraft2 = service.findOrCreate("a1b2c3");
 
         Assert.assertEquals("a1b2c3", aircraft2.getCode());
         Assert.assertEquals("PH-TEST", aircraft2.getRegistration());

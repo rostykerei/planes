@@ -12,24 +12,6 @@ import javax.transaction.Transactional;
 import java.util.Date;
 
 @Repository
-public class AircraftRepository extends SimpleJpaRepository<Aircraft, String> implements CrudRepository<Aircraft, String> {
-
-    @Autowired
-    public AircraftRepository(EntityManager em) {
-        super(Aircraft.class, em);
-    }
-
-    @Transactional
-    public Aircraft findOrCreate(String code) {
-        return findById(code).orElseGet(() -> {
-            Aircraft aircraft = new Aircraft();
-
-            aircraft.setCode(code);
-            aircraft.setStatus(Status.NEW);
-            aircraft.setLastUpdated(new Date());
-
-            return save(aircraft);
-        });
-    }
+public interface AircraftRepository extends CrudRepository<Aircraft, String> {
 
 }
