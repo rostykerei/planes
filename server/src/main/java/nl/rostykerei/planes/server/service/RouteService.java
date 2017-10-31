@@ -20,13 +20,18 @@ public class RouteService {
     }
 
     @Transactional
+    public Route findByCallsign(String callsign) {
+        return repository.findById(callsign).orElse(null);
+    }
+
+    @Transactional
     public Route findOrCreate(String callsign) {
         return repository.findById(callsign).orElseGet(() -> {
             Route route = new Route();
 
             route.setCallsign(callsign);
 
-            route.setStatus(Status.NEW);
+            route.setStatus(Status.N);
             route.setLastUpdated(new Date());
 
             return repository.save(route);
@@ -36,5 +41,9 @@ public class RouteService {
     @Transactional
     public long countAll() {
         return repository.count();
+    }
+
+    public Route save(Route route) {
+        return repository.save(route);
     }
 }

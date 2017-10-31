@@ -37,7 +37,7 @@ public class FlightLog {
     @Column(name = "longitude")
     private Float longitude;
 
-    @Column(name = "timestamp")
+    @Column(name = "ts")
     private Date timestamp;
 
     public int getId() {

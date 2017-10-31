@@ -2,9 +2,9 @@ package nl.rostykerei.planes.server.model;
 
 public enum Status {
 
-    NEW,
+    N,
     UPDATING,
-    READY,
+    R,
     UNRESOLVED
 
 }

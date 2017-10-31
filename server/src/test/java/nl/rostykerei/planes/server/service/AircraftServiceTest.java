@@ -2,7 +2,6 @@ package nl.rostykerei.planes.server.service;
 
 import nl.rostykerei.planes.server.model.Aircraft;
 import nl.rostykerei.planes.server.model.Status;
-import nl.rostykerei.planes.server.repository.AircraftRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +28,7 @@ public class AircraftServiceTest {
         Aircraft aircraft = service.findOrCreate("a1b2c3");
 
         Assert.assertEquals("a1b2c3", aircraft.getCode());
-        Assert.assertEquals(Status.NEW, aircraft.getStatus());
+        Assert.assertEquals(Status.N, aircraft.getStatus());
         Assert.assertNotNull(aircraft.getLastUpdated());
 
         Assert.assertEquals(1, service.countAll());

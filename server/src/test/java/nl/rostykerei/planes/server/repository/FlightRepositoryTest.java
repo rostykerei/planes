@@ -32,7 +32,7 @@ public class FlightRepositoryTest {
 
         Aircraft aircraft = new Aircraft();
         aircraft.setCode("a1b2c3");
-        aircraft.setStatus(Status.NEW);
+        aircraft.setStatus(Status.N);
         aircraft.setLastUpdated(new Date());
 
         aircraftRepository.save(aircraft);
