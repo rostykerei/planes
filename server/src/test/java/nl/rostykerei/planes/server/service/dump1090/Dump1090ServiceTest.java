@@ -48,17 +48,17 @@ public class Dump1090ServiceTest {
         assertEquals("4ca4e3", aircraft.getHex());
         assertEquals(7347, (int) aircraft.getSquawk());
         assertEquals("KLM975", aircraft.getFlight());
-        assertEquals(52.252280, aircraft.getLat(), 0);
-        assertEquals(4.668562, aircraft.getLon(), 0);
+        assertEquals(52.252280f, aircraft.getLat(), 0);
+        assertEquals(4.668562f, aircraft.getLon(), 0);
         assertEquals(0, (int) aircraft.getNucp());
-        assertEquals(.9, aircraft.getSeenPos(), 0);
+        assertEquals(.9f, aircraft.getSeenPos(), 0);
         assertEquals(2650, (int) aircraft.getAltitude());
         assertEquals(2496, (int) aircraft.getVertRate());
         assertEquals(224, (int) aircraft.getTrack());
         assertEquals("A0", aircraft.getCategory());
         assertEquals(801, (int) aircraft.getMessages());
-        assertEquals(.1, aircraft.getSeen(), 0);
-        assertEquals(-31.3, aircraft.getRssi(), 0);
+        assertEquals(.1f, aircraft.getSeen(), 0);
+        assertEquals(-31.3f, aircraft.getRssi(), 0);
 
         Dump1090Response.Aircraft aircraft2 = response.getAircraft().get(1);
 
@@ -74,8 +74,8 @@ public class Dump1090ServiceTest {
         assertNull(aircraft2.getTrack());
         assertNull(aircraft2.getCategory());
         assertEquals(7650, (int) aircraft2.getMessages());
-        assertEquals(239.4, aircraft2.getSeen(), 0);
-        assertEquals(-34.9, aircraft2.getRssi(), 0);
+        assertEquals(239.4f, aircraft2.getSeen(), 0);
+        assertEquals(-34.9f, aircraft2.getRssi(), 0);
     }
 
 }

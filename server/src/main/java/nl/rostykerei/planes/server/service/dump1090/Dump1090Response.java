@@ -44,14 +44,14 @@ public class Dump1090Response {
 
         private String flight;
 
-        private Double lat;
+        private Float lat;
 
-        private Double lon;
+        private Float lon;
 
         private Integer nucp;
 
         @JsonProperty("seen_pos")
-        private Double seenPos;
+        private Float seenPos;
 
         private Integer altitude;
 
@@ -66,9 +66,9 @@ public class Dump1090Response {
 
         private Integer messages;
 
-        private Double seen;
+        private Float seen;
 
-        private Double rssi;
+        private Float rssi;
 
         public String getHex() {
             return hex;
@@ -94,19 +94,19 @@ public class Dump1090Response {
             this.flight = flight != null ? flight.trim().toUpperCase() : null;
         }
 
-        public Double getLat() {
+        public Float getLat() {
             return lat;
         }
 
-        public void setLat(Double lat) {
+        public void setLat(Float lat) {
             this.lat = lat;
         }
 
-        public Double getLon() {
+        public Float getLon() {
             return lon;
         }
 
-        public void setLon(Double lon) {
+        public void setLon(Float lon) {
             this.lon = lon;
         }
 
@@ -118,11 +118,11 @@ public class Dump1090Response {
             this.nucp = nucp;
         }
 
-        public Double getSeenPos() {
+        public Float getSeenPos() {
             return seenPos;
         }
 
-        public void setSeenPos(Double seenPos) {
+        public void setSeenPos(Float seenPos) {
             this.seenPos = seenPos;
         }
 
@@ -174,19 +174,19 @@ public class Dump1090Response {
             this.messages = messages;
         }
 
-        public Double getSeen() {
+        public Float getSeen() {
             return seen;
         }
 
-        public void setSeen(Double seen) {
+        public void setSeen(Float seen) {
             this.seen = seen;
         }
 
-        public Double getRssi() {
+        public Float getRssi() {
             return rssi;
         }
 
-        public void setRssi(Double rssi) {
+        public void setRssi(Float rssi) {
             this.rssi = rssi;
         }
     }

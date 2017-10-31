@@ -169,14 +169,15 @@ CREATE INDEX flight_last_contact_idx
 
 CREATE TABLE flight_log
 (
-  id            INT   NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  flight        INT   NOT NULL,
-  altitude      INT   NULL,
-  heading       INT   NULL,
-  vertical_rate INT   NULL,
-  latitude      FLOAT NULL,
-  longitude     FLOAT NULL,
-  speed         INT   NULL,
+  id            INT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  flight        INT      NOT NULL,
+  altitude      INT      NULL,
+  heading       INT      NULL,
+  vertical_rate INT      NULL,
+  latitude      FLOAT    NULL,
+  longitude     FLOAT    NULL,
+  speed         INT      NULL,
+  ts            DATETIME NOT NULL,
   CONSTRAINT flight_log_flight_fk FOREIGN KEY (flight) REFERENCES flight (id)
 )
   ENGINE = InnoDB;

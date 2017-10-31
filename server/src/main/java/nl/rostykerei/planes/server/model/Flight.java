@@ -31,4 +31,43 @@ public class Flight {
     @Column(name = "last_contact", nullable = false)
     private Date lastContact;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Aircraft getAircraft() {
+        return aircraft;
+    }
+
+    public void setAircraft(Aircraft aircraft) {
+        this.aircraft = aircraft;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public Date getFirstContact() {
+        return firstContact;
+    }
+
+    public void setFirstContact(Date firstContact) {
+        this.firstContact = firstContact;
+    }
+
+    public Date getLastContact() {
+        return lastContact;
+    }
+
+    public void setLastContact(Date lastContact) {
+        this.lastContact = lastContact;
+    }
 }

@@ -1,6 +1,7 @@
 package nl.rostykerei.planes.server.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
@@ -36,4 +37,78 @@ public class FlightLog {
     @Column(name = "longitude")
     private Float longitude;
 
+    @Column(name = "timestamp")
+    private Date timestamp;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
+
+    public Integer getAltitude() {
+        return altitude;
+    }
+
+    public void setAltitude(Integer altitude) {
+        this.altitude = altitude;
+    }
+
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Integer speed) {
+        this.speed = speed;
+    }
+
+    public Integer getHeading() {
+        return heading;
+    }
+
+    public void setHeading(Integer heading) {
+        this.heading = heading;
+    }
+
+    public Integer getVerticalRate() {
+        return verticalRate;
+    }
+
+    public void setVerticalRate(Integer verticalRate) {
+        this.verticalRate = verticalRate;
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public Float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 }
