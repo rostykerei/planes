@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -21,6 +22,14 @@ public class Dump1090Response {
 
     public void setNow(double now) {
         this.now = now;
+    }
+
+    public Date getNowDate() {
+        return new Date(getNowMilliseconds());
+    }
+
+    public long getNowMilliseconds() {
+        return (long) getNow() * 1000;
     }
 
     public long getMessages() {
