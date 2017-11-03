@@ -62,18 +62,30 @@ public class FR24Agent {
     void processType(FR24Response.Flight record) {
         String type = record.getType();
 
-        if (type != null) {
-            aircraftTypeService.findOrCreate(type);
+        if (type != null && !type.trim().isEmpty()) {
+            aircraftTypeService.findOrCreate(type.trim().toUpperCase());
         }
     }
 
     @Transactional
     void processAircraft(FR24Response.Flight record) {
-        Aircraft aircraft = aircraftService.findByCode(record.getHex());
+        String hex = record.getHex();
+
+        if (hex == null) {
+            return;
+        }
+
+        hex = hex.trim().toUpperCase();
+
+        if (hex.isEmpty()) {
+            return;
+        }
+
+        Aircraft aircraft = aircraftService.findByCode(hex);
 
         if (aircraft == null) {
             aircraft = new Aircraft();
-            aircraft.setCode(record.getHex());
+            aircraft.setCode(hex);
 
             aircraft.setStatus(Status.N);
         }
