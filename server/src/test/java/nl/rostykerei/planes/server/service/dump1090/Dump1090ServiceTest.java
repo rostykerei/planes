@@ -40,6 +40,7 @@ public class Dump1090ServiceTest {
 
         assertNotNull(response);
         assertNotNull(response.getAircraft());
+        assertNotNull(response.getNowDate());
 
         assertEquals(5, response.getAircraft().size());
 

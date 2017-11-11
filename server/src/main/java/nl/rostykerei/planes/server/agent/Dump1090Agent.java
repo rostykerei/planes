@@ -8,6 +8,8 @@ import nl.rostykerei.planes.server.service.FlightService;
 import nl.rostykerei.planes.server.service.RouteService;
 import nl.rostykerei.planes.server.service.dump1090.Dump1090Response;
 import nl.rostykerei.planes.server.service.dump1090.Dump1090Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,6 +26,8 @@ public class Dump1090Agent {
 
     private Dump1090Service dump1090Service;
 
+    private static final Logger logger = LoggerFactory.getLogger(Dump1090Agent.class);
+
     @Autowired
     public Dump1090Agent(FlightService flightService, RouteService routeService,
                          FlightLogService flightLogService, Dump1090Service dump1090Service) {
@@ -36,9 +40,16 @@ public class Dump1090Agent {
     @Scheduled(fixedRate = 5000)
     public void invoke() {
         Dump1090Response response = dump1090Service.getData();
+        long now = System.currentTimeMillis();
 
         if (response != null) {
-            response.getAircraft().forEach(this::processRecord);
+
+            if (now - response.getNowMilliseconds() < 5000) {
+                response.getAircraft().forEach(this::processRecord);
+            }
+            else {
+                logger.warn("Too old data, skipping...");
+            }
         }
     }
 
