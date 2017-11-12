@@ -97,9 +97,6 @@ public class FR24Agent {
 
             if (reg != null) {
                 aircraft.setRegistration(reg);
-                aircraft.setRegistrationCompact(
-                        reg.replace("-", "").replace(" ", "")
-                );
             }
 
             if (record.getType() != null) {

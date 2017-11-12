@@ -61,14 +61,20 @@ public class Aircraft {
 
     public void setRegistration(String registration) {
         this.registration = registration;
+
+        if (registration != null) {
+            this.registrationCompact = registration
+                    .replace("-", "")
+                    .replace(" ", "");
+        }
+        else {
+            this.registrationCompact = null;
+        }
+
     }
 
     public String getRegistrationCompact() {
         return registrationCompact;
-    }
-
-    public void setRegistrationCompact(String registrationCompact) {
-        this.registrationCompact = registrationCompact;
     }
 
     public AircraftType getType() {
