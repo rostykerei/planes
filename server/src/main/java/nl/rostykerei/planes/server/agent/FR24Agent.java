@@ -3,10 +3,7 @@ package nl.rostykerei.planes.server.agent;
 import nl.rostykerei.planes.server.model.Aircraft;
 import nl.rostykerei.planes.server.model.Route;
 import nl.rostykerei.planes.server.model.Status;
-import nl.rostykerei.planes.server.service.AircraftService;
-import nl.rostykerei.planes.server.service.AircraftTypeService;
-import nl.rostykerei.planes.server.service.AirportService;
-import nl.rostykerei.planes.server.service.RouteService;
+import nl.rostykerei.planes.server.service.*;
 import nl.rostykerei.planes.server.service.fr24.FR24Response;
 import nl.rostykerei.planes.server.service.fr24.FR24Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +26,22 @@ public class FR24Agent {
 
     private RouteService routeService;
 
+    private AirlineService airlineService;
+
     @Autowired
     public FR24Agent(FR24Service fr24Service,
                      AircraftService aircraftService,
                      AircraftTypeService aircraftTypeService,
                      AirportService airportService,
-                     RouteService routeService) {
+                     RouteService routeService,
+                     AirlineService airlineService) {
 
         this.fr24Service = fr24Service;
         this.aircraftService = aircraftService;
         this.aircraftTypeService = aircraftTypeService;
         this.airportService = airportService;
         this.routeService = routeService;
+        this.airlineService = airlineService;
     }
 
     @Scheduled(fixedRate = 60000)
@@ -124,9 +125,29 @@ public class FR24Agent {
             }
 
             if (route.getStatus() == Status.N) {
-                route.setNumber(record.getFlight());
-                route.setAirportFrom(airportService.findByIataCode(from));
-                route.setAirportTo(airportService.findByIataCode(to));
+                if (route.getAirportFrom() == null) {
+                    route.setAirportFrom(airportService.findByIataCode(from));
+                }
+
+                if (route.getAirportTo() == null) {
+                    route.setAirportTo(airportService.findByIataCode(to));
+                }
+
+                if (record.getFlight() != null) {
+                    if (route.getNumber() == null) {
+                        route.setNumber(record.getFlight());
+                    }
+
+                    if (route.getAirline() == null) {
+                        route.setAirline(
+                            airlineService.findByTwoCodes(
+                                callsign.substring(0, 3),
+                                record.getFlight().substring(0, 2)
+                            )
+                        );
+                    }
+                }
+
 
                 route.setStatus(Status.R);
                 route.setLastUpdated(new Date());
