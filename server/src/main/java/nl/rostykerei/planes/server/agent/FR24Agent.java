@@ -62,8 +62,8 @@ public class FR24Agent {
     void processType(FR24Response.Flight record) {
         String type = record.getType();
 
-        if (type != null && !type.trim().isEmpty()) {
-            aircraftTypeService.findOrCreate(type.trim().toUpperCase());
+        if (type != null) {
+            aircraftTypeService.findOrCreate(type);
         }
     }
 
@@ -72,12 +72,6 @@ public class FR24Agent {
         String hex = record.getHex();
 
         if (hex == null) {
-            return;
-        }
-
-        hex = hex.trim().toUpperCase();
-
-        if (hex.isEmpty()) {
             return;
         }
 
@@ -94,8 +88,6 @@ public class FR24Agent {
             String reg = record.getReg();
 
             if (reg != null) {
-                reg = reg.toUpperCase();
-
                 aircraft.setRegistration(reg);
                 aircraft.setRegistrationCompact(
                         reg.replace("-", "").replace(" ", "")
@@ -120,14 +112,7 @@ public class FR24Agent {
         String from = record.getFrom();
         String to = record.getTo();
 
-        if (callsign != null && !callsign.trim().isEmpty()
-                && from != null && !from.trim().isEmpty()
-                && to != null && !to.trim().isEmpty()) {
-
-            callsign = callsign.trim().toUpperCase();
-
-            from = from.trim().toUpperCase();
-            to = to.trim().toUpperCase();
+        if (callsign != null && from != null && to != null) {
 
             Route route = routeService.findByCallsign(callsign);
 
@@ -139,7 +124,7 @@ public class FR24Agent {
             }
 
             if (route.getStatus() == Status.N) {
-                route.setNumber(record.getFlight().trim().toUpperCase());
+                route.setNumber(record.getFlight());
                 route.setAirportFrom(airportService.findByIataCode(from));
                 route.setAirportTo(airportService.findByIataCode(to));
 

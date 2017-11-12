@@ -63,7 +63,7 @@ public class Dump1090Agent {
             }
 
             // Find or create flight
-            Flight flight = flightService.checkInFlight(record.getHex().trim().toUpperCase(), route);
+            Flight flight = flightService.checkInFlight(record.getHex(), route);
 
             FlightLog flightLog = new FlightLog();
 

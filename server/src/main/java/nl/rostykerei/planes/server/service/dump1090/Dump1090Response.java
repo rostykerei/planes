@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static nl.rostykerei.planes.server.util.ParseUtils.parseString;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Dump1090Response {
 
@@ -84,7 +86,7 @@ public class Dump1090Response {
         }
 
         public void setHex(String hex) {
-            this.hex = hex != null ? hex.trim().toLowerCase() : null;
+            this.hex = parseString(hex);;
         }
 
         public Integer getSquawk() {
@@ -100,7 +102,7 @@ public class Dump1090Response {
         }
 
         public void setFlight(String flight) {
-            this.flight = flight != null ? flight.trim().toUpperCase() : null;
+            this.flight = parseString(flight);
         }
 
         public Float getLat() {
@@ -172,7 +174,7 @@ public class Dump1090Response {
         }
 
         public void setCategory(String category) {
-            this.category = category;
+            this.category = parseString(category);
         }
 
         public Integer getMessages() {

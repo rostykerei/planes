@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.List;
 
+import static nl.rostykerei.planes.server.util.ParseUtils.parseString;
+
 @JsonDeserialize(using = FR24ResponseDeserializer.class)
 public class FR24Response {
 
@@ -67,7 +69,7 @@ public class FR24Response {
         }
 
         public void setHex(String hex) {
-            this.hex = hex;
+            this.hex = parseString(hex);
         }
 
         public Double getLatitude() {
@@ -115,7 +117,7 @@ public class FR24Response {
         }
 
         public void setSquawk(String squawk) {
-            this.squawk = squawk;
+            this.squawk = parseString(squawk);
         }
 
         public String getRadar() {
@@ -123,7 +125,7 @@ public class FR24Response {
         }
 
         public void setRadar(String radar) {
-            this.radar = radar;
+            this.radar = parseString(radar);
         }
 
         public String getType() {
@@ -131,7 +133,7 @@ public class FR24Response {
         }
 
         public void setType(String type) {
-            this.type = type;
+            this.type = parseString(type);
         }
 
         public String getReg() {
@@ -139,7 +141,7 @@ public class FR24Response {
         }
 
         public void setReg(String reg) {
-            this.reg = reg;
+            this.reg = parseString(reg);
         }
 
         public String getFrom() {
@@ -147,7 +149,7 @@ public class FR24Response {
         }
 
         public void setFrom(String from) {
-            this.from = from;
+            this.from = parseString(from);
         }
 
         public String getTo() {
@@ -155,7 +157,7 @@ public class FR24Response {
         }
 
         public void setTo(String to) {
-            this.to = to;
+            this.to = parseString(to);
         }
 
         public String getFlight() {
@@ -163,7 +165,7 @@ public class FR24Response {
         }
 
         public void setFlight(String flight) {
-            this.flight = flight;
+            this.flight = parseString(flight);
         }
 
         public Boolean getOnGround() {
@@ -187,7 +189,7 @@ public class FR24Response {
         }
 
         public void setCallsign(String callsign) {
-            this.callsign = callsign;
+            this.callsign = parseString(callsign);
         }
     }
 }
