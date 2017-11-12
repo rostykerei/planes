@@ -14,10 +14,8 @@
     </properties>
 
     <modules>
-        <module>api</module>
         <module>server</module>
-        <module>station</module>
-        <module>client</module>
+        <module>frontend</module>
     </modules>
 
     <build>
