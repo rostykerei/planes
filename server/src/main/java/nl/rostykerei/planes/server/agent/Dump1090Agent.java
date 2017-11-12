@@ -6,6 +6,7 @@ import nl.rostykerei.planes.server.model.Route;
 import nl.rostykerei.planes.server.service.FlightLogService;
 import nl.rostykerei.planes.server.service.FlightService;
 import nl.rostykerei.planes.server.service.RouteService;
+import nl.rostykerei.planes.server.service.dump1090.Dump1090Config;
 import nl.rostykerei.planes.server.service.dump1090.Dump1090Response;
 import nl.rostykerei.planes.server.service.dump1090.Dump1090Service;
 import org.slf4j.Logger;
@@ -26,25 +27,29 @@ public class Dump1090Agent {
 
     private Dump1090Service dump1090Service;
 
+    private Dump1090Config dump1090Config;
+
     private static final Logger logger = LoggerFactory.getLogger(Dump1090Agent.class);
 
     @Autowired
     public Dump1090Agent(FlightService flightService, RouteService routeService,
-                         FlightLogService flightLogService, Dump1090Service dump1090Service) {
+                         FlightLogService flightLogService, Dump1090Service dump1090Service,
+                         Dump1090Config dump1090Config) {
         this.flightService = flightService;
         this.routeService = routeService;
         this.flightLogService = flightLogService;
         this.dump1090Service = dump1090Service;
+        this.dump1090Config = dump1090Config;
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRateString = "${dump1090.update-rate}")
     public void invoke() {
         Dump1090Response response = dump1090Service.getData();
         long now = System.currentTimeMillis();
 
         if (response != null) {
 
-            if (now - response.getNowMilliseconds() < 5000) {
+            if (now - response.getNowMilliseconds() < dump1090Config.getUpdateRate()) {
                 response.getAircraft().forEach(this::processRecord);
             }
             else {

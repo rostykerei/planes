@@ -9,11 +9,21 @@ public class Dump1090Config {
 
     private String url;
 
+    private int updateRate;
+
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getUpdateRate() {
+        return updateRate;
+    }
+
+    public void setUpdateRate(int updateRate) {
+        this.updateRate = updateRate;
     }
 }

@@ -27,7 +27,7 @@ public class FR24ServiceTest {
     @Test
     public void test1() throws Exception {
         this.server
-                .expect(requestTo("/fr24/feed.js"))
+                .expect(requestTo("http://fr24/feed.js"))
                 .andRespond(
                         withSuccess(
                                 new ClassPathResource("/json/fr24/test1.json", FR24Response.class),

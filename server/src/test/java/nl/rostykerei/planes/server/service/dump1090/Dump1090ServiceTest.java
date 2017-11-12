@@ -28,7 +28,7 @@ public class Dump1090ServiceTest {
     @Test
     public void test1() throws Exception {
         this.server
-                .expect(requestTo("/dump1090/data/aircraft.json"))
+                .expect(requestTo("http://dump1090/aircraft.json"))
                 .andRespond(
                         withSuccess(
                                 new ClassPathResource("/json/dump1090/test1.json", Dump1090Response.class),
@@ -46,7 +46,7 @@ public class Dump1090ServiceTest {
 
         Dump1090Response.Aircraft aircraft = response.getAircraft().get(0);
 
-        assertEquals("4ca4e3", aircraft.getHex());
+        assertEquals("4CA4E3", aircraft.getHex());
         assertEquals(7347, (int) aircraft.getSquawk());
         assertEquals("KLM975", aircraft.getFlight());
         assertEquals(52.252280f, aircraft.getLat(), 0);
@@ -63,7 +63,7 @@ public class Dump1090ServiceTest {
 
         Dump1090Response.Aircraft aircraft2 = response.getAircraft().get(1);
 
-        assertEquals("40615b", aircraft2.getHex());
+        assertEquals("40615B", aircraft2.getHex());
         assertNull(aircraft2.getSquawk());
         assertNull(aircraft2.getFlight());
         assertNull(aircraft2.getLat());

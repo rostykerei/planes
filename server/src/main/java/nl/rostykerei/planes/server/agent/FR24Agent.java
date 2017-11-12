@@ -4,6 +4,7 @@ import nl.rostykerei.planes.server.model.Aircraft;
 import nl.rostykerei.planes.server.model.Route;
 import nl.rostykerei.planes.server.model.Status;
 import nl.rostykerei.planes.server.service.*;
+import nl.rostykerei.planes.server.service.fr24.FR24Config;
 import nl.rostykerei.planes.server.service.fr24.FR24Response;
 import nl.rostykerei.planes.server.service.fr24.FR24Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,11 @@ public class FR24Agent {
 
     private AirlineService airlineService;
 
+    private FR24Config fr24Config;
+
     @Autowired
     public FR24Agent(FR24Service fr24Service,
+                     FR24Config fr24Config,
                      AircraftService aircraftService,
                      AircraftTypeService aircraftTypeService,
                      AirportService airportService,
@@ -37,6 +41,7 @@ public class FR24Agent {
                      AirlineService airlineService) {
 
         this.fr24Service = fr24Service;
+        this.fr24Config = fr24Config;
         this.aircraftService = aircraftService;
         this.aircraftTypeService = aircraftTypeService;
         this.airportService = airportService;
@@ -44,12 +49,14 @@ public class FR24Agent {
         this.airlineService = airlineService;
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRateString = "${fr24.update-rate}")
     public void invoke() {
-        FR24Response response = fr24Service.getData();
+        if (fr24Config.isEnabled()) {
+            FR24Response response = fr24Service.getData();
 
-        if (response != null) {
-            response.getFlights().forEach(this::processRecord);
+            if (response != null) {
+                response.getFlights().forEach(this::processRecord);
+            }
         }
     }
 
