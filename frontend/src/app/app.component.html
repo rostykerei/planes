@@ -11,15 +11,25 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-card>
-  <mat-form-field>
-    <input matInput placeholder="Test input">
-  </mat-form-field>
+<mat-grid-list cols="4">
+  <mat-grid-tile style="border: solid 1px red" colspan="3">MAP</mat-grid-tile>
+  <mat-grid-tile>RECENT</mat-grid-tile>
 
-  <br>
+  <mat-grid-tile style="border: solid 1px red">
+    <h2 class="mat-h2">Aircrafts</h2>
+  </mat-grid-tile>
 
-  <button mat-raised-button>Press me</button>
-  <mat-spinner></mat-spinner>
-</mat-card>
+  <mat-grid-tile style="border: solid 1px red">
+    <h2 class="mat-h2">Airlines</h2>
+  </mat-grid-tile>
+
+  <mat-grid-tile style="border: solid 1px red">
+    <h2 class="mat-h2">Origins</h2>
+  </mat-grid-tile>
+
+  <mat-grid-tile style="border: solid 1px red">
+    <h2 class="mat-h2">Destinations</h2>
+  </mat-grid-tile>
+</mat-grid-list>
 
 <router-outlet></router-outlet>

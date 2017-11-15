@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import {
-  MatButtonModule, MatCardModule, MatInputModule, MatProgressSpinnerModule,
+  MatButtonModule, MatCardModule, MatGridListModule, MatInputModule, MatProgressSpinnerModule, MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
 
 @NgModule({
-  imports: [MatButtonModule, MatToolbarModule, MatInputModule, MatProgressSpinnerModule, MatCardModule],
-  exports: [MatButtonModule, MatToolbarModule, MatInputModule, MatProgressSpinnerModule, MatCardModule],
+  imports: [MatButtonModule, MatToolbarModule, MatInputModule, MatProgressSpinnerModule, MatCardModule, MatGridListModule],
+  exports: [MatButtonModule, MatToolbarModule, MatInputModule, MatProgressSpinnerModule, MatCardModule, MatGridListModule],
 })
 export class MaterialModule { }
