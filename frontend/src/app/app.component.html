@@ -1,35 +1,3 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <span>Rosty's RADAR</span>
-
-    <span class="example-spacer"></span>
-
-    <button mat-button>Dashboard</button>
-    <button mat-button>Flights</button>
-    <button mat-button>Aircrafts</button>
-    <button mat-button>Airlines</button>
-  </mat-toolbar-row>
-</mat-toolbar>
-
-<mat-grid-list cols="4">
-  <mat-grid-tile style="border: solid 1px red" colspan="3">MAP</mat-grid-tile>
-  <mat-grid-tile>RECENT</mat-grid-tile>
-
-  <mat-grid-tile style="border: solid 1px red">
-    <h2 class="mat-h2">Aircrafts</h2>
-  </mat-grid-tile>
-
-  <mat-grid-tile style="border: solid 1px red">
-    <h2 class="mat-h2">Airlines</h2>
-  </mat-grid-tile>
-
-  <mat-grid-tile style="border: solid 1px red">
-    <h2 class="mat-h2">Origins</h2>
-  </mat-grid-tile>
-
-  <mat-grid-tile style="border: solid 1px red">
-    <h2 class="mat-h2">Destinations</h2>
-  </mat-grid-tile>
-</mat-grid-list>
+<app-navigation></app-navigation>
 
 <router-outlet></router-outlet>

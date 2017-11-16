@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Rosty's RADAR</span>
+
+    <span class="spacer"></span>
+
+    <button
+      *ngFor="let b of buttons"
+      (click)="buttonClick(b)" 
+      mat-button>{{b.name}}</button>
+
+  </mat-toolbar-row>
+</mat-toolbar>
