@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,7 +38,7 @@ public class FlightRepositoryTest {
 
         aircraftRepository.save(aircraft);
 
-        assertFalse(flightRepository.findByAircraftAndLastModified("a1b2c3", new Date(0L)).isPresent());
+        assertFalse(flightRepository.findByAircraftAndLastContact("a1b2c3", new Date(0L)).isPresent());
 
         Flight flight = new Flight();
         flight.setAircraft(aircraft);
@@ -46,7 +47,7 @@ public class FlightRepositoryTest {
 
         flightRepository.save(flight);
 
-        assertTrue(flightRepository.findByAircraftAndLastModified("a1b2c3", new Date(0L)).isPresent());
+        assertTrue(flightRepository.findByAircraftAndLastContact("a1b2c3", new Date(0L)).isPresent());
     }
 
 }

@@ -6,6 +6,7 @@ import nl.rostykerei.planes.server.repository.FlightRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,7 +27,7 @@ public class FlightService {
         Flight flight;
 
         Optional<Flight> optFlight = flightRepository
-                .findByAircraftAndLastModified(aircraftCode, new Date(now.getTime() - 3600 * 1000));
+                .findByAircraftAndLastContact(aircraftCode, new Date(now.getTime() - 3600 * 1000));
 
         if (!optFlight.isPresent()) {
             flight = new Flight();
@@ -47,6 +48,12 @@ public class FlightService {
         flight.setLastContact(now);
 
         return flightRepository.save(flight);
+    }
+
+    public List<Flight> findActiveFlights() {
+        Date lastContact = new Date(System.currentTimeMillis() - 10000);
+
+        return flightRepository.findFlightsByLastContactAfter(lastContact);
     }
 
 }

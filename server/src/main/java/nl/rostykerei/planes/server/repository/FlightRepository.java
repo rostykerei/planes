@@ -7,13 +7,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface FlightRepository extends CrudRepository<Flight, Integer> {
 
-    @Query("select f from Flight f join f.aircraft a where a.code = :code and f.lastContact >= :lastModified")
-    Optional<Flight> findByAircraftAndLastModified(@Param("code") String aircraftCode,
-                                                   @Param("lastModified") Date lastContact);
+    @Query("select f from Flight f join f.aircraft a where a.code = :code and f.lastContact >= :lastContact")
+    Optional<Flight> findByAircraftAndLastContact(@Param("code") String aircraftCode,
+                                                  @Param("lastContact") Date lastContact);
 
+    List<Flight> findFlightsByLastContactAfter(Date lastContact);
 }
