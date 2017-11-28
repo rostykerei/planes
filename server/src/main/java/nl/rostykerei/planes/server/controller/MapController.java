@@ -4,6 +4,7 @@ import nl.rostykerei.planes.server.response.FlightMapRow;
 import nl.rostykerei.planes.server.service.FlightLogService;
 import nl.rostykerei.planes.server.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +21,7 @@ public class MapController {
     @Autowired
     private FlightLogService flightLogService;
 
+    @CrossOrigin
     @RequestMapping("/active")
     public List<FlightMapRow> activeFlights() {
         List<FlightMapRow> result = new ArrayList<>();

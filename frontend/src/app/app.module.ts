@@ -1,18 +1,20 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+import {AppRoutingModule} from './app-routing.module';
 
-import { AppComponent } from './app.component';
+import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MaterialModule} from "./material.module";
 import {FormsModule} from "@angular/forms";
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { FlightsComponent } from './flights/flights.component';
-import { AircraftsComponent } from './aircrafts/aircrafts.component';
-import { AirlinesComponent } from './airlines/airlines.component';
-import { AboutComponent } from './about/about.component';
-import { NavigationComponent } from './navigation/navigation.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
+import {FlightsComponent} from './flights/flights.component';
+import {AircraftsComponent} from './aircrafts/aircrafts.component';
+import {AirlinesComponent} from './airlines/airlines.component';
+import {AboutComponent} from './about/about.component';
+import {NavigationComponent} from './navigation/navigation.component';
+import {MapService} from "./map.service";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -27,12 +29,13 @@ import { NavigationComponent } from './navigation/navigation.component';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule
   ],
-  providers: [],
+  providers: [MapService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
