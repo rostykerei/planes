@@ -17,12 +17,10 @@ export class DashboardComponent implements AfterViewInit {
   drawnFlights = new Set();
 
   constructor(private mapService: MapService) {
-
     this.popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false
     });
-
   }
 
   ngAfterViewInit(): void {
@@ -30,20 +28,20 @@ export class DashboardComponent implements AfterViewInit {
 
     this.map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/mapbox/light-v9',
+      style: 'mapbox://styles/mapbox/basic-v9',
       zoom: 7,
       center: [4.764167, 52.308056]
     });
 
+    this.map.on('load', () => {
+      this.loadFlights();
+      setInterval(() => this.loadFlights(), 5000);
+    });
   }
 
   flightsLoaded(flights : MapFlight[]) {
     this.flights = {};
-
-    flights.forEach(f => {
-      this.flights[f.id] = f;
-    });
-
+    flights.forEach(f => this.flights[f.id] = f);
     this.updateMap();
   }
 
@@ -51,8 +49,8 @@ export class DashboardComponent implements AfterViewInit {
     // Delete disappeared flights
     this.drawnFlights.forEach(f => {
       if (!this.flights.hasOwnProperty(f)) {
-        this.map.removeSource('f' + f);
         this.map.removeLayer('f' + f);
+        this.map.removeSource('f' + f);
       }
     });
 
@@ -98,14 +96,17 @@ export class DashboardComponent implements AfterViewInit {
         }
       });
 
+
       this.map.on('click', "f" + f.id, (e) => {
+        let id : number = parseInt(e.features[0].layer.id.substring(1));
         this.map.flyTo({center: e.lngLat});
-        // todo
+
+        this.loadPath(id);
+        this.loadDetails(id);
       });
 
       this.map.on('mouseenter', "f" + f.id, (e) => {
         let id : number = parseInt(e.features[0].layer.id.substring(1));
-
 
         this.map.getCanvas().style.cursor = 'pointer';
         this.popup.setLngLat(e.lngLat)
@@ -118,7 +119,6 @@ export class DashboardComponent implements AfterViewInit {
         this.map.getCanvas().style.cursor = '';
         this.popup.remove();
       });
-
     }
   }
 
@@ -139,8 +139,16 @@ export class DashboardComponent implements AfterViewInit {
     return s;
   }
 
-
-  testBtnClick() {
+  loadFlights() {
     this.mapService.getActiveFlights().subscribe(f => this.flightsLoaded(f));
   }
+
+  loadPath(id : number) {
+    console.log(' path ' + id);
+  }
+
+  loadDetails(id : number) {
+    console.log(' details ' + id);
+  }
+
 }

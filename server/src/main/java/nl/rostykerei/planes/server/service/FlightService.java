@@ -51,7 +51,7 @@ public class FlightService {
     }
 
     public List<Flight> findActiveFlights() {
-        Date lastContact = new Date(System.currentTimeMillis() - 10000);
+        Date lastContact = new Date(System.currentTimeMillis() - 60000);
 
         return flightRepository.findFlightsByLastContactAfter(lastContact);
     }
