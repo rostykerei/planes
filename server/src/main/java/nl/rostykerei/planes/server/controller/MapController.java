@@ -1,5 +1,6 @@
 package nl.rostykerei.planes.server.controller;
 
+import nl.rostykerei.planes.server.model.Flight;
 import nl.rostykerei.planes.server.response.FlightMapRow;
 import nl.rostykerei.planes.server.response.LngLat;
 import nl.rostykerei.planes.server.service.FlightLogService;
@@ -14,16 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/map")
 public class MapController {
 
     @Autowired
     private FlightService flightService;
 
+
     @Autowired
     private FlightLogService flightLogService;
 
-    @CrossOrigin
     @RequestMapping("/active")
     public List<FlightMapRow> activeFlights() {
         List<FlightMapRow> result = new ArrayList<>();
@@ -73,7 +75,6 @@ public class MapController {
         return result;
     }
 
-    @CrossOrigin
     @RequestMapping("/path/{id}")
     public List<LngLat> path(@PathVariable("id") Integer flightId) {
         List<LngLat> result = new ArrayList<>();
@@ -85,6 +86,11 @@ public class MapController {
         });
 
         return result;
+    }
+
+    @RequestMapping("/details/{id}")
+    public Flight details(@PathVariable("id") Integer flightId) {
+        return flightService.findById(flightId);
     }
 
 }

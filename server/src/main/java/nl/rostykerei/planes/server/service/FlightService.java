@@ -5,6 +5,7 @@ import nl.rostykerei.planes.server.model.Route;
 import nl.rostykerei.planes.server.repository.FlightRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ public class FlightService {
         this.flightRepository = flightRepository;
     }
 
+    @Transactional
     public Flight checkInFlight(String aircraftCode, Route route) {
         Date now = new Date();
 
@@ -50,6 +52,12 @@ public class FlightService {
         return flightRepository.save(flight);
     }
 
+    @Transactional
+    public Flight findById(int id) {
+        return flightRepository.findById(id).orElse(null);
+    }
+
+    @Transactional
     public List<Flight> findActiveFlights() {
         Date lastContact = new Date(System.currentTimeMillis() - 60000);
 
