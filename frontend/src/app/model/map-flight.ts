@@ -3,6 +3,9 @@ export class MapFlight {
   lat: number;
   lon: number;
   heading: number;
+  speed: number;
+  altitude: number;
+  verticalRate: number;
   type: string;
   classification: string;
   callsign: string;

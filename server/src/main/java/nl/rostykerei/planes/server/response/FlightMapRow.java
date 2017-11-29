@@ -6,17 +6,25 @@ public class FlightMapRow {
     private Float lat;
     private Float lon;
     private Integer heading;
+    private Integer speed;
+    private Integer altitude;
+    private Integer verticalRate;
     private String type;
     private String classification;
     private String callsign;
     private String from;
     private String to;
 
-    public FlightMapRow(int id, Float lat, Float lon, Integer heading, String type, String classification, String callsign, String from, String to) {
+    public FlightMapRow(int id, Float lat, Float lon, Integer heading,
+                        Integer speed, Integer altitude, Integer verticalRate,
+                        String type, String classification, String callsign, String from, String to) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
         this.heading = heading;
+        this.speed = speed;
+        this.altitude = altitude;
+        this.verticalRate = verticalRate;
         this.type = type;
         this.classification = classification;
         this.callsign = callsign;
@@ -38,6 +46,18 @@ public class FlightMapRow {
 
     public Integer getHeading() {
         return heading;
+    }
+
+    public Integer getSpeed() {
+        return speed;
+    }
+
+    public Integer getAltitude() {
+        return altitude;
+    }
+
+    public Integer getVerticalRate() {
+        return verticalRate;
     }
 
     public String getType() {

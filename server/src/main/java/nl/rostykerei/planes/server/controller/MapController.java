@@ -64,7 +64,9 @@ public class MapController {
             flightLogService
                 .findLastFlightLog(f)
                 .ifPresent(l -> result.add(
-                    new FlightMapRow(f.getId(), l.getLatitude(), l.getLongitude(), l.getHeading(), type, classification, callsign, from, to)
+                    new FlightMapRow(f.getId(), l.getLatitude(), l.getLongitude(), l.getHeading(),
+                            l.getSpeed(), l.getAltitude(), l.getVerticalRate(),
+                            type, classification, callsign, from, to)
                 ));
         });
 

@@ -151,17 +151,74 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   formatPopup(id : number) : String {
-    let s = this.flights[id].callsign || 'UNKNOWN';
+    let f : MapFlight = this.flights[id];
 
-    if (this.flights[id].type) {
-      s += '<br/>' + this.flights[id].type;
+    let s = '<b>';
+
+    s += f.callsign || 'UNKNOWN';
+
+    s += '</b>';
+
+    if (f.altitude || f.speed) {
+      s += '<br/>';
+
+      if (f.altitude) {
+        s += 'FL';
+
+        if (f.altitude < 10000) {
+          s += '0';
+        }
+
+        s += Math.round(f.altitude / 100);
+
+        if (f.verticalRate) {
+          if (f.verticalRate > 0) {
+            s += '&uarr;'
+          }
+          else if (f.verticalRate < 0) {
+            s += '&darr;'
+          }
+        }
+
+        s += '&emsp;';
+      }
+
+      if (f.speed) {
+        s += '<span style="float: right;">';
+        s += f.speed + 'kt';
+        s += '</span>';
+      }
+
+
     }
 
-    if (this.flights[id].from || this.flights[id].to) {
+    if (f.type || f.heading) {
       s += '<br/>';
-      s += this.flights[id].from || '????';
+
+      if (f.type) {
+        s += f.type + '&emsp;';
+      }
+
+      if (f.heading) {
+        s += '<span style="float: right;">';
+
+        if (f.heading < 100) {
+          s += '0';
+        }
+        s += f.heading + '&deg;';
+
+        s += '</span>';
+      }
+
+
+    }
+
+    if (f.from || f.to) {
+      s += '<br/><span style="white-space: nowrap;">';
+      s += f.from || '????';
       s += ' &rarr; ';
-      s += this.flights[id].to || '????';
+      s += f.to || '????';
+      s += '</span>';
     }
 
     return s;
