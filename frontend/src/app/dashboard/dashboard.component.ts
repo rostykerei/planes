@@ -56,8 +56,11 @@ export class DashboardComponent implements AfterViewInit {
       }
     });
 
+    this.drawnFlights = new Set();
+
     for (let id in this.flights) {
       this.updateFlight(this.flights[id]);
+      this.drawnFlights.add(id);
     }
   }
 
@@ -89,7 +92,9 @@ export class DashboardComponent implements AfterViewInit {
         "layout": {
           "icon-image": "airport-15",
           "icon-rotation-alignment": "map",
-          "icon-rotate": f.heading || 0
+          "icon-rotate": f.heading || 0,
+          'icon-allow-overlap': true,
+          'text-allow-overlap': true
         }
       });
 
@@ -104,7 +109,7 @@ export class DashboardComponent implements AfterViewInit {
 
         this.map.getCanvas().style.cursor = 'pointer';
         this.popup.setLngLat(e.lngLat)
-          .setHTML(this.flights[id].type)
+          .setHTML(this.formatPopup(id))
           .addTo(this.map);
       });
 
@@ -115,6 +120,23 @@ export class DashboardComponent implements AfterViewInit {
       });
 
     }
+  }
+
+  formatPopup(id : number) : String {
+    let s = this.flights[id].callsign || 'UNKNOWN';
+
+    if (this.flights[id].type) {
+      s += '<br/>' + this.flights[id].type;
+    }
+
+    if (this.flights[id].from || this.flights[id].to) {
+      s += '<br/>';
+      s += this.flights[id].from || '????';
+      s += ' &rarr; ';
+      s += this.flights[id].to || '????';
+    }
+
+    return s;
   }
 
 
