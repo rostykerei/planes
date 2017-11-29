@@ -17,4 +17,8 @@ export class MapService {
     return this.http.get<LngLat[]>("http://localhost:8080/map/path/" + id);
   }
 
+  getFlightDetails(id: number) : Observable<any> {
+    return this.http.get<LngLat[]>("http://localhost:8080/map/details/" + id);
+  }
+
 }

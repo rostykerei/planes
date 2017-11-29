@@ -21,6 +21,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   timer = null;
 
+  details : any = null;
+
   constructor(private mapService: MapService) {
     this.popup = new mapboxgl.Popup({
       closeButton: false,
@@ -56,7 +58,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.updateMap();
   }
 
-  updateMap() {
+  updateMap() : void {
     // Delete disappeared flights
     this.drawnFlights.forEach(f => {
       if (!this.flights.hasOwnProperty(f)) {
@@ -79,7 +81,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  updateFlight(f : MapFlight) {
+  updateFlight(f : MapFlight) : void {
     if (this.map.getSource("f" + f.id)) {
 
       this.map.getSource("f" + f.id).setData({
@@ -224,11 +226,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     return s;
   }
 
-  loadFlights() {
+  loadFlights() : void {
     this.mapService.getActiveFlights().subscribe(f => this.flightsLoaded(f));
   }
 
-  loadPath(id : number) {
+  loadPath(id : number) : void {
     this.mapService.getFlightPath(id).subscribe(path => this.pathLoaded(id, path));
   }
 
@@ -271,8 +273,13 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.drawnFlight = id;
   }
 
-  loadDetails(id : number) {
-    console.log(' details ' + id);
+  loadDetails(id : number) : void {
+    this.mapService.getFlightDetails(id).subscribe(details => this.detailsLoaded(id, details));
   }
+
+  detailsLoaded(id: number, details: any) : void {
+    this.details = details;
+  }
+
 
 }

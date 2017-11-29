@@ -15,6 +15,7 @@ import {AboutComponent} from './about/about.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {MapService} from "./map.service";
 import {HttpClientModule} from "@angular/common/http";
+import { DashboardDetailsComponent } from './dashboard-details/dashboard-details.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {HttpClientModule} from "@angular/common/http";
     AircraftsComponent,
     AirlinesComponent,
     AboutComponent,
-    NavigationComponent
+    NavigationComponent,
+    DashboardDetailsComponent
   ],
   imports: [
     BrowserModule,
