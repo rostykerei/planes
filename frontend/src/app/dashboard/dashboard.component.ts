@@ -17,6 +17,9 @@ export class DashboardComponent implements AfterViewInit {
   flights : any = {};
   drawnFlights = new Set();
 
+  drawnFlight : number = null;
+  drawnPath: any[] = [];
+
   constructor(private mapService: MapService) {
     this.popup = new mapboxgl.Popup({
       closeButton: false,
@@ -50,6 +53,12 @@ export class DashboardComponent implements AfterViewInit {
     // Delete disappeared flights
     this.drawnFlights.forEach(f => {
       if (!this.flights.hasOwnProperty(f)) {
+        if (f == this.drawnFlight) {
+          this.drawnPath = [];
+          this.map.removeLayer('path');
+          this.map.removeSource('path');
+        }
+
         this.map.removeLayer('f' + f);
         this.map.removeSource('f' + f);
       }
@@ -72,6 +81,18 @@ export class DashboardComponent implements AfterViewInit {
       });
 
       this.map.setLayoutProperty("f" + f.id, 'icon-rotate', f.heading || 0);
+
+      if (f.id == this.drawnFlight) {
+        if (f.lat &&  f.lon) {
+          this.map.panTo([f.lon, f.lat]);
+          this.drawnPath.push([f.lon, f.lat]);
+
+          this.map.getSource("path").setData({
+            "type": "LineString",
+            "coordinates": this.drawnPath
+          });
+        }
+      }
     }
     else {
       this.map.addSource("f" + f.id, {type: 'geojson',
@@ -144,13 +165,13 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   loadPath(id : number) {
-    this.mapService.getFlightPath(id).subscribe(path => this.pathLoaded(path));
+    this.mapService.getFlightPath(id).subscribe(path => this.pathLoaded(id, path));
   }
 
-  pathLoaded(path : LngLat[]) {
-    let coords = [];
+  pathLoaded(id: number, path : LngLat[]) {
+    this.drawnPath = [];
 
-    path.forEach(p => coords.push([p.lon, p.lat]))
+    path.forEach(p => this.drawnPath.push([p.lon, p.lat]));
 
     if (this.map.getLayer("path")) {
       this.map.removeLayer("path");
@@ -164,7 +185,7 @@ export class DashboardComponent implements AfterViewInit {
         "properties": {},
         "geometry": {
           "type": "LineString",
-          "coordinates": coords
+          "coordinates": this.drawnPath
         }
       }
     });
@@ -182,6 +203,8 @@ export class DashboardComponent implements AfterViewInit {
         "line-width": 2
       }
     });
+
+    this.drawnFlight = id;
   }
 
   loadDetails(id : number) {
