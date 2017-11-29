@@ -282,4 +282,14 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
 
+  closeDetails() {
+    this.details = null;
+    this.drawnPath = [];
+    this.drawnFlight = null;
+
+    if (this.map.getLayer("path")) {
+      this.map.removeLayer("path");
+      this.map.removeSource("path");
+    }
+  }
 }

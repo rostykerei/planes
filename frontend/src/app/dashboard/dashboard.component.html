@@ -1,5 +1,5 @@
 <div id="map"></div>
 
 <app-dashboard-details
-  *ngIf="details"
+  *ngIf="details" [details]="details" (close)="closeDetails()"
 ></app-dashboard-details>

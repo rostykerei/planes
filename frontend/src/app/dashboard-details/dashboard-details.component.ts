@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-dashboard-details',
@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardDetailsComponent implements OnInit {
 
+  @Input() details: any = null;
+
+  @Output() close = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  closeClick() {
+    this.close.emit(null);
+  }
 }
