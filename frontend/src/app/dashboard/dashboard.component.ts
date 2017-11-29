@@ -2,6 +2,7 @@ import {AfterViewInit, Component} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {MapService} from "../map.service";
 import {MapFlight} from "../model/map-flight";
+import {LngLat} from "../model/lng-lat";
 
 @Component({
   selector: 'app-dashboard',
@@ -114,7 +115,6 @@ export class DashboardComponent implements AfterViewInit {
           .addTo(this.map);
       });
 
-      // Change it back to a pointer when it leaves.
       this.map.on('mouseleave', "f" + f.id, () => {
         this.map.getCanvas().style.cursor = '';
         this.popup.remove();
@@ -144,7 +144,44 @@ export class DashboardComponent implements AfterViewInit {
   }
 
   loadPath(id : number) {
-    console.log(' path ' + id);
+    this.mapService.getFlightPath(id).subscribe(path => this.pathLoaded(path));
+  }
+
+  pathLoaded(path : LngLat[]) {
+    let coords = [];
+
+    path.forEach(p => coords.push([p.lon, p.lat]))
+
+    if (this.map.getLayer("path")) {
+      this.map.removeLayer("path");
+      this.map.removeSource("path");
+    }
+
+    this.map.addSource("path", {
+      "type": "geojson",
+      "data": {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "LineString",
+          "coordinates": coords
+        }
+      }
+    });
+
+    this.map.addLayer({
+      "id": "path",
+      "type": "line",
+      "source": "path",
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#f00",
+        "line-width": 2
+      }
+    });
   }
 
   loadDetails(id : number) {

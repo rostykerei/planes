@@ -27,7 +27,7 @@ public class FlightService {
         Flight flight;
 
         Optional<Flight> optFlight = flightRepository
-                .findByAircraftAndLastContact(aircraftCode, new Date(now.getTime() - 3600 * 1000));
+                .findByAircraftAndLastContact(aircraftCode, new Date(now.getTime() - 1800 * 1000));
 
         if (!optFlight.isPresent()) {
             flight = new Flight();

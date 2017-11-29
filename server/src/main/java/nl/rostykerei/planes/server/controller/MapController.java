@@ -1,10 +1,12 @@
 package nl.rostykerei.planes.server.controller;
 
 import nl.rostykerei.planes.server.response.FlightMapRow;
+import nl.rostykerei.planes.server.response.LngLat;
 import nl.rostykerei.planes.server.service.FlightLogService;
 import nl.rostykerei.planes.server.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,6 +66,20 @@ public class MapController {
                 .ifPresent(l -> result.add(
                     new FlightMapRow(f.getId(), l.getLatitude(), l.getLongitude(), l.getHeading(), type, classification, callsign, from, to)
                 ));
+        });
+
+        return result;
+    }
+
+    @CrossOrigin
+    @RequestMapping("/path/{id}")
+    public List<LngLat> path(@PathVariable("id") Integer flightId) {
+        List<LngLat> result = new ArrayList<>();
+
+        flightLogService.findFlightLogsByFlightId(flightId).forEach(f -> {
+            if (f.getLatitude() != null && f.getLongitude() != null) {
+                result.add(new LngLat(f.getLatitude(), f.getLongitude()));
+            }
         });
 
         return result;

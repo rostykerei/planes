@@ -34,4 +34,8 @@ public class FlightLogService {
 
         return Optional.of(res.get(0));
     }
+
+    public List<FlightLog> findFlightLogsByFlightId(Integer flightId) {
+        return flightLogRepository.findByFlightId(flightId);
+    }
 }
