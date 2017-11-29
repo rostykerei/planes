@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import {MapService} from "../map.service";
 import {MapFlight} from "../model/map-flight";
@@ -9,8 +9,7 @@ import {LngLat} from "../model/lng-lat";
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit {
-
+export class DashboardComponent implements AfterViewInit, OnDestroy {
   map: mapboxgl.Map;
   popup: mapboxgl.Popup;
 
@@ -19,6 +18,8 @@ export class DashboardComponent implements AfterViewInit {
 
   drawnFlight : number = null;
   drawnPath: any[] = [];
+
+  timer = null;
 
   constructor(private mapService: MapService) {
     this.popup = new mapboxgl.Popup({
@@ -39,8 +40,14 @@ export class DashboardComponent implements AfterViewInit {
 
     this.map.on('load', () => {
       this.loadFlights();
-      setInterval(() => this.loadFlights(), 5000);
+      this.timer = setInterval(() => this.loadFlights(), 5000);
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   flightsLoaded(flights : MapFlight[]) {

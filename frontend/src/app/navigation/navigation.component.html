@@ -1,12 +1,12 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>Rosty's RADAR</span>
+    <span style="font-weight: 400">Rosty's RADAR</span>
 
     <span class="spacer"></span>
 
     <button
       *ngFor="let b of buttons"
-      (click)="buttonClick(b)" 
+      (click)="buttonClick(b)"
       mat-button>{{b.name}}</button>
 
   </mat-toolbar-row>
