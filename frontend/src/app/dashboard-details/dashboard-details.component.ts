@@ -7,7 +7,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class DashboardDetailsComponent implements OnInit {
 
-  @Input() details: any = null;
+  @Input() details: any;
+  @Input() flights: any;
 
   @Output() close = new EventEmitter();
 

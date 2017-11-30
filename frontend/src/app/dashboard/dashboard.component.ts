@@ -14,14 +14,16 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   popup: mapboxgl.Popup;
 
   flights : any = {};
+
+
   drawnFlights = new Set();
 
-  drawnFlight : number = null;
+  drawnFlight : number;
   drawnPath: any[] = [];
 
   timer = null;
 
-  details : any = null;
+  details : any;
 
   constructor(private mapService: MapService) {
     this.popup = new mapboxgl.Popup({
@@ -43,6 +45,16 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.map.on('load', () => {
       this.loadFlights();
       this.timer = setInterval(() => this.loadFlights(), 5000);
+    });
+
+    this.map.on('click', () => {
+      if (this.map.getSource('path')) {
+        this.drawnPath = [];
+        this.map.removeLayer('path');
+        this.map.removeSource('path');
+      }
+
+      this.details = null;
     });
   }
 

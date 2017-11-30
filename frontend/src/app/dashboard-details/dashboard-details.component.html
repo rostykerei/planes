@@ -1,11 +1,19 @@
 <mat-card style="position: absolute; top: 100px; left: 50px; width: 20%;">
-  <mat-card-header>
-    <mat-card-title>UAL906
-      <button mat-button (click)="closeClick()">X</button>
+  <mat-card-header style="border: solid 1px red;">
+    <mat-card-title>
+      <b>KLM15L</b> <small>/ KL1505</small>
+      <button  mat-button (click)="closeClick()">X</button>
     </mat-card-title>
-    <mat-card-subtitle>United Airlines</mat-card-subtitle>
+    <mat-card-subtitle>KLM Royal Dutch Airlines</mat-card-subtitle>
+
   </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+
+  <mat-card-content>
+    <p>
+      {{flights[details.id].lat}}
+    </p>
+  </mat-card-content>
+
   <mat-card-content>
     <p>
       The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
@@ -13,8 +21,9 @@
       bred for hunting.
     </p>
   </mat-card-content>
+
+
   <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
+    <button mat-button>CLOSE</button>
   </mat-card-actions>
 </mat-card>
