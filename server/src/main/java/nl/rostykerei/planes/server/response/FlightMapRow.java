@@ -1,5 +1,7 @@
 package nl.rostykerei.planes.server.response;
 
+import java.util.Date;
+
 public class FlightMapRow {
 
     private int id;
@@ -14,10 +16,11 @@ public class FlightMapRow {
     private String callsign;
     private String from;
     private String to;
+    private long age;
 
     public FlightMapRow(int id, Float lat, Float lon, Integer heading,
                         Integer speed, Integer altitude, Integer verticalRate,
-                        String type, String classification, String callsign, String from, String to) {
+                        String type, String classification, String callsign, String from, String to, Date timestamp) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -30,6 +33,7 @@ public class FlightMapRow {
         this.callsign = callsign;
         this.from = from;
         this.to = to;
+        this.age = System.currentTimeMillis() - timestamp.getTime();
     }
 
     public int getId() {
@@ -78,5 +82,9 @@ public class FlightMapRow {
 
     public String getTo() {
         return to;
+    }
+
+    public long getAge() {
+        return age;
     }
 }

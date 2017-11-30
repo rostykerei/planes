@@ -11,4 +11,5 @@ export class MapFlight {
   callsign: string;
   from: string;
   to: string;
+  age: number;
 }

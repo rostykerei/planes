@@ -3,6 +3,7 @@ import * as mapboxgl from 'mapbox-gl';
 import {MapService} from "../map.service";
 import {MapFlight} from "../model/map-flight";
 import {LngLat} from "../model/lng-lat";
+import {DashboardUtils} from "./dashboard-utils";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +11,10 @@ import {LngLat} from "../model/lng-lat";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements AfterViewInit, OnDestroy {
+
+  public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
+  public static readonly CLIENT_UPDATE_INTERVAL: number = 250;
+
   map: mapboxgl.Map;
   popup: mapboxgl.Popup;
 
@@ -42,8 +47,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
     this.map.on('load', () => {
       this.loadFlights();
-      this.serverUpdateTimer = setInterval(() => this.loadFlights(), 5000);
-      this.clientUpdateTimer = setInterval(() => this.updateFlights(), 500);
+      this.serverUpdateTimer = setInterval(() => this.loadFlights(), DashboardComponent.SERVER_UPDATE_INTERVAL);
+      this.clientUpdateTimer = setInterval(() => this.updateFlights(), DashboardComponent.CLIENT_UPDATE_INTERVAL);
     });
 
     this.map.on('click', () => {
@@ -61,10 +66,13 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     if (this.serverUpdateTimer) {
       clearInterval(this.serverUpdateTimer);
     }
+
+    if (this.clientUpdateTimer) {
+      clearInterval(this.clientUpdateTimer);
+    }
   }
 
   flightsLoaded(flights: Map<number, MapFlight>) {
-
     // Remove disappeared
     this.flights.forEach((f, id) => {
       if (!flights.has(id)) {
@@ -81,15 +89,20 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    flights.forEach( (f, id) => this.flights.set(id, f) );
+    flights.forEach((f, id) => {
+      if ((!this.flights.has(id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL) && (f.lat && f.lon)) {
+        this.flights.set(id, f);
+      }
+    });
+
     this.updateMap();
   }
 
-  updateMap() : void {
+  updateMap(): void {
     this.flights.forEach((f: MapFlight, id: number) => this.updateFlight(f));
   }
 
-  updateFlight(f : MapFlight, skipPath?: boolean) : void {
+  updateFlight(f: MapFlight, skipPath?: boolean): void {
     if (this.map.getSource("f" + f.id)) {
 
       this.map.getSource("f" + f.id).setData({
@@ -100,7 +113,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       this.map.setLayoutProperty("f" + f.id, 'icon-rotate', f.heading || 0);
 
       if (!skipPath && f.id == this.drawnFlight) {
-        if (f.lat &&  f.lon) {
+        if (f.lat && f.lon) {
           this.map.panTo([f.lon, f.lat]);
           this.drawnPath.push([f.lon, f.lat]);
 
@@ -112,32 +125,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       }
     }
     else {
-      this.map.addSource("f" + f.id, {type: 'geojson',
-        data: {
-          "geometry": {
-            "type": "Point",
-            "coordinates": [f.lon, f.lat]},
-          "type": "Feature",
-          "properties": {}
-        }
-      });
-
-      this.map.addLayer({
-        "id": "f" + f.id,
-        "type": "symbol",
-        "source": "f" +  f.id,
-        "layout": {
-          "icon-image": "airport-15",
-          "icon-rotation-alignment": "map",
-          "icon-rotate": f.heading || 0,
-          'icon-allow-overlap': true,
-          'text-allow-overlap': true
-        }
-      });
-
+      this.map.addSource("f" + f.id, DashboardUtils.mapboxAircraftSource(f));
+      this.map.addLayer(DashboardUtils.mapboxAircraftLayer(f));
 
       this.map.on('click', "f" + f.id, (e) => {
-        let id : number = parseInt(e.features[0].layer.id.substring(1));
+        let id: number = parseInt(e.features[0].layer.id.substring(1));
         this.map.flyTo({center: e.lngLat});
 
         this.loadPath(id);
@@ -145,11 +137,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       });
 
       this.map.on('mouseenter', "f" + f.id, (e) => {
-        let id : number = parseInt(e.features[0].layer.id.substring(1));
+        let id: number = parseInt(e.features[0].layer.id.substring(1));
 
         this.map.getCanvas().style.cursor = 'pointer';
         this.popup.setLngLat(e.lngLat)
-          .setHTML(this.formatPopup(id))
+          .setHTML(DashboardUtils.formatPopup(this.flights.get(id)))
           .addTo(this.map);
       });
 
@@ -160,88 +152,16 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  formatPopup(id : number) : String {
-    let f : MapFlight = this.flights.get(id);
 
-    let s = '<b>';
-
-    s += f.callsign ? f.callsign : 'UNKNOWN';
-
-    s += '</b>';
-
-    if (f.altitude || f.speed) {
-      s += '<br/>';
-
-      if (f.altitude) {
-        s += 'FL';
-
-        if (f.altitude < 10000) {
-          s += '0';
-        }
-
-        s += Math.round(f.altitude / 100);
-
-        if (f.verticalRate) {
-          if (f.verticalRate > 0) {
-            s += '&uarr;'
-          }
-          else if (f.verticalRate < 0) {
-            s += '&darr;'
-          }
-        }
-
-        s += '&emsp;';
-      }
-
-      if (f.speed) {
-        s += '<span style="float: right;">';
-        s += f.speed + 'kt';
-        s += '</span>';
-      }
-
-
-    }
-
-    if (f.type || f.heading) {
-      s += '<br/>';
-
-      if (f.type) {
-        s += f.type + '&emsp;';
-      }
-
-      if (f.heading) {
-        s += '<span style="float: right;">';
-
-        if (f.heading < 100) {
-          s += '0';
-        }
-        s += f.heading + '&deg;';
-
-        s += '</span>';
-      }
-
-    }
-
-    if (f.from || f.to) {
-      s += '<br/><span style="white-space: nowrap;">';
-      s += f.from || '????';
-      s += ' &rarr; ';
-      s += f.to || '????';
-      s += '</span>';
-    }
-
-    return s;
-  }
-
-  loadFlights() : void {
+  loadFlights(): void {
     this.mapService.getActiveFlights().subscribe(f => this.flightsLoaded(f));
   }
 
-  loadPath(id : number) : void {
+  loadPath(id: number): void {
     this.mapService.getFlightPath(id).subscribe(path => this.pathLoaded(id, path));
   }
 
-  pathLoaded(id: number, path : LngLat[]) {
+  pathLoaded(id: number, path: LngLat[]) {
     this.drawnPath = [];
 
     path.forEach(p => this.drawnPath.push([p.lon, p.lat]));
@@ -263,31 +183,18 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    this.map.addLayer({
-      "id": "path",
-      "type": "line",
-      "source": "path",
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": "#f00",
-        "line-width": 2
-      }
-    });
+    this.map.addLayer(DashboardUtils.mapboxPathLayer());
 
     this.drawnFlight = id;
   }
 
-  loadDetails(id : number) : void {
+  loadDetails(id: number): void {
     this.mapService.getFlightDetails(id).subscribe(details => this.detailsLoaded(id, details));
   }
 
-  detailsLoaded(id: number, details: any) : void {
+  detailsLoaded(id: number, details: any): void {
     this.details = details;
   }
-
 
   closeDetails() {
     this.details = null;
@@ -303,31 +210,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   private updateFlights() {
     this.flights.forEach((f, id, map) => {
       if (f.lon && f.lon && f.speed && f.heading) {
-        let dist = f.speed * 0.5 / 3600;
-
-        let distRatio = dist / 3440;
-        let distRatioSin = Math.sin(distRatio);
-        let distRatioCos = Math.cos(distRatio);
-
-        let startLatRad = f.lat * Math.PI / 180;
-        let startLonRad = f.lon * Math.PI / 180;
-
-        let headingRad = f.heading * Math.PI / 180;
-
-        let startLatCos = Math.cos(startLatRad);
-        let startLatSin = Math.sin(startLatRad);
-
-        let endLatRads = Math.asin((startLatSin * distRatioCos) + (startLatCos * distRatioSin * Math.cos(headingRad)));
-
-        let endLonRads = startLonRad
-          + Math.atan2(Math.sin(headingRad) * distRatioSin * startLatCos,
-            distRatioCos - startLatSin * Math.sin(endLatRads));
-
-        f.lat = endLatRads * 180 / Math.PI;
-        f.lon = endLonRads * 180 / Math.PI;
-
-        map.set(id, f);
-
+        map.set(id, DashboardUtils.updatePosition(f, DashboardComponent.CLIENT_UPDATE_INTERVAL));
         this.updateFlight(f, true);
       }
     });
