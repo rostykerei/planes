@@ -3,7 +3,6 @@ import * as mapboxgl from 'mapbox-gl';
 import {MapService} from "../map.service";
 import {MapFlight} from "../model/map-flight";
 import {LngLat} from "../model/lng-lat";
-import Timer = NodeJS.Timer;
 
 @Component({
   selector: 'app-dashboard',
@@ -16,13 +15,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   flights: Map<number, MapFlight> = new Map();
 
-  drawnFlights: Set<number> = new Set();
-
   drawnFlight: number;
   drawnPath: any[] = [];
 
-  serverUpdateTimer: Timer;
-  clientUpdateTimer: Timer;
+  serverUpdateTimer: any;
+  clientUpdateTimer: any;
 
   details: any;
 
@@ -66,38 +63,30 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  flightsLoaded(flights : Map<number, MapFlight>) {
-//    this.flights.clear();
-    flights.forEach( (f, id) => this.flights.set(id, f) );
-    this.updateMap();
-  }
+  flightsLoaded(flights: Map<number, MapFlight>) {
 
-  updateMap() : void {
-    // Delete disappeared flights
-    /*
-    this.drawnFlights.forEach(f => {
-      if (!this.flights.has(f)) {
+    // Remove disappeared
+    this.flights.forEach((f, id) => {
+      if (!flights.has(id)) {
+        this.flights.delete(id);
 
-        if (f == this.drawnFlight) {
+        if (id == this.drawnFlight) {
           this.drawnPath = [];
           this.map.removeLayer('path');
           this.map.removeSource('path');
         }
 
-        this.map.removeLayer('f' + f);
-        this.map.removeSource('f' + f);
+        this.map.removeLayer('f' + id);
+        this.map.removeSource('f' + id);
       }
     });
 
+    flights.forEach( (f, id) => this.flights.set(id, f) );
+    this.updateMap();
+  }
 
-    */
-
-    ////this.drawnFlights.clear();
-
-    this.flights.forEach((f: MapFlight, id: number) => {
-      this.updateFlight(f);
-      ////this.drawnFlights.add(id);
-    });
+  updateMap() : void {
+    this.flights.forEach((f: MapFlight, id: number) => this.updateFlight(f));
   }
 
   updateFlight(f : MapFlight, skipPath?: boolean) : void {
@@ -168,8 +157,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         this.map.getCanvas().style.cursor = '';
         this.popup.remove();
       });
-
-      this.drawnFlights.add(f.id);
     }
   }
 
@@ -178,7 +165,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
     let s = '<b>';
 
-    s += f.callsign || 'UNKNOWN';
+    s += f.callsign ? f.callsign : 'UNKNOWN';
 
     s += '</b>';
 
