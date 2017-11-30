@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -27,8 +29,8 @@ public class MapController {
     private FlightLogService flightLogService;
 
     @RequestMapping("/active")
-    public List<FlightMapRow> activeFlights() {
-        List<FlightMapRow> result = new ArrayList<>();
+    public Map<Integer, FlightMapRow> activeFlights() {
+        Map<Integer, FlightMapRow> result = new HashMap<>();
 
         flightService.findActiveFlights().forEach(f -> {
             String type, classification, callsign, to, from;
@@ -65,7 +67,7 @@ public class MapController {
 
             flightLogService
                 .findLastFlightLog(f)
-                .ifPresent(l -> result.add(
+                .ifPresent(l -> result.put(f.getId(),
                     new FlightMapRow(f.getId(), l.getLatitude(), l.getLongitude(), l.getHeading(),
                             l.getSpeed(), l.getAltitude(), l.getVerticalRate(),
                             type, classification, callsign, from, to)
