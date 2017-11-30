@@ -112,16 +112,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
       this.map.setLayoutProperty("f" + f.id, 'icon-rotate', f.heading || 0);
 
-      if (!skipPath && f.id == this.drawnFlight) {
-        if (f.lat && f.lon) {
-          this.map.panTo([f.lon, f.lat]);
-          this.drawnPath.push([f.lon, f.lat]);
-
-          this.map.getSource("path").setData({
-            "type": "LineString",
-            "coordinates": this.drawnPath
-          });
-        }
+      if (!skipPath && f.id == this.drawnFlight && this.map.getSource("path")) {
+        this.drawnPath.push([f.lon, f.lat]);
+        this.map.getSource("path").setData({
+          "type": "LineString",
+          "coordinates": this.drawnPath
+        });
       }
     }
     else {
@@ -171,17 +167,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       this.map.removeSource("path");
     }
 
-    this.map.addSource("path", {
-      "type": "geojson",
-      "data": {
-        "type": "Feature",
-        "properties": {},
-        "geometry": {
-          "type": "LineString",
-          "coordinates": this.drawnPath
-        }
-      }
-    });
+    this.map.addSource("path", DashboardUtils.mapboxPathSource(this.drawnPath));
 
     this.map.addLayer(DashboardUtils.mapboxPathLayer());
 

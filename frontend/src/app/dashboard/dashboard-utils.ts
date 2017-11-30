@@ -106,6 +106,20 @@ export class DashboardUtils {
     };
   }
 
+  static mapboxPathSource(path: any[]): any {
+    return {
+      "type": "geojson",
+      "data": {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "LineString",
+          "coordinates": path
+        }
+      }
+    };
+  }
+
   static mapboxAircraftLayer(f: MapFlight): any {
     return {
       "id": "f" + f.id,
