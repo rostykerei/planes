@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {MapFlight} from "../model/map-flight";
 
 @Component({
   selector: 'app-dashboard-details',
@@ -8,13 +9,31 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 export class DashboardDetailsComponent implements OnInit {
 
   @Input() details: any;
-  @Input() flights: any;
+  @Input() flight: MapFlight;
+
+  callsign: string;
+  routeNumber: string;
+
+  airlineName: string;
 
   @Output() close = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
+    this.callsign = 'UNKNOWN';
+
+    let route = this.details.route;
+
+    if (route) {
+      this.callsign = route.callsign;
+      this.routeNumber = route.number;
+
+      if (route.airline) {
+        this.airlineName = route.airline.name;
+      }
+
+    }
   }
 
   closeClick() {

@@ -26,6 +26,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   serverUpdateTimer: any;
   clientUpdateTimer: any;
 
+  activeFlight: MapFlight;
   details: any;
 
   constructor(private mapService: MapService) {
@@ -127,6 +128,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       this.map.on('click', "f" + f.id, (e) => {
         let id: number = parseInt(e.features[0].layer.id.substring(1));
         this.map.flyTo({center: e.lngLat});
+        this.activeFlight = this.flights.get(id);
 
         this.loadPath(id);
         this.loadDetails(id);
@@ -145,6 +147,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         this.map.getCanvas().style.cursor = '';
         this.popup.remove();
       });
+    }
+
+    if (this.activeFlight && this.activeFlight.id == f.id) {
+      this.activeFlight = f;
     }
   }
 
@@ -198,6 +204,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       if (f.lon && f.lon && f.speed && f.heading) {
         let newF : MapFlight = DashboardUtils.updatePosition(f, DashboardComponent.CLIENT_UPDATE_INTERVAL);
         map.set(id, newF);
+
+        if (this.activeFlight && this.activeFlight.id == f.id) {
+          this.activeFlight = f;
+        }
 
         window.requestAnimationFrame(() => {
           this.map.getSource("f" + newF.id).setData({
