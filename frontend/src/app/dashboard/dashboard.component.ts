@@ -13,7 +13,7 @@ import {DashboardUtils} from "./dashboard-utils";
 export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
-  public static readonly CLIENT_UPDATE_INTERVAL: number = 250;
+  public static readonly CLIENT_UPDATE_INTERVAL: number = 1000;
 
   map: mapboxgl.Map;
   popup: mapboxgl.Popup;
@@ -102,7 +102,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.flights.forEach((f: MapFlight, id: number) => this.updateFlight(f));
   }
 
-  updateFlight(f: MapFlight, skipPath?: boolean): void {
+  updateFlight(f: MapFlight): void {
     if (this.map.getSource("f" + f.id)) {
 
       this.map.getSource("f" + f.id).setData({
@@ -112,7 +112,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
       this.map.setLayoutProperty("f" + f.id, 'icon-rotate', f.heading || 0);
 
-      if (!skipPath && f.id == this.drawnFlight && this.map.getSource("path")) {
+      if (f.id == this.drawnFlight && this.map.getSource("path")) {
         this.drawnPath.push([f.lon, f.lat]);
         this.map.getSource("path").setData({
           "type": "LineString",
@@ -169,7 +169,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
     this.map.addSource("path", DashboardUtils.mapboxPathSource(this.drawnPath));
 
-    this.map.addLayer(DashboardUtils.mapboxPathLayer());
+    this.map.addLayer(DashboardUtils.mapboxPathLayer(), "f" + id);
 
     this.drawnFlight = id;
   }
@@ -196,8 +196,16 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   private updateFlights() {
     this.flights.forEach((f, id, map) => {
       if (f.lon && f.lon && f.speed && f.heading) {
-        map.set(id, DashboardUtils.updatePosition(f, DashboardComponent.CLIENT_UPDATE_INTERVAL));
-        this.updateFlight(f, true);
+        let newF : MapFlight = DashboardUtils.updatePosition(f, DashboardComponent.CLIENT_UPDATE_INTERVAL);
+        map.set(id, newF);
+
+        window.requestAnimationFrame(() => {
+          this.map.getSource("f" + newF.id).setData({
+            "type": "Point",
+            "coordinates": [newF.lon, newF.lat]
+          });
+        });
+
       }
     });
   }
