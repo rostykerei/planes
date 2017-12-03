@@ -24,9 +24,13 @@
       <img src="assets/types/{{aircraftType}}.png"/>
     </div>
 
+    <span *ngIf="aircraftModel">{{aircraftModel}}</span>
+
     <div style="text-align: center; max-height: 70px;" *ngIf="airlineCode">
       <img style="max-height: 50px; max-width: 100%;" src="assets/airlines/{{airlineCode}}.png"/>
     </div>
+
+    <span *ngIf="airlineName">{{airlineName}}</span>
   </mat-card-content>
 
 

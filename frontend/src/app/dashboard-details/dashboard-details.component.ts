@@ -24,6 +24,7 @@ export class DashboardDetailsComponent implements OnInit {
   airlineName: string;
 
   aircraftType: string;
+  aircraftModel: string;
 
   @Output() close = new EventEmitter();
 
@@ -59,6 +60,8 @@ export class DashboardDetailsComponent implements OnInit {
       if (aircraft.type) {
         this.aircraftType = aircraft.type.type;
       }
+
+      this.aircraftModel = aircraft.model;
 
     }
   }
