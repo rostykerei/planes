@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MapFlight} from "../model/map-flight";
 
 @Component({
@@ -14,7 +14,16 @@ export class DashboardDetailsComponent implements OnInit {
   callsign: string;
   routeNumber: string;
 
+  airportFromCode: string;
+  airportToCode: string;
+
+  airportFromCity: string;
+  airportToCity: string;
+
+  airlineCode: string;
   airlineName: string;
+
+  aircraftType: string;
 
   @Output() close = new EventEmitter();
 
@@ -24,6 +33,7 @@ export class DashboardDetailsComponent implements OnInit {
     this.callsign = 'UNKNOWN';
 
     let route = this.details.route;
+    let aircraft = this.details.aircraft;
 
     if (route) {
       this.callsign = route.callsign;
@@ -31,6 +41,23 @@ export class DashboardDetailsComponent implements OnInit {
 
       if (route.airline) {
         this.airlineName = route.airline.name;
+        this.airlineCode = route.airline.code;
+      }
+
+      if (route.airportFrom) {
+        this.airportFromCode = route.airportFrom.code;
+        this.airportFromCity = route.airportFrom.city;
+      }
+
+      if (route.airportTo) {
+        this.airportToCode = route.airportTo.code;
+        this.airportToCity = route.airportTo.city;
+      }
+    }
+
+    if (aircraft) {
+      if (aircraft.type) {
+        this.aircraftType = aircraft.type.type;
       }
 
     }

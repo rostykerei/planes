@@ -7,18 +7,26 @@
 
   </mat-card-header>
 
-  <mat-card-content>
-    <p>
-      x
-    </p>
-  </mat-card-content>
+  <mat-card-content *ngIf="airportFromCode && airportToCode">
+    <div fxLayout="row wrap">
+      <div fxFlex="45%" class="airport-code">{{airportFromCode}}</div>
+      <div fxFlex="10%" class="airport-arr">&rarr;</div>
+      <div fxFlex="45%" class="airport-code">{{airportToCode}}</div>
+    </div>
 
-  <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
+    <div fxLayout="row wrap">
+      <div fxFlex="45%" class="airport-name">{{airportFromCity}}</div>
+      <div fxFlex="10%"></div>
+      <div fxFlex="45%" class="airport-name">{{airportToCity}}</div>
+    </div>
+
+    <div style="text-align: center" *ngIf="aircraftType">
+      <img src="assets/types/{{aircraftType}}.png"/>
+    </div>
+
+    <div style="text-align: center; max-height: 70px;" *ngIf="airlineCode">
+      <img style="max-height: 50px; max-width: 100%;" src="assets/airlines/{{airlineCode}}.png"/>
+    </div>
   </mat-card-content>
 
 
