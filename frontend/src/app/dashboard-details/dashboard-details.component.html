@@ -9,15 +9,19 @@
 
   <mat-card-content *ngIf="airportFromCode && airportToCode">
     <div fxLayout="row wrap">
-      <div fxFlex="45%" class="airport-code">{{airportFromCode}}</div>
+      <div fxFlex="10%"><span style="line-height: 1.5em;" [title]="airportFromCountry.code + ' - ' + airportFromCountry.name" [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span></div>
+      <div fxFlex="35%" class="airport-code">{{airportFromCode}}</div>
       <div fxFlex="10%" class="airport-arr">&rarr;</div>
-      <div fxFlex="45%" class="airport-code">{{airportToCode}}</div>
+      <div fxFlex="35%" class="airport-code">{{airportToCode}}</div>
+      <div fxFlex="10%" style="text-align: right;"><span style="line-height: 1.5em;"  [title]="airportToCountry.code + ' - ' + airportToCountry.name" [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span></div>
     </div>
 
     <div fxLayout="row wrap">
-      <div fxFlex="45%" class="airport-name">{{airportFromCity}}</div>
       <div fxFlex="10%"></div>
-      <div fxFlex="45%" class="airport-name">{{airportToCity}}</div>
+      <div fxFlex="35%" class="airport-name"><span>{{airportFromCity}}</span></div>
+      <div fxFlex="10%"></div>
+      <div fxFlex="35%" class="airport-name"><span>{{airportToCity}}</span></div>
+      <div fxFlex="10%"></div>
     </div>
 
     <div style="text-align: center" *ngIf="aircraftType">

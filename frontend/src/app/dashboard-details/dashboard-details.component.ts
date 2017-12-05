@@ -20,6 +20,9 @@ export class DashboardDetailsComponent implements OnInit {
   airportFromCity: string;
   airportToCity: string;
 
+  airportFromCountry: any;
+  airportToCountry;
+
   airlineCode: string;
   airlineName: string;
 
@@ -48,11 +51,13 @@ export class DashboardDetailsComponent implements OnInit {
       if (route.airportFrom) {
         this.airportFromCode = route.airportFrom.code;
         this.airportFromCity = route.airportFrom.city;
+        this.airportFromCountry = route.airportFrom.country;
       }
 
       if (route.airportTo) {
         this.airportToCode = route.airportTo.code;
         this.airportToCity = route.airportTo.city;
+        this.airportToCountry = route.airportTo.country;
       }
     }
 
