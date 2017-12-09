@@ -15,20 +15,16 @@ declare const google: any;
 export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
-  public static readonly CLIENT_UPDATE_INTERVAL: number = 1000;
+  public static readonly CLIENT_UPDATE_INTERVAL: number = 500;
 
   map: any;
-
   markers: Map<number, any> = new Map();
-
-
-
-  popup: mapboxgl.Popup;
-
   flights: Map<number, MapFlight> = new Map();
 
   drawnFlight: number;
   drawnPath: any[] = [];
+
+  path: any;
 
   serverUpdateTimer: any;
   clientUpdateTimer: any;
@@ -37,10 +33,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   details: any;
 
   constructor(private mapService: MapService) {
-/*    this.popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false
-    });*/
   }
 
   ngAfterViewInit(): void {
@@ -52,34 +44,17 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
     this.map = new google.maps.Map(document.getElementById("map"), mapProp);
 
+    this.map.addListener('click', () => {
+      this.details = null;
+      if (this.path) {
+        this.path.setMap(null);
+      }
+    });
+
     this.loadFlights();
 
     this.serverUpdateTimer = setInterval(() => this.loadFlights(), DashboardComponent.SERVER_UPDATE_INTERVAL);
-
-    /*    mapboxgl.accessToken = 'pk.eyJ1Ijoicm9zdHlrZXJlaSIsImEiOiJjaXVpdXk1enowMDNwMnlwcjFicTgyZG5jIn0.JFWHhjOLeynWdzP-Xyojww';
-
-        this.map = new mapboxgl.Map({
-          container: 'map',
-          style: 'mapbox://styles/mapbox/basic-v9',
-          zoom: 7,
-          center: [4.764167, 52.308056]
-        });
-
-        this.map.on('load', () => {
-          this.loadFlights();
-          this.serverUpdateTimer = setInterval(() => this.loadFlights(), DashboardComponent.SERVER_UPDATE_INTERVAL);
-          this.clientUpdateTimer = setInterval(() => this.updateFlights(), DashboardComponent.CLIENT_UPDATE_INTERVAL);
-        });
-
-        this.map.on('click', () => {
-          if (this.map.getSource('path')) {
-            this.drawnPath = [];
-            this.map.removeLayer('path');
-            this.map.removeSource('path');
-          }
-
-          this.details = null;
-        });*/
+    this.clientUpdateTimer = setInterval(() => this.updateFlights(), DashboardComponent.CLIENT_UPDATE_INTERVAL);
   }
 
   ngOnDestroy(): void {
@@ -94,20 +69,20 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   flightsLoaded(flights: Map<number, MapFlight>) {
     // Remove disappeared
-/*    this.flights.forEach((f, id) => {
+    this.flights.forEach((f, id) => {
       if (!flights.has(id)) {
         this.flights.delete(id);
 
-        if (id == this.drawnFlight) {
-          this.drawnPath = [];
-          this.map.removeLayer('path');
-          this.map.removeSource('path');
+        if (id == this.drawnFlight && this.path) {
+          this.path.setMap(null);
         }
 
-        this.map.removeLayer('f' + id);
-        this.map.removeSource('f' + id);
+        if (this.markers.has(id)) {
+          this.markers.get(id).setMap(null);
+          this.markers.delete(id);
+        }
       }
-    });*/
+    });
 
     flights.forEach((f, id) => {
       if ((!this.flights.has(id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL) && (f.lat && f.lon)) {
@@ -128,6 +103,19 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     if (this.markers.has(f.id)) {
       let m = this.markers.get(f.id);
       m.setPosition({lat: f.lat, lng: f.lon});
+      m.setIcon({
+        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+        scale: 3,
+        fillColor: "red",
+        fillOpacity: 0.8,
+        strokeWeight: 1,
+        rotation: f.heading
+      });
+
+      if (f.id == this.drawnFlight && this.path) {
+        this.drawnPath.push({lat: f.lat, lng: f.lon});
+        this.path.setPath(this.drawnPath);
+      }
     }
     else {
       let marker = new google.maps.Marker({
@@ -143,61 +131,29 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         }
       });
 
-      marker.addListener('click', ()=> {
+      marker.addListener('click', () => {
           this.map.panTo(marker.getPosition());
           this.activeFlight = this.flights.get(id);
           this.loadPath(id);
           this.loadDetails(id);
       });
 
+      let infowindow = new google.maps.InfoWindow({
+        maxWidth: 200
+      });
+
+      marker.addListener('mouseover', () => {
+        infowindow.setContent(DashboardUtils.formatPopup(this.flights.get(id)));
+        infowindow.open(this.map, marker);
+      });
+
+      marker.addListener('mouseout', () => {
+        infowindow.close();
+      });
+
       this.markers.set(f.id, marker);
     }
 
-
-/*    if (this.map.getSource("f" + f.id)) {
-
-      this.map.getSource("f" + f.id).setData({
-        "type": "Point",
-        "coordinates": [f.lon, f.lat]
-      });
-
-      this.map.setLayoutProperty("f" + f.id, 'icon-rotate', f.heading || 0);
-
-      if (f.id == this.drawnFlight && this.map.getSource("path")) {
-        this.drawnPath.push([f.lon, f.lat]);
-        this.map.getSource("path").setData({
-          "type": "LineString",
-          "coordinates": this.drawnPath
-        });
-      }
-    }
-    else {
-      this.map.addSource("f" + f.id, DashboardUtils.mapboxAircraftSource(f));
-      this.map.addLayer(DashboardUtils.mapboxAircraftLayer(f));
-
-      this.map.on('click', "f" + f.id, (e) => {
-        let id: number = parseInt(e.features[0].layer.id.substring(1));
-        this.map.flyTo({center: e.lngLat});
-        this.activeFlight = this.flights.get(id);
-
-        this.loadPath(id);
-        this.loadDetails(id);
-      });
-
-      this.map.on('mouseenter', "f" + f.id, (e) => {
-        let id: number = parseInt(e.features[0].layer.id.substring(1));
-
-        this.map.getCanvas().style.cursor = 'pointer';
-        this.popup.setLngLat(e.lngLat)
-          .setHTML(DashboardUtils.formatPopup(this.flights.get(id)))
-          .addTo(this.map);
-      });
-
-      this.map.on('mouseleave', "f" + f.id, () => {
-        this.map.getCanvas().style.cursor = '';
-        this.popup.remove();
-      });
-    }*/
 
     if (this.activeFlight && this.activeFlight.id == f.id) {
       this.activeFlight = f;
@@ -216,17 +172,22 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   pathLoaded(id: number, path: LngLat[]) {
     this.drawnPath = [];
 
-    path.forEach(p => this.drawnPath.push([p.lon, p.lat]));
+    path.forEach(p => this.drawnPath.push({lat: p.lat, lng: p.lon}));
 
-    if (this.map.getLayer("path")) {
-      this.map.removeLayer("path");
-      this.map.removeSource("path");
+    if (this.path) {
+      this.path.setMap(null);
+      this.path = null;
     }
 
-    this.map.addSource("path", DashboardUtils.mapboxPathSource(this.drawnPath));
+    this.path = new google.maps.Polyline({
+      path: this.drawnPath,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
 
-    this.map.addLayer(DashboardUtils.mapboxPathLayer(), "f" + id);
-
+    this.path.setMap(this.map);
     this.drawnFlight = id;
   }
 
@@ -243,9 +204,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.drawnPath = [];
     this.drawnFlight = null;
 
-    if (this.map.getLayer("path")) {
-      this.map.removeLayer("path");
-      this.map.removeSource("path");
+    if (this.path) {
+      this.path.setMap(null);
     }
   }
 
@@ -259,13 +219,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
           this.activeFlight = f;
         }
 
-        window.requestAnimationFrame(() => {
-          this.map.getSource("f" + newF.id).setData({
-            "type": "Point",
-            "coordinates": [newF.lon, newF.lat]
-          });
-        });
-
+        this.markers.get(f.id).setPosition({lat: newF.lat, lng: newF.lon});
       }
     });
   }

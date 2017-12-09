@@ -8,3 +8,11 @@ html, body {
   padding: 0;
   margin: 0;
 }
+
+
+.gm-style-iw + div {display: none;}
+.gm-style-iw {
+  border: solid 1px red;
+  background: yellow;
+  padding: 0 !important;
+}
