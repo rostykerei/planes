@@ -5,6 +5,8 @@ import {MapFlight} from "../model/map-flight";
 import {LngLat} from "../model/lng-lat";
 import {DashboardUtils} from "./dashboard-utils";
 
+declare const google: any;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -15,7 +17,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
   public static readonly CLIENT_UPDATE_INTERVAL: number = 1000;
 
-  map: mapboxgl.Map;
+  map: any;
   popup: mapboxgl.Popup;
 
   flights: Map<number, MapFlight> = new Map();
@@ -30,37 +32,44 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   details: any;
 
   constructor(private mapService: MapService) {
-    this.popup = new mapboxgl.Popup({
+/*    this.popup = new mapboxgl.Popup({
       closeButton: false,
       closeOnClick: false
-    });
+    });*/
   }
 
   ngAfterViewInit(): void {
-    mapboxgl.accessToken = 'pk.eyJ1Ijoicm9zdHlrZXJlaSIsImEiOiJjaXVpdXk1enowMDNwMnlwcjFicTgyZG5jIn0.JFWHhjOLeynWdzP-Xyojww';
-
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/basic-v9',
+    let mapProp = {
+      center: new google.maps.LatLng(52.308056, 4.764167),
       zoom: 7,
-      center: [4.764167, 52.308056]
-    });
+      mapTypeId: 'terrain'
+    };
+    this.map = new google.maps.Map(document.getElementById("map"), mapProp);
 
-    this.map.on('load', () => {
-      this.loadFlights();
-      this.serverUpdateTimer = setInterval(() => this.loadFlights(), DashboardComponent.SERVER_UPDATE_INTERVAL);
-      this.clientUpdateTimer = setInterval(() => this.updateFlights(), DashboardComponent.CLIENT_UPDATE_INTERVAL);
-    });
+    /*    mapboxgl.accessToken = 'pk.eyJ1Ijoicm9zdHlrZXJlaSIsImEiOiJjaXVpdXk1enowMDNwMnlwcjFicTgyZG5jIn0.JFWHhjOLeynWdzP-Xyojww';
 
-    this.map.on('click', () => {
-      if (this.map.getSource('path')) {
-        this.drawnPath = [];
-        this.map.removeLayer('path');
-        this.map.removeSource('path');
-      }
+        this.map = new mapboxgl.Map({
+          container: 'map',
+          style: 'mapbox://styles/mapbox/basic-v9',
+          zoom: 7,
+          center: [4.764167, 52.308056]
+        });
 
-      this.details = null;
-    });
+        this.map.on('load', () => {
+          this.loadFlights();
+          this.serverUpdateTimer = setInterval(() => this.loadFlights(), DashboardComponent.SERVER_UPDATE_INTERVAL);
+          this.clientUpdateTimer = setInterval(() => this.updateFlights(), DashboardComponent.CLIENT_UPDATE_INTERVAL);
+        });
+
+        this.map.on('click', () => {
+          if (this.map.getSource('path')) {
+            this.drawnPath = [];
+            this.map.removeLayer('path');
+            this.map.removeSource('path');
+          }
+
+          this.details = null;
+        });*/
   }
 
   ngOnDestroy(): void {
