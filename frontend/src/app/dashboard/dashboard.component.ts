@@ -18,6 +18,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   public static readonly CLIENT_UPDATE_INTERVAL: number = 1000;
 
   map: any;
+
+  markers: Map<number, any> = new Map();
+
+
+
   popup: mapboxgl.Popup;
 
   flights: Map<number, MapFlight> = new Map();
@@ -44,7 +49,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       zoom: 7,
       mapTypeId: 'terrain'
     };
+
     this.map = new google.maps.Map(document.getElementById("map"), mapProp);
+
+    this.loadFlights();
+
+    this.serverUpdateTimer = setInterval(() => this.loadFlights(), DashboardComponent.SERVER_UPDATE_INTERVAL);
 
     /*    mapboxgl.accessToken = 'pk.eyJ1Ijoicm9zdHlrZXJlaSIsImEiOiJjaXVpdXk1enowMDNwMnlwcjFicTgyZG5jIn0.JFWHhjOLeynWdzP-Xyojww';
 
@@ -84,7 +94,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   flightsLoaded(flights: Map<number, MapFlight>) {
     // Remove disappeared
-    this.flights.forEach((f, id) => {
+/*    this.flights.forEach((f, id) => {
       if (!flights.has(id)) {
         this.flights.delete(id);
 
@@ -97,7 +107,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         this.map.removeLayer('f' + id);
         this.map.removeSource('f' + id);
       }
-    });
+    });*/
 
     flights.forEach((f, id) => {
       if ((!this.flights.has(id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL) && (f.lat && f.lon)) {
@@ -113,7 +123,29 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   updateFlight(f: MapFlight): void {
-    if (this.map.getSource("f" + f.id)) {
+    if (this.markers.has(f.id)) {
+      let m = this.markers.get(f.id);
+      m.setPosition({lat: f.lat, lng: f.lon});
+    }
+    else {
+      let marker = new google.maps.Marker({
+        map: this.map,
+        position: {lat: f.lat, lng: f.lon},
+        icon: {
+          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
+          scale: 3,
+          fillColor: "red",
+          fillOpacity: 0.8,
+          strokeWeight: 1,
+          rotation: f.heading
+        }
+      });
+
+      this.markers.set(f.id, marker);
+    }
+
+
+/*    if (this.map.getSource("f" + f.id)) {
 
       this.map.getSource("f" + f.id).setData({
         "type": "Point",
@@ -156,7 +188,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         this.map.getCanvas().style.cursor = '';
         this.popup.remove();
       });
-    }
+    }*/
 
     if (this.activeFlight && this.activeFlight.id == f.id) {
       this.activeFlight = f;
