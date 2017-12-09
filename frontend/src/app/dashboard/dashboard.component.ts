@@ -123,6 +123,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   updateFlight(f: MapFlight): void {
+    let id: number = f.id;
+
     if (this.markers.has(f.id)) {
       let m = this.markers.get(f.id);
       m.setPosition({lat: f.lat, lng: f.lon});
@@ -139,6 +141,13 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
           strokeWeight: 1,
           rotation: f.heading
         }
+      });
+
+      marker.addListener('click', ()=> {
+          this.map.panTo(marker.getPosition());
+          this.activeFlight = this.flights.get(id);
+          this.loadPath(id);
+          this.loadDetails(id);
       });
 
       this.markers.set(f.id, marker);
