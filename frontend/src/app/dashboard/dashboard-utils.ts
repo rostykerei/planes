@@ -97,22 +97,30 @@ export class DashboardUtils {
 
   static getIcon(f: MapFlight): any {
     if (f.type) {
-      if (f.type == 'A388') {
-        return this.getIconA380(f);
+      switch (f.type) {
+        case 'A388':
+          return this.getIconA380(f);
+        case 'A318':
+        case 'A319':
+        case 'A320':
+        case 'A321':
+          return this.getIconA320(f);
+        case 'B772':
+        case 'B77W':
+        case 'B773':
+        case 'B77L':
+          return this.getIconB777(f);
       }
     }
 
     if (f.classification) {
-      if (f.classification == 'L2J') {
-        return this.getIconL2J(f);
-      }
-
-      if (f.classification == 'L2T') {
-        return this.getIconL2T(f);
-      }
-
-      if (f.classification == 'L4J') {
-        return this.getIconL4J(f);
+      switch (f.classification) {
+        case 'L2J':
+          return this.getIconL2J(f);
+        case 'L2T':
+          return this.getIconL2T(f);
+        case 'L4J':
+          return this.getIconL4J(f);
       }
 
       if (f.classification.substring(0, 1) == 'H') {
@@ -123,10 +131,34 @@ export class DashboardUtils {
     return this.getIconDefault(f);
   };
 
+  static getIconA320(f: MapFlight): any {
+    return {
+      path: "m 32,1 2,1 2,3 0,18 4,1 0,-4 3,0 0,5 17,6 0,3 -15,-2 -9,0 0,12 -2,6 7,3 0,2 -8,-1 -1,2 -1,-2 -8,1 0,-2 7,-3 -2,-6 0,-12 -9,0 -15,2 0,-3 17,-6 0,-5 3,0 0,4 4,-1 0,-18 2,-3 2,-1z",
+      anchor: new google.maps.Point(32, 28),
+      scale: 0.4,
+      fillColor: this.ICON_COLOR,
+      fillOpacity: this.ICON_OPACITY,
+      strokeWeight: 1,
+      rotation: f.heading
+    };
+  }
+
   static getIconA380(f: MapFlight): any {
     return {
       path: "m 32,59 -1,-4 -4,1 -7,3 -1,0 1,-3 1,-1 7,-6 2,-2 -1,-5 0,-9 -1,-2 -2,0 -6,2 -5,2 -5,2 -9,4 0,1 0,-3 1,-2 9,-7 -1,-1 0,-4 1,-1 1,0 1,1 0,3 1,0 5,-4 0,-5 1,-1 1,0 1,1 0,3 6,-5 1,-2 0,-7 1,-5 1,-2 1,-1 1,1 1,2 1,5 0,7 1,2 6,5 0,-3 1,-1 1,0 1,1 0,5 5,4 1,0 0,-3 1,-1 1,0 1,1 0,4 -1,1 9,7 1,2 0,3 0,-1 -9,-4 -5,-2 -5,-2 -6,-2 -2,0 -1,2 0,9 -1,5 2,2 7,6 1,1 1,3 -1,0 -7,-3 -4,-1 -1,4 z",
       anchor: new google.maps.Point(32, 30),
+      scale: 0.5,
+      fillColor: this.ICON_COLOR,
+      fillOpacity: this.ICON_OPACITY,
+      strokeWeight: 1,
+      rotation: f.heading
+    };
+  }
+
+  static getIconB777(f: MapFlight): any {
+    return {
+      path: "m 32,1 2,1 1,2 0,20 4,4 0,-4 3,0 0,4 -1,2 17,12 0,2 -16,-5 -7,0 0,13 -1,5 7,5 0,2 -8,-2 -1,2 -1,-2 -8,2 0,-2 7,-5 -1,-5 0,-13 -7,0 -16,5 0,-2 17,-12 -1,-2 0,-4 3,0 0,4 4,-4 0,-20 1,-2 2,-1z",
+      anchor: new google.maps.Point(32, 32),
       scale: 0.5,
       fillColor: this.ICON_COLOR,
       fillOpacity: this.ICON_OPACITY,

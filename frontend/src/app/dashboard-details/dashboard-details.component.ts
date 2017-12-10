@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MapFlight} from "../model/map-flight";
 
 @Component({
@@ -6,7 +6,8 @@ import {MapFlight} from "../model/map-flight";
   templateUrl: './dashboard-details.component.html',
   styleUrls: ['./dashboard-details.component.scss']
 })
-export class DashboardDetailsComponent implements OnInit {
+export class DashboardDetailsComponent implements OnChanges {
+
 
   @Input() details: any;
   @Input() flight: MapFlight;
@@ -33,7 +34,7 @@ export class DashboardDetailsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnChanges(changes: SimpleChanges): void {
     this.callsign = 'UNKNOWN';
 
     let route = this.details.route;
@@ -67,7 +68,6 @@ export class DashboardDetailsComponent implements OnInit {
       }
 
       this.aircraftModel = aircraft.model;
-
     }
   }
 
