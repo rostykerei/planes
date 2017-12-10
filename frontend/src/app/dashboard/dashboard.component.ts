@@ -14,7 +14,7 @@ declare const google: any;
 export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
-  public static readonly CLIENT_UPDATE_INTERVAL: number = 250;
+  public static readonly CLIENT_UPDATE_INTERVAL: number = 500;
 
   static readonly DATA: string = 'data';
 
@@ -68,13 +68,13 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   flightsLoaded(flights: Map<number, MapFlight>): void {
     // Remove disappeared
-    this.markers.forEach((f, id) => {
+    this.markers.forEach((marker, id) => {
       if (!flights.has(id)) {
         if (id == this.drawnFlight && this.path) {
           this.path.setMap(null);
         }
 
-        this.markers.get(id).setMap(null);
+        marker.setMap(null);
         this.markers.delete(id);
       }
     });
@@ -84,17 +84,17 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         this.updateFlight(f);
       }
     });
-
   }
 
   updateFlight(f: MapFlight): void {
     let id: number = f.id;
+    let marker: any;
 
     if (this.markers.has(id)) {
-      let m = this.markers.get(id);
+      marker = this.markers.get(id);
 
-      m.setPosition({lat: f.lat, lng: f.lon});
-      m.setIcon({
+      marker.setPosition({lat: f.lat, lng: f.lon});
+      marker.setIcon({
         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
         scale: 3,
         fillColor: "red",
@@ -110,7 +110,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       }
     }
     else {
-      let marker = new google.maps.Marker({
+      marker = new google.maps.Marker({
         map: this.map,
         position: {lat: f.lat, lng: f.lon},
         icon: {
@@ -122,8 +122,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
           rotation: f.heading
         }
       });
-
-      marker.set(DashboardComponent.DATA, f);
 
       marker.addListener('click', () => {
           this.map.panTo(marker.getPosition());
@@ -138,7 +136,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       marker.addListener('mouseover', () => {
         infowindow.setContent(
           DashboardUtils.formatPopup(
-            this.markers.get(id).get(DashboardComponent.DATA)
+            marker.get(DashboardComponent.DATA)
           )
         );
 
@@ -151,6 +149,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
       this.markers.set(id, marker);
     }
+
+    marker.set(DashboardComponent.DATA, f);
   }
 
 
