@@ -95,9 +95,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
       marker.setPosition({lat: f.lat, lng: f.lon});
       marker.setIcon({
-        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-        scale: 3,
-        fillColor: "red",
+        path: "m 32,61 -1,-1 -9,2 -2,1 0,-2 9,-6 1,-1 -1,-9 0,-11 -7,0 -1,1 0,-1 -3,1 -1,1 0,-1 -3,1 -9,3 -1,1 0,-2 1,-2 17,-9 1,-1 -1,-2 0,-3 1,-1 2,0 1,1 0,3 3,-2 0,-13 1,-5 1,-3 1,-1 1,1 1,3 1,5 0,13 3,2 0,-3 1,-1 2,0 1,1 0,3 -1,2 1,1 17,9 1,2 0,2 -1,-1 -9,-3 -3,-1 0,1 -1,-1 -3,-1 0,1 -1,-1 -7,0 0,11 -1,9 1,1 9,6 0,2 -2,-1 -9,-2 -1,1 z",
+        anchor: new google.maps.Point(32, 32),
+        scale: 0.63 * 0.75,
+        fillColor: "orange",
         fillOpacity: 0.8,
         strokeWeight: 1,
         rotation: f.heading
@@ -114,9 +115,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         map: this.map,
         position: {lat: f.lat, lng: f.lon},
         icon: {
-          path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
-          scale: 3,
-          fillColor: "red",
+          path: "m 32,61 -1,-1 -9,2 -2,1 0,-2 9,-6 1,-1 -1,-9 0,-11 -7,0 -1,1 0,-1 -3,1 -1,1 0,-1 -3,1 -9,3 -1,1 0,-2 1,-2 17,-9 1,-1 -1,-2 0,-3 1,-1 2,0 1,1 0,3 3,-2 0,-13 1,-5 1,-3 1,-1 1,1 1,3 1,5 0,13 3,2 0,-3 1,-1 2,0 1,1 0,3 -1,2 1,1 17,9 1,2 0,2 -1,-1 -9,-3 -3,-1 0,1 -1,-1 -3,-1 0,1 -1,-1 -7,0 0,11 -1,9 1,1 9,6 0,2 -2,-1 -9,-2 -1,1 z",
+          anchor: new google.maps.Point(32, 32),
+          scale: 0.63 * 0.75,
+          fillColor: "orange",
           fillOpacity: 0.8,
           strokeWeight: 1,
           rotation: f.heading
