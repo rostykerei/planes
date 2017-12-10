@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, OnDestroy} from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
 import {MapService} from "../map.service";
 import {MapFlight} from "../model/map-flight";
 import {LngLat} from "../model/lng-lat";
@@ -16,6 +15,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
   public static readonly CLIENT_UPDATE_INTERVAL: number = 500;
+
+  static readonly DATA: string = 'data';
 
   map: any;
   markers: Map<number, any> = new Map();
@@ -101,7 +102,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     let id: number = f.id;
 
     if (this.markers.has(f.id)) {
-      let m = this.markers.get(f.id);
+      let m = this.markers.get(id);
       m.setPosition({lat: f.lat, lng: f.lon});
       m.setIcon({
         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
@@ -112,7 +113,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         rotation: f.heading
       });
 
-      if (f.id == this.drawnFlight && this.path) {
+      if (id == this.drawnFlight && this.path) {
         this.drawnPath.push({lat: f.lat, lng: f.lon});
         this.path.setPath(this.drawnPath);
       }
@@ -131,6 +132,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         }
       });
 
+      marker.set(DashboardComponent.DATA, f);
+
       marker.addListener('click', () => {
           this.map.panTo(marker.getPosition());
           this.activeFlight = this.flights.get(id);
@@ -143,7 +146,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       });
 
       marker.addListener('mouseover', () => {
-        infowindow.setContent(DashboardUtils.formatPopup(this.flights.get(id)));
+        infowindow.setContent(
+          DashboardUtils.formatPopup(
+            this.markers.get(id).get(DashboardComponent.DATA)
+          )
+        );
+
         infowindow.open(this.map, marker);
       });
 
@@ -153,7 +161,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
       this.markers.set(f.id, marker);
     }
-
 
     if (this.activeFlight && this.activeFlight.id == f.id) {
       this.activeFlight = f;
