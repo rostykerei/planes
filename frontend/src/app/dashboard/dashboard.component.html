@@ -1,5 +1,7 @@
 <div id="map"></div>
 
 <app-dashboard-details
-  *ngIf="details" [details]="details" [flight]="activeFlight" (close)="closeDetails()"
+  *ngIf="details"
+  [details]="details"
+  (close)="closeDetails()"
 ></app-dashboard-details>

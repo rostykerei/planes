@@ -14,13 +14,12 @@ declare const google: any;
 export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
-  public static readonly CLIENT_UPDATE_INTERVAL: number = 500;
+  public static readonly CLIENT_UPDATE_INTERVAL: number = 250;
 
   static readonly DATA: string = 'data';
 
   map: any;
   markers: Map<number, any> = new Map();
-  flights: Map<number, MapFlight> = new Map();
 
   drawnFlight: number;
   drawnPath: any[] = [];
@@ -30,7 +29,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   serverUpdateTimer: any;
   clientUpdateTimer: any;
 
-  activeFlight: MapFlight;
   details: any;
 
   constructor(private mapService: MapService) {
@@ -68,41 +66,33 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  flightsLoaded(flights: Map<number, MapFlight>) {
+  flightsLoaded(flights: Map<number, MapFlight>): void {
     // Remove disappeared
-    this.flights.forEach((f, id) => {
+    this.markers.forEach((f, id) => {
       if (!flights.has(id)) {
-        this.flights.delete(id);
-
         if (id == this.drawnFlight && this.path) {
           this.path.setMap(null);
         }
 
-        if (this.markers.has(id)) {
-          this.markers.get(id).setMap(null);
-          this.markers.delete(id);
-        }
+        this.markers.get(id).setMap(null);
+        this.markers.delete(id);
       }
     });
 
     flights.forEach((f, id) => {
-      if ((!this.flights.has(id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL) && (f.lat && f.lon)) {
-        this.flights.set(id, f);
+      if ((!this.markers.has(id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL) && (f.lat && f.lon)) {
+        this.updateFlight(f);
       }
     });
 
-    this.updateMap();
-  }
-
-  updateMap(): void {
-    this.flights.forEach((f: MapFlight, id: number) => this.updateFlight(f));
   }
 
   updateFlight(f: MapFlight): void {
     let id: number = f.id;
 
-    if (this.markers.has(f.id)) {
+    if (this.markers.has(id)) {
       let m = this.markers.get(id);
+
       m.setPosition({lat: f.lat, lng: f.lon});
       m.setIcon({
         path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW,
@@ -113,7 +103,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         rotation: f.heading
       });
 
-      if (id == this.drawnFlight && this.path) {
+      // Update path
+      if (this.path && id == this.drawnFlight) {
         this.drawnPath.push({lat: f.lat, lng: f.lon});
         this.path.setPath(this.drawnPath);
       }
@@ -136,7 +127,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
       marker.addListener('click', () => {
           this.map.panTo(marker.getPosition());
-          this.activeFlight = this.flights.get(id);
           this.loadPath(id);
           this.loadDetails(id);
       });
@@ -159,11 +149,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         infowindow.close();
       });
 
-      this.markers.set(f.id, marker);
-    }
-
-    if (this.activeFlight && this.activeFlight.id == f.id) {
-      this.activeFlight = f;
+      this.markers.set(id, marker);
     }
   }
 
@@ -176,7 +162,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.mapService.getFlightPath(id).subscribe(path => this.pathLoaded(id, path));
   }
 
-  pathLoaded(id: number, path: LngLat[]) {
+  pathLoaded(id: number, path: LngLat[]): void {
     this.drawnPath = [];
 
     path.forEach(p => this.drawnPath.push({lat: p.lat, lng: p.lon}));
@@ -206,7 +192,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.details = details;
   }
 
-  closeDetails() {
+  closeDetails(): void {
     this.details = null;
     this.drawnPath = [];
     this.drawnFlight = null;
@@ -216,17 +202,14 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private updateFlights() {
-    this.flights.forEach((f, id, map) => {
-      if (f.lon && f.lon && f.speed && f.heading) {
-        let newF : MapFlight = DashboardUtils.updatePosition(f, DashboardComponent.CLIENT_UPDATE_INTERVAL);
-        map.set(id, newF);
+  private updateFlights(): void {
+    this.markers.forEach((marker) => {
+      let data = marker.get(DashboardComponent.DATA);
 
-        if (this.activeFlight && this.activeFlight.id == f.id) {
-          this.activeFlight = f;
-        }
-
-        this.markers.get(f.id).setPosition({lat: newF.lat, lng: newF.lon});
+      if (data.lon && data.lon && data.speed && data.heading) {
+        let newData : MapFlight = DashboardUtils.updatePosition(data, DashboardComponent.CLIENT_UPDATE_INTERVAL);
+        marker.set(DashboardComponent.DATA, newData);
+        marker.setPosition({lat: newData.lat, lng: newData.lon});
       }
     });
   }
