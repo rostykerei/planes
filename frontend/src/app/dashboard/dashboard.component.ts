@@ -116,7 +116,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       });
 
       let infowindow = new google.maps.InfoWindow({
-        maxWidth: 200
+        maxWidth: 70
       });
 
       marker.addListener('mouseover', () => {
@@ -129,9 +129,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         infowindow.open(this.map, marker);
       });
 
-      marker.addListener('mouseout', () => {
-        infowindow.close();
-      });
+      marker.addListener('mouseout', () => infowindow.close());
 
       this.markers.set(id, marker);
     }
