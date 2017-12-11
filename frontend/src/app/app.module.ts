@@ -16,8 +16,6 @@ import {NavigationComponent} from './navigation/navigation.component';
 import {MapService} from "./map.service";
 import {HttpClientModule} from "@angular/common/http";
 import { DashboardDetailsComponent } from './dashboard-details/dashboard-details.component';
-import {FlexLayoutModule} from "@angular/flex-layout";
-
 
 @NgModule({
   declarations: [
@@ -32,7 +30,6 @@ import {FlexLayoutModule} from "@angular/flex-layout";
   ],
   imports: [
     BrowserModule,
-    FlexLayoutModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,

@@ -1,4 +1,4 @@
-<mat-card style="position: absolute; top: 100px; left: 50px; width: 20%;">
+<mat-card class="details-card">
   <mat-card-header>
     <mat-card-title>
       <b>{{callsign}}</b> <small *ngIf="routeNumber">/ {{routeNumber}}</small>
@@ -8,21 +8,27 @@
   </mat-card-header>
 
   <mat-card-content *ngIf="airportFromCode && airportToCode">
-    <div fxLayout="row wrap">
-      <div fxFlex="10%"><span style="line-height: 1.5em;" [title]="airportFromCountry.code + ' - ' + airportFromCountry.name" [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span></div>
-      <div fxFlex="35%" class="airport-code">{{airportFromCode}}</div>
-      <div fxFlex="10%" class="airport-arr">&rarr;</div>
-      <div fxFlex="35%" class="airport-code">{{airportToCode}}</div>
-      <div fxFlex="10%" style="text-align: right;"><span style="line-height: 1.5em;"  [title]="airportToCountry.code + ' - ' + airportToCountry.name" [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span></div>
-    </div>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+      <tr>
+        <td width="10%">
+          <span [title]="airportFromCountry.code + ' - ' + airportFromCountry.name" [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
+        </td>
+        <td width="45%" class="airport-code">{{airportFromCode}}</td>
+        <td class="airport-arr">&rarr;</td>
+        <td width="45%" class="airport-code">{{airportToCode}}</td>
+        <td width="10%" align="right">
+          <span [title]="airportToCountry.code + ' - ' + airportToCountry.name" [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="airport-name">{{airportFromCity}}</td>
+        <td></td>
+        <td class="airport-name">{{airportToCity}}</td>
+        <td></td>
+      </tr>
+    </table>
 
-    <div fxLayout="row wrap">
-      <div fxFlex="10%"></div>
-      <div fxFlex="35%" class="airport-name"><span>{{airportFromCity}}</span></div>
-      <div fxFlex="10%"></div>
-      <div fxFlex="35%" class="airport-name"><span>{{airportToCity}}</span></div>
-      <div fxFlex="10%"></div>
-    </div>
 
     <div style="text-align: center" *ngIf="aircraftType">
       <img src="assets/types/{{aircraftType}}.png"/>

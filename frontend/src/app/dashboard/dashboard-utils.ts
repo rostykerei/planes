@@ -104,7 +104,9 @@ export class DashboardUtils {
         case 'A319':
         case 'A320':
         case 'A321':
-          return this.getIconA320(f);
+        case 'A332':
+        case 'A333':
+          return this.getIconAirbus(f);
         case 'B772':
         case 'B77W':
         case 'B773':
@@ -131,11 +133,17 @@ export class DashboardUtils {
     return this.getIconDefault(f);
   };
 
-  static getIconA320(f: MapFlight): any {
+  static getIconAirbus(f: MapFlight): any {
+    let scale: number = 0.4;
+
+    if (f.type && (f.type.substring(0, 3) == 'A33' || f.type.substring(0, 3) == 'A33')) {
+      scale = 0.5;
+    }
+
     return {
       path: "m 32,1 2,1 2,3 0,18 4,1 0,-4 3,0 0,5 17,6 0,3 -15,-2 -9,0 0,12 -2,6 7,3 0,2 -8,-1 -1,2 -1,-2 -8,1 0,-2 7,-3 -2,-6 0,-12 -9,0 -15,2 0,-3 17,-6 0,-5 3,0 0,4 4,-1 0,-18 2,-3 2,-1z",
       anchor: new google.maps.Point(32, 28),
-      scale: 0.4,
+      scale: scale,
       fillColor: this.ICON_COLOR,
       fillOpacity: this.ICON_OPACITY,
       strokeWeight: 1,
