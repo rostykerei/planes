@@ -5,6 +5,8 @@ import {Observable} from "rxjs/Observable";
 import {LngLat} from "./model/lng-lat";
 import "rxjs/add/operator/map";
 
+import { environment } from '../environments/environment';
+
 @Injectable()
 export class MapService {
 
@@ -13,7 +15,7 @@ export class MapService {
 
   getActiveFlights(): Observable<Map<number, MapFlight>> {
     return this.http
-      .get("http://localhost:8080/map/active")
+      .get(environment.apiUrl + "map/active")
       .map((response: Response) => {
         const map = new Map();
         Object.keys(response).forEach(key => {
@@ -27,11 +29,11 @@ export class MapService {
   }
 
   getFlightPath(id: number): Observable<LngLat[]> {
-    return this.http.get<LngLat[]>("http://localhost:8080/map/path/" + id);
+    return this.http.get<LngLat[]>(environment.apiUrl + "map/path/" + id);
   }
 
   getFlightDetails(id: number): Observable<any> {
-    return this.http.get<LngLat[]>("http://localhost:8080/map/details/" + id);
+    return this.http.get<LngLat[]>(environment.apiUrl + "map/details/" + id);
   }
 
 }

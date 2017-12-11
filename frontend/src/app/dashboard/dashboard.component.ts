@@ -3,6 +3,7 @@ import {MapService} from "../map.service";
 import {MapFlight} from "../model/map-flight";
 import {LngLat} from "../model/lng-lat";
 import {DashboardUtils} from "./dashboard-utils";
+import {environment} from "../../environments/environment";
 
 declare const google: any;
 
@@ -36,9 +37,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     let mapProp = {
-      center: new google.maps.LatLng(52.308056, 4.764167),
-      zoom: 7,
-      mapTypeId: 'terrain'
+      center: new google.maps.LatLng(environment.mapStartLat, environment.mapStartLon),
+      zoom: environment.mapStartZoom,
+      mapTypeId: environment.mapTypeId
     };
 
     this.map = new google.maps.Map(document.getElementById("map"), mapProp);

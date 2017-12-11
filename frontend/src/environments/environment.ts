@@ -4,5 +4,10 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'http://localhost:8080/',
+  mapStartLat: 52.308056,
+  mapStartLon: 4.764167,
+  mapStartZoom: 7,
+  mapTypeId: 'terrain'
 };
