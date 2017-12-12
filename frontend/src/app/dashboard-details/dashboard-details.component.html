@@ -11,20 +11,28 @@
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
         <td width="10%">
-          <span [title]="airportFromCountry.code + ' - ' + airportFromCountry.name" [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
+          <span matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
+                matTooltipPosition="right"
+                [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
         </td>
-        <td width="45%" class="airport-code">{{airportFromCode}}</td>
+        <td width="45%" class="airport-code" matTooltip="{{details.route.airportFrom.iataCode}} - {{details.route.airportFrom.name}}">
+          {{details.route.airportFrom.code}}
+        </td>
         <td class="airport-arr">&rarr;</td>
-        <td width="45%" class="airport-code">{{airportToCode}}</td>
+        <td width="45%" class="airport-code" matTooltip="{{details.route.airportTo.iataCode}} - {{details.route.airportTo.name}}">
+          {{details.route.airportTo.code}}
+        </td>
         <td width="10%" align="right">
-          <span [title]="airportToCountry.code + ' - ' + airportToCountry.name" [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
+          <span matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
+                matTooltipPosition="left"
+                [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
         </td>
       </tr>
       <tr>
         <td></td>
-        <td class="airport-name">{{airportFromCity}}</td>
+        <td class="airport-name">{{details.route.airportFrom.city}}</td>
         <td></td>
-        <td class="airport-name">{{airportToCity}}</td>
+        <td class="airport-name">{{details.route.airportTo.city}}</td>
         <td></td>
       </tr>
     </table>
