@@ -16,62 +16,129 @@ export class DashboardDetailsComponent implements OnChanges {
   routeNumber: string;
 
   airportFromCode: string;
-  airportToCode: string;
-
+  airportFromIata: string;
+  airportFromName: string;
   airportFromCity: string;
-  airportToCity: string;
-
   airportFromCountry: any;
-  airportToCountry;
 
-  airlineCode: string;
-  airlineName: string;
+  airportToCode: string;
+  airportToIata: string
+  airportToName: string;
+  airportToCity: string;
+  airportToCountry: any;
 
   aircraftType: string;
   aircraftModel: string;
+  aircraftRegistration: string;
+
+  airlineCode: string;
+  airlineName: string;
+  airlineOperatedBy: string;
 
   @Output() close = new EventEmitter();
 
   constructor() { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.callsign = 'UNKNOWN';
 
+    if (changes.hasOwnProperty('details')) {
+      this.cleanDetails();
+      this.updateRoute();
+      this.updateAircraft();
+      this.updateAirline();
+    }
+
+  }
+
+  closeClick() {
+    this.close.emit(null);
+  }
+
+  private cleanDetails(): void {
+    this.callsign = null;
+    this.routeNumber = null;
+
+    this.airportFromCode = null;
+    this.airportFromIata = null;
+    this.airportFromName = null;
+    this.airportFromCity = null;
+    this.airportFromCountry = null;
+
+    this.airportToCode = null;
+    this.airportToIata = null;
+    this.airportToName = null;
+    this.airportToCity = null;
+    this.airportToCountry = null;
+
+    this.aircraftType = null;
+    this.aircraftModel = null;
+    this.aircraftRegistration = null;
+
+    this.airlineCode = null;
+    this.airlineName = null;
+    this.airlineOperatedBy = null;
+  }
+
+  private updateRoute(): void {
     let route = this.details.route;
-    let aircraft = this.details.aircraft;
 
     if (route) {
       this.callsign = route.callsign;
       this.routeNumber = route.number;
 
-      if (route.airline) {
-        this.airlineName = route.airline.name;
-        this.airlineCode = route.airline.code;
-      }
-
       if (route.airportFrom) {
         this.airportFromCode = route.airportFrom.code;
+        this.airportFromIata = route.airportFrom.iataCode;
+        this.airportFromName = route.airportFrom.name;
         this.airportFromCity = route.airportFrom.city;
         this.airportFromCountry = route.airportFrom.country;
       }
 
       if (route.airportTo) {
         this.airportToCode = route.airportTo.code;
+        this.airportToIata = route.airportTo.iataCode;
+        this.airportToName = route.airportTo.name;
         this.airportToCity = route.airportTo.city;
         this.airportToCountry = route.airportTo.country;
       }
     }
+  }
+
+  private updateAircraft(): void {
+    let aircraft = this.details.aircraft;
 
     if (aircraft) {
-      if (aircraft.type) {
-        this.aircraftType = aircraft.type.type;
+      if (aircraft.model) {
+        this.aircraftModel = aircraft.model;
       }
 
-      this.aircraftModel = aircraft.model;
+      if (aircraft.type) {
+        this.aircraftType = aircraft.type.type;
+
+        if (!this.aircraftModel) {
+          this.aircraftModel = aircraft.type.manufacturer || '';
+          this.aircraftModel += ' ';
+          this.aircraftModel += aircraft.type.model || '';
+        }
+      }
+
+      this.aircraftRegistration = aircraft.registration;
     }
   }
 
-  closeClick() {
-    this.close.emit(null);
+  private updateAirline(): void {
+    let route = this.details.route;
+
+    if (route.airline) {
+      this.airlineName = route.airline.name;
+      this.airlineCode = route.airline.code;
+
+      if (this.airlineCode
+        && this.details.aircraft.airline
+        && this.details.aircraft.airline.code
+        && this.airlineCode != this.details.aircraft.airline.code) {
+        this.airlineOperatedBy = this.details.aircraft.airline.name;
+      }
+    }
   }
 }

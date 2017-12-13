@@ -15,31 +15,33 @@
 
     <br/>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" *ngIf="airportFromCode && airportToCode">
       <tr>
         <td width="10%">
-          <span matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
+          <span *ngIf="airportFromCountry"
+            matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
                 matTooltipPosition="right"
                 [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
         </td>
-        <td width="45%" class="airport-code" matTooltip="{{details.route.airportFrom.iataCode}} - {{details.route.airportFrom.name}}">
-          {{details.route.airportFrom.code}}
+        <td width="45%" class="airport-code" matTooltip="{{details.route.airportFrom.iataCode}} - {{airportFromName}}">
+          {{airportFromCode}}
         </td>
         <td class="airport-arr">&rarr;</td>
-        <td width="45%" class="airport-code" matTooltip="{{details.route.airportTo.iataCode}} - {{details.route.airportTo.name}}">
-          {{details.route.airportTo.code}}
+        <td width="45%" class="airport-code" matTooltip="{{details.route.airportTo.iataCode}} - {{airportToName}}">
+          {{airportToCode}}
         </td>
         <td width="10%" align="right">
-          <span matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
+          <span *ngIf="airportToCountry"
+            matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
                 matTooltipPosition="left"
                 [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
         </td>
       </tr>
       <tr>
         <td></td>
-        <td class="airport-name">{{details.route.airportFrom.city}}</td>
+        <td class="airport-name">{{airportFromCity}}</td>
         <td></td>
-        <td class="airport-name">{{details.route.airportTo.city}}</td>
+        <td class="airport-name">{{airportToCity}}</td>
         <td></td>
       </tr>
     </table>
@@ -53,8 +55,8 @@
         </td>
       </tr>
       <tr>
-        <td width="20%"><a href="#">{{details.aircraft.registration}}</a></td>
-        <td align="right">{{aircraftModel || details.aircraft.type.type}}</td>
+        <td width="20%"><a href="#">{{aircraftRegistration}}</a></td>
+        <td align="right">{{aircraftModel}}</td>
       </tr>
     </table>
 
@@ -67,8 +69,11 @@
         </td>
       </tr>
       <tr>
-        <td width="20%"><a href="#">{{details.route.airline.code}}</a></td>
+        <td width="20%"><a href="#">{{airlineCode}}</a></td>
         <td align="right">{{airlineName}}</td>
+      </tr>
+      <tr *ngIf="airlineOperatedBy">
+        <td colspan="2" align="right">Operated by {{airlineOperatedBy}}</td>
       </tr>
     </table>
 
