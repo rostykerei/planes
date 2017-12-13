@@ -59,7 +59,7 @@ export class DashboardUtils {
     s += '</b>';
 
     if (f.altitude || f.speed) {
-      s += '<br/>';
+      s += '<br clear="all"/>';
 
       if (f.altitude) {
         s += 'FL';
@@ -90,7 +90,7 @@ export class DashboardUtils {
     }
 
     if (f.type || f.heading) {
-      s += '<br/>';
+      s += '<br clear="all"/>';
 
       if (f.type) s += f.type + '&emsp;';
 
@@ -104,10 +104,11 @@ export class DashboardUtils {
     }
 
     if (f.from || f.to) {
-      s += '<br/><span style="white-space: nowrap;">';
-      s += f.from || '????';
-      s += ' &rarr; ';
-      s += f.to || '????';
+      s += '<br clear="all"/>';
+      s += '<span>';
+      s += f.from || '';
+      s += '</span><span style="float: right">';
+      s += f.to || '';
       s += '</span>';
     }
 

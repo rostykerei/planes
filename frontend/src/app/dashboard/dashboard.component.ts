@@ -39,7 +39,14 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     let mapProp = {
       center: new google.maps.LatLng(environment.mapStartLat, environment.mapStartLon),
       zoom: environment.mapStartZoom,
-      mapTypeId: environment.mapTypeId
+      mapTypeId: environment.mapTypeId,
+      fullscreenControl: false,
+      streetViewControl: false,
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.TOP_RIGHT
+      }
     };
 
     this.map = new google.maps.Map(document.getElementById("map"), mapProp);
@@ -125,7 +132,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       });
 
       let infowindow = new google.maps.InfoWindow({
-        maxWidth: 70
+        maxWidth: 65
       });
 
       marker.addListener('mouseover', () => {
