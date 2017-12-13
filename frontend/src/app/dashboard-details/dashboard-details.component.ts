@@ -22,7 +22,7 @@ export class DashboardDetailsComponent implements OnChanges {
   airportFromCountry: any;
 
   airportToCode: string;
-  airportToIata: string
+  airportToIata: string;
   airportToName: string;
   airportToCity: string;
   airportToCountry: any;
@@ -47,6 +47,8 @@ export class DashboardDetailsComponent implements OnChanges {
       this.updateAircraft();
       this.updateAirline();
     }
+
+    console.log(changes);
 
   }
 

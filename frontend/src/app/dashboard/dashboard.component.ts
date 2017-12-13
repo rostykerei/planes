@@ -14,7 +14,7 @@ declare const google: any;
 })
 export class DashboardComponent implements AfterViewInit, OnDestroy {
 
-  public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
+  public static readonly SERVER_UPDATE_INTERVAL: number = 2000;
   public static readonly CLIENT_UPDATE_INTERVAL: number = 500;
 
   static readonly DATA: string = 'data';
@@ -31,6 +31,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   clientUpdateTimer: any;
 
   details: any;
+  activeFlight: MapFlight;
 
   constructor(private mapService: MapService) {
   }
@@ -46,6 +47,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
     this.map.addListener('click', () => {
       this.details = null;
+      this.activeFlight = null;
+
       if (this.path) {
         this.path.setMap(null);
       }
@@ -112,6 +115,8 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
       marker.addListener('click', () => {
           this.map.panTo(marker.getPosition());
+          this.activeFlight = marker.get(DashboardComponent.DATA);
+
           this.loadPath(id);
           this.loadDetails(id);
       });
@@ -181,6 +186,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     this.details = null;
     this.drawnPath = [];
     this.drawnFlight = null;
+    this.activeFlight = null;
 
     if (this.path) {
       this.path.setMap(null);
@@ -195,6 +201,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         let newData : MapFlight = DashboardUtils.updatePosition(data, DashboardComponent.CLIENT_UPDATE_INTERVAL);
         marker.set(DashboardComponent.DATA, newData);
         marker.setPosition({lat: newData.lat, lng: newData.lon});
+
+        if (this.activeFlight && this.activeFlight.id == newData.id) {
+          //console.log(newData);
+          this.activeFlight = newData;
+        }
       }
     });
   }
