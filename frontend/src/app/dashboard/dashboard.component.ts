@@ -78,6 +78,10 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
           this.path.setMap(null);
         }
 
+        if (this.activeFlight && this.activeFlight.id == id) {
+          this.activeFlight = null;
+        }
+
         marker.setMap(null);
         this.markers.delete(id);
       }
@@ -199,13 +203,17 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
       if (data.lon && data.lon && data.speed && data.heading) {
         let newData : MapFlight = DashboardUtils.updatePosition(data, DashboardComponent.CLIENT_UPDATE_INTERVAL);
+        newData.age += DashboardComponent.CLIENT_UPDATE_INTERVAL;
+
         marker.set(DashboardComponent.DATA, newData);
         marker.setPosition({lat: newData.lat, lng: newData.lon});
 
         if (this.activeFlight && this.activeFlight.id == newData.id) {
-          //console.log(newData);
           this.activeFlight = newData;
         }
+      }
+      else if (this.activeFlight && this.activeFlight.id == data.id) {
+        this.activeFlight.age += DashboardComponent.CLIENT_UPDATE_INTERVAL;
       }
     });
   }

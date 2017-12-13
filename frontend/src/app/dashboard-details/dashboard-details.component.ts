@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MapFlight} from "../model/map-flight";
+import {DashboardUtils} from "../dashboard/dashboard-utils";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-dashboard-details',
@@ -35,6 +37,8 @@ export class DashboardDetailsComponent implements OnChanges {
   airlineName: string;
   airlineOperatedBy: string;
 
+  distance: number;
+
   @Output() close = new EventEmitter();
 
   constructor() { }
@@ -48,7 +52,17 @@ export class DashboardDetailsComponent implements OnChanges {
       this.updateAirline();
     }
 
-    console.log(changes);
+    if (changes.hasOwnProperty('flight')) {
+      if (this.flight.lat && this.flight.lon) {
+        this.distance = DashboardUtils.distance(
+          environment.mapStartLat, environment.mapStartLon,
+          this.flight);
+      }
+      else {
+        this.distance = null;
+      }
+    }
+
 
   }
 
@@ -136,6 +150,7 @@ export class DashboardDetailsComponent implements OnChanges {
       this.airlineCode = route.airline.code;
 
       if (this.airlineCode
+        && this.details.aircraft
         && this.details.aircraft.airline
         && this.details.aircraft.airline.code
         && this.airlineCode != this.details.aircraft.airline.code) {

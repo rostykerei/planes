@@ -55,7 +55,7 @@
       </tr>
       <tr>
         <td width="20%"><a href="#">{{aircraftRegistration}}</a></td>
-        <td align="right">{{aircraftModel}}</td>
+        <td align="right"><small>{{aircraftModel}}</small></td>
       </tr>
     </table>
 
@@ -69,16 +69,16 @@
       </tr>
       <tr>
         <td width="20%"><a href="#">{{airlineCode}}</a></td>
-        <td align="right">{{airlineName}}</td>
+        <td align="right"><small>{{airlineName}}</small></td>
       </tr>
       <tr *ngIf="airlineOperatedBy">
-        <td colspan="2" align="right">Operated by {{airlineOperatedBy}}</td>
+        <td colspan="2" align="right"><small>Operated by {{airlineOperatedBy}}</small></td>
       </tr>
     </table>
 
     <hr/>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <table *ngIf="flight" cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
         <td width="15%" matTooltip="Altitude"><b>ALT</b></td>
         <td width="35%">
@@ -115,6 +115,25 @@
           <span *ngIf="!flight.lon">&mdash;</span>
         </td>
       </tr>
+      <tr>
+        <td matTooltip="Distance"><b>DST</b></td>
+        <td>
+          <span *ngIf="distance">{{distance | number:'1.1-1'}}<small>nm</small></span>
+          <span *ngIf="!distance">&mdash;</span>
+        </td>
+        <td matTooltip="Last contact"><b>LCT</b></td>
+        <td>
+          <span *ngIf="flight.age">{{flight.age / 1000 | number:'1.0-0'}}<small>sec</small></span>
+          <span *ngIf="!flight.age">&mdash;</span>
+        </td>
+      </tr>
+    </table>
+
+    <table *ngIf="!flight" cellpadding="0" cellspacing="0" border="0" width="100%">
+      <tr>
+        <td style="background: red; color: white; text-align: center"><b>CONTACT LOST</b></td>
+      </tr>
+
     </table>
   </mat-card-content>
 </mat-card>
