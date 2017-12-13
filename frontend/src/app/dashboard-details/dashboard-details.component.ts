@@ -62,8 +62,7 @@ export class DashboardDetailsComponent implements OnChanges {
         this.distance = null;
       }
     }
-
-
+    
   }
 
   closeClick() {
