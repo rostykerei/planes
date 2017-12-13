@@ -45,12 +45,14 @@
       </tr>
     </table>
 
+    <div *ngIf="aircraftType">
     <hr/>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" *ngIf="aircraftType">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
         <td align="center" colspan="2">
-          <img style="max-height 50px; max-width: 100%; opacity: 0.8; filter: alpha(opacity=80);" src="assets/types/{{aircraftType}}.png"/>
+          <img style="max-height: 50px; max-width: 100%; opacity: 0.8; filter: alpha(opacity=80);"
+               src="assets/types/{{aircraftType}}.png" onerror="this.src='assets/empty.png'"/>
         </td>
       </tr>
       <tr>
@@ -58,13 +60,16 @@
         <td align="right"><small>{{aircraftModel}}</small></td>
       </tr>
     </table>
+    </div>
 
+    <div *ngIf="airlineCode">
     <hr/>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" *ngIf="airlineCode">
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
         <td align="center" colspan="2">
-          <img style="max-height: 50px; max-width: 100%;" src="assets/airlines/{{airlineCode}}.png"/>
+          <img style="max-height: 50px; max-width: 100%;"
+               src="assets/airlines/{{airlineCode}}.png" onerror="this.src='assets/empty.png'"/>
         </td>
       </tr>
       <tr>
@@ -75,6 +80,7 @@
         <td colspan="2" align="right"><small>Operated by {{airlineOperatedBy}}</small></td>
       </tr>
     </table>
+    </div>
 
     <hr/>
 

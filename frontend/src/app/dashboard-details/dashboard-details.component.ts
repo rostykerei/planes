@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
 import {MapFlight} from "../model/map-flight";
 import {DashboardUtils} from "../dashboard/dashboard-utils";
 import {environment} from "../../environments/environment";
@@ -9,7 +9,6 @@ import {environment} from "../../environments/environment";
   styleUrls: ['./dashboard-details.component.scss']
 })
 export class DashboardDetailsComponent implements OnChanges {
-
 
   @Input() details: any;
   @Input() flight: MapFlight;
@@ -41,7 +40,8 @@ export class DashboardDetailsComponent implements OnChanges {
 
   @Output() close = new EventEmitter();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
 
@@ -62,7 +62,7 @@ export class DashboardDetailsComponent implements OnChanges {
         this.distance = null;
       }
     }
-    
+
   }
 
   closeClick() {
@@ -70,7 +70,7 @@ export class DashboardDetailsComponent implements OnChanges {
   }
 
   private cleanDetails(): void {
-    this.callsign = null;
+    this.callsign = 'UNKNOWN';
     this.routeNumber = null;
 
     this.airportFromCode = null;
@@ -143,6 +143,7 @@ export class DashboardDetailsComponent implements OnChanges {
 
   private updateAirline(): void {
     let route = this.details.route;
+    let aircraft = this.details.aircraft;
 
     if (route && route.airline) {
       this.airlineName = route.airline.name;
@@ -155,6 +156,10 @@ export class DashboardDetailsComponent implements OnChanges {
         && this.airlineCode != this.details.aircraft.airline.code) {
         this.airlineOperatedBy = this.details.aircraft.airline.name;
       }
+    }
+    else if (aircraft && aircraft.airline) {
+      this.airlineName = aircraft.airline.name;
+      this.airlineCode = aircraft.airline.code;
     }
   }
 }
