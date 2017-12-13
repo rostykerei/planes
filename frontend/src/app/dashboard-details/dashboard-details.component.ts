@@ -145,7 +145,7 @@ export class DashboardDetailsComponent implements OnChanges {
   private updateAirline(): void {
     let route = this.details.route;
 
-    if (route.airline) {
+    if (route && route.airline) {
       this.airlineName = route.airline.name;
       this.airlineCode = route.airline.code;
 

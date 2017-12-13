@@ -22,7 +22,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   map: any;
   markers: Map<number, any> = new Map();
 
-  drawnFlight: number;
   drawnPath: any[] = [];
 
   path: any;
@@ -74,12 +73,12 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     // Remove disappeared
     this.markers.forEach((marker, id) => {
       if (!flights.has(id)) {
-        if (id == this.drawnFlight && this.path) {
-          this.path.setMap(null);
-        }
-
         if (this.activeFlight && this.activeFlight.id == id) {
           this.activeFlight = null;
+
+          if (this.path) {
+            this.path.setMap(null);
+          }
         }
 
         marker.setMap(null);
@@ -105,7 +104,7 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       marker.setIcon(DashboardUtils.getIcon(f));
 
       // Update path
-      if (this.path && id == this.drawnFlight) {
+      if (this.path && this.activeFlight && this.activeFlight.id == id) {
         this.drawnPath.push({lat: f.lat, lng: f.lon});
         this.path.setPath(this.drawnPath);
       }
@@ -175,7 +174,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     });
 
     this.path.setMap(this.map);
-    this.drawnFlight = id;
   }
 
   loadDetails(id: number): void {
@@ -189,7 +187,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   closeDetails(): void {
     this.details = null;
     this.drawnPath = [];
-    this.drawnFlight = null;
     this.activeFlight = null;
 
     if (this.path) {
