@@ -6,9 +6,8 @@
 
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
-        <td><b>{{callsign}}</b> <small *ngIf="routeNumber">/ {{routeNumber}}</small></td>
-        <td align="right">
-
+        <td><b>{{callsign}}</b>
+          <small *ngIf="routeNumber">/ {{routeNumber}}</small>
         </td>
       </tr>
     </table>
@@ -19,20 +18,20 @@
       <tr>
         <td width="10%">
           <span *ngIf="airportFromCountry"
-            matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
+                matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
                 matTooltipPosition="right"
                 [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
         </td>
-        <td width="45%" class="airport-code" matTooltip="{{details.route.airportFrom.iataCode}} - {{airportFromName}}">
+        <td width="45%" class="airport-code" matTooltip="{{airportFromIata}} - {{airportFromName}}">
           {{airportFromCode}}
         </td>
         <td class="airport-arr">&rarr;</td>
-        <td width="45%" class="airport-code" matTooltip="{{details.route.airportTo.iataCode}} - {{airportToName}}">
+        <td width="45%" class="airport-code" matTooltip="{{airportToIata}} - {{airportToName}}">
           {{airportToCode}}
         </td>
         <td width="10%" align="right">
           <span *ngIf="airportToCountry"
-            matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
+                matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
                 matTooltipPosition="left"
                 [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
         </td>
@@ -82,13 +81,19 @@
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
         <td width="15%" matTooltip="Altitude"><b>ALT</b></td>
-        <td width="35%">32000<small>ft</small></td>
+        <td width="35%">32000
+          <small>ft</small>
+        </td>
         <td width="15%" matTooltip="Speed"><b>SPD</b></td>
-        <td width="35%">420<small>kt</small></td>
+        <td width="35%">420
+          <small>kt</small>
+        </td>
       </tr>
       <tr>
         <td matTooltip="Vertical Rate"><b>VRT</b></td>
-        <td>-640<small>ft/min</small></td>
+        <td>-640
+          <small>ft/min</small>
+        </td>
         <td matTooltip="Course"><b>CRS</b></td>
         <td>125&deg;</td>
       </tr>
