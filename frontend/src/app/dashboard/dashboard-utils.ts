@@ -123,7 +123,9 @@ export class DashboardUtils {
         case 'A318':
         case 'A319':
         case 'A320':
+        case 'A20N':
         case 'A321':
+        case 'A21N':
         case 'A332':
         case 'A333':
           return this.getIconAirbus(f);
