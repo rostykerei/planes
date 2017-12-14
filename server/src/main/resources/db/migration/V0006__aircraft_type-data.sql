@@ -13,7 +13,9 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A318', 'AIRBUS', 'A-318', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A319', 'AIRBUS', 'A-319', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A320', 'AIRBUS', 'A-320', 'L2J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A20N', 'AIRBUS', 'A-320neo', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A321', 'AIRBUS', 'A-321', 'L2J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A21N', 'AIRBUS', 'A-321neo', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A332', 'AIRBUS', 'A-330-200', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A333', 'AIRBUS', 'A-330-300', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('A342', 'AIRBUS', 'A-340-200', 'L4J', 'R', '2017-11-22 12:00:00');
@@ -90,7 +92,9 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B735', 'BOEING', '737-500', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B736', 'BOEING', '737-600', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B737', 'BOEING', '737-700', 'L2J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B37M', 'BOEING', '737 MAX 7', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B738', 'BOEING', '737-800', 'L2J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B38M', 'BOEING', '737 MAX 8', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B739', 'BOEING', '737-900', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B741', 'BOEING', '747-100', 'L4J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B742', 'BOEING', '747-200', 'L4J', 'R', '2017-11-22 12:00:00');
@@ -111,6 +115,8 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('B789', 'BOEING', '787-9', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('BA11', 'BUCURESTI', 'Rombac 1-11 One-Eleven', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('BALL', null, null, null, 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('BCS1', 'BOMBARDIER', 'CS100', 'L2J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('BCS3', 'BOMBARDIER', 'CS300', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('BDOG', 'SCOTTISH AVIATION', 'Sk61', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('BE10', 'BEECH', 'Ute (U-21F)', 'L2T', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('BE19', 'BEECH', 'Sport', 'L1P', 'R', '2017-11-22 12:00:00');
@@ -228,6 +234,7 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('D328', 'FAIRCHILD DORNIER', '328', 'L2T', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('DA40', 'DIAMOND', 'Katana (DA-40)', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('DA42', 'DIAMOND', 'Twin Star', 'L2P', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('DA62', 'DIAMOND', 'DA62', 'L2P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('DC10', 'MCDONNELL DOUGLAS', 'MD-10', 'L3J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('DC3', 'LISUNOV', 'Li-2', 'L2P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('DC3T', 'SCHAFER', 'DC-3-65TP', 'L2T', 'R', '2017-11-22 12:00:00');
@@ -261,6 +268,7 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E145', 'HARBIN', 'ERJ-145LI', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E170', 'EMBRAER', 'ERJ-170-100', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E190', 'EMBRAER', 'ERJ-190-100', 'L2J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E195', 'EMBRAER', 'E-195', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E200', 'EXTRA', 'EA-200', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E300', 'EXTRA', 'EA-350', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E35L', 'HARBIN', 'Legacy 650', 'L2J', 'R', '2017-11-22 12:00:00');
@@ -268,6 +276,8 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E3TF', 'BOEING', 'Sentry (TF33)', 'L4J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E400', 'EXTRA', 'EA-400', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E45X', 'EMBRAER', 'EMB-145XR', 'L2J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E75L', 'EMBRAER', 'E-175', 'L2J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E75S', 'EMBRAER', 'E-175', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E500', 'EXTRA', 'EA-500', 'L1T', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E50P', 'EMBRAER', 'EMB-500 Phenom 100', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('E55P', 'EMBRAER', 'Phenom 300', 'L2J', 'R', '2017-11-22 12:00:00');
@@ -308,6 +318,7 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('FA20', 'DASSAULT', 'HU-25 Guardian', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('FA50', 'DASSAULT', 'Falcon 50', 'L3J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('FA7X', 'DASSAULT', 'Falcon 7X', 'L3J', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('FA8X', 'DASSAULT', 'Falcon 8X', 'L3J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('FBA2', 'FOUND', 'Expedition E350', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('FDCT', 'FLIGHT DESIGN', 'CT', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('FK9', 'B & F TECHNIK', 'FK-9', 'L1P', 'R', '2017-11-22 12:00:00');
@@ -541,6 +552,7 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('TB21', 'SOCATA', 'Trinidad TC', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('TBM7', 'TBM', 'TBM-700', 'L1T', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('TBM8', 'SOCATA', 'TBM-850', 'L1T', 'R', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('TBM9', 'SOCATA', 'TBM-900', 'L1T', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('TEX2', 'RAYTHEON', 'Texan 2', 'L1T', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('TFUN', 'VALENTIN', 'Taifun', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('TL20', 'TL ULTRALIGHT', 'TL-2000 StingSport', 'L1P', 'R', '2017-11-22 12:00:00');
@@ -553,7 +565,7 @@ INSERT INTO aircraft_type (type, manufacturer, model, classification, status, la
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('UH1', 'UNC', 'Ultra Huey', 'H1T', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('ULAC', null, null, null, 'N', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('V22', 'BELL-BOEING', 'V-22 Osprey', 'T2T', 'R', '2017-11-22 12:00:00');
-INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('VC10', null, null, null, 'N', '2017-11-22 12:00:00');
+INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('VC10', 'VICKERS', 'VC10', 'L2J', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('VENT', 'SCHEMPP-HIRTH', 'Ventus CT', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('VEZE', 'RUTAN', 'VariEze', 'L1P', 'R', '2017-11-22 12:00:00');
 INSERT INTO aircraft_type (type, manufacturer, model, classification, status, last_updated) VALUES ('WA40', 'WASSMER', 'WA-40 Super 4', 'L1P', 'R', '2017-11-22 12:00:00');
