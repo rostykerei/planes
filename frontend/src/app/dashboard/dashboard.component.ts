@@ -14,8 +14,9 @@ declare const google: any;
 })
 export class DashboardComponent implements AfterViewInit, OnDestroy {
 
-  public static readonly SERVER_UPDATE_INTERVAL: number = 2000;
+  public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
   public static readonly CLIENT_UPDATE_INTERVAL: number = 500;
+  public static readonly FLIGHT_MAX_AGE: number = 60000;
 
   static readonly DATA: string = 'data';
 
@@ -77,24 +78,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   }
 
   flightsLoaded(flights: Map<number, MapFlight>): void {
-    // Remove disappeared
-    this.markers.forEach((marker, id) => {
-      if (!flights.has(id)) {
-        if (this.activeFlight && this.activeFlight.id == id) {
-          this.activeFlight = null;
-
-          if (this.path) {
-            this.path.setMap(null);
-          }
-        }
-
-        marker.setMap(null);
-        this.markers.delete(id);
-      }
-    });
-
     flights.forEach((f, id) => {
-      if ((!this.markers.has(id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL) && (f.lat && f.lon)) {
+      if (
+        (!this.markers.has(id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL)
+        && (f.lat && f.lon)
+        && (f.age < DashboardComponent.FLIGHT_MAX_AGE)) {
         this.updateFlight(f);
       }
     });
@@ -203,21 +191,33 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   private updateFlights(): void {
     this.markers.forEach((marker) => {
-      let data = marker.get(DashboardComponent.DATA);
+      let data: MapFlight = marker.get(DashboardComponent.DATA);
+      data.age += DashboardComponent.CLIENT_UPDATE_INTERVAL;
+
+      // remove stale flights
+      if (data.age > DashboardComponent.FLIGHT_MAX_AGE) {
+        if (this.activeFlight && this.activeFlight.id == data.id) {
+          this.activeFlight = null;
+
+          if (this.path) {
+            this.path.setMap(null);
+          }
+        }
+
+        marker.setMap(null);
+        this.markers.delete(data.id);
+        return;
+      }
 
       if (data.lon && data.lon && data.speed && data.heading) {
-        let newData : MapFlight = DashboardUtils.updatePosition(data, DashboardComponent.CLIENT_UPDATE_INTERVAL);
-        newData.age += DashboardComponent.CLIENT_UPDATE_INTERVAL;
-
-        marker.set(DashboardComponent.DATA, newData);
-        marker.setPosition({lat: newData.lat, lng: newData.lon});
-
-        if (this.activeFlight && this.activeFlight.id == newData.id) {
-          this.activeFlight = newData;
-        }
+        data = DashboardUtils.updatePosition(data, DashboardComponent.CLIENT_UPDATE_INTERVAL);
+        marker.setPosition({lat: data.lat, lng: data.lon});
       }
-      else if (this.activeFlight && this.activeFlight.id == data.id) {
-        this.activeFlight.age += DashboardComponent.CLIENT_UPDATE_INTERVAL;
+
+      marker.set(DashboardComponent.DATA, data);
+
+      if (this.activeFlight && this.activeFlight.id == data.id) {
+        this.activeFlight = data;
       }
     });
   }
