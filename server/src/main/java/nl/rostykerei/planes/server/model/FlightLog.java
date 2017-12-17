@@ -37,6 +37,12 @@ public class FlightLog {
     @Column(name = "longitude")
     private Float longitude;
 
+    @Column(name = "squawk")
+    private Integer squawk;
+
+    @Column(name = "rssi")
+    private Float rssi;
+
     @Column(name = "ts")
     private Date timestamp;
 
@@ -102,6 +108,22 @@ public class FlightLog {
 
     public void setLongitude(Float longitude) {
         this.longitude = longitude;
+    }
+
+    public Integer getSquawk() {
+        return squawk;
+    }
+
+    public void setSquawk(Integer squawk) {
+        this.squawk = squawk;
+    }
+
+    public Float getRssi() {
+        return rssi;
+    }
+
+    public void setRssi(Float rssi) {
+        this.rssi = rssi;
     }
 
     public Date getTimestamp() {

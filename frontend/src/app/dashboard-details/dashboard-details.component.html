@@ -87,50 +87,67 @@
     <table *ngIf="flight" cellpadding="0" cellspacing="0" border="0" width="100%">
       <tr>
         <td width="15%" matTooltip="Altitude"><b>ALT</b></td>
-        <td width="35%">
+        <td width="25%" align="right">
           <span *ngIf="flight.altitude">{{flight.altitude | number:'1.0'}}<small>ft</small></span>
           <span *ngIf="!flight.altitude">&mdash;</span>
         </td>
+        <td width="20%"></td>
         <td width="15%" matTooltip="Speed"><b>SPD</b></td>
-        <td width="35%">
+        <td width="25%" align="right">
           <span *ngIf="flight.speed">{{flight.speed | number:'1.0'}}<small>kt</small></span>
           <span *ngIf="!flight.speed">&mdash;</span>
         </td>
       </tr>
       <tr>
         <td matTooltip="Vertical Rate"><b>VRT</b></td>
-        <td>
+        <td align="right">
           <span *ngIf="flight.verticalRate != null">{{flight.verticalRate | number:'1.0'}}<small>ft/min</small></span>
           <span *ngIf="flight.verticalRate == null">&mdash;</span>
         </td>
+        <td></td>
         <td matTooltip="Course"><b>CRS</b></td>
-        <td>
+        <td align="right">
           <span *ngIf="flight.heading">{{flight.heading | number:'3.0'}}&deg;</span>
           <span *ngIf="!flight.heading">&mdash;</span>
         </td>
       </tr>
       <tr>
         <td matTooltip="Latitude"><b>LAT</b></td>
-        <td>
+        <td align="right">
           <span *ngIf="flight.lat">{{flight.lat | number:'1.5-5'}}</span>
           <span *ngIf="!flight.lat">&mdash;</span>
         </td>
+        <td></td>
         <td matTooltip="Longitude"><b>LON</b></td>
-        <td>
+        <td align="right">
           <span *ngIf="flight.lon">{{flight.lon | number:'1.5-5'}}</span>
           <span *ngIf="!flight.lon">&mdash;</span>
         </td>
       </tr>
       <tr>
         <td matTooltip="Distance"><b>DST</b></td>
-        <td>
+        <td align="right">
           <span *ngIf="distance">{{distance | number:'1.1-1'}}<small>nm</small></span>
           <span *ngIf="!distance">&mdash;</span>
         </td>
+        <td></td>
         <td matTooltip="Last contact"><b>LCT</b></td>
-        <td>
+        <td align="right">
           <span *ngIf="flight.age">{{flight.age / 1000 | number:'1.0-0'}}<small>sec</small></span>
           <span *ngIf="!flight.age">&mdash;</span>
+        </td>
+      </tr>
+      <tr>
+        <td matTooltip="Squawk code"><b>SQK</b></td>
+        <td align="right">
+          <span *ngIf="flight.squawk">{{flight.squawk}}</span>
+          <span *ngIf="!flight.squawk">&mdash;</span>
+        </td>
+        <td></td>
+        <td matTooltip="Received signal strength indicator"><b>RSI</b></td>
+        <td align="right">
+          <span *ngIf="flight.rssi">{{flight.rssi | number:'1.1-1'}}<small>dBFS</small></span>
+          <span *ngIf="!flight.rssi">&mdash;</span>
         </td>
       </tr>
     </table>

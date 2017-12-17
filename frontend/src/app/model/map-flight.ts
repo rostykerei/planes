@@ -12,4 +12,6 @@ export class MapFlight {
   from: string;
   to: string;
   age: number;
+  squawk: number;
+  rssi: number;
 }

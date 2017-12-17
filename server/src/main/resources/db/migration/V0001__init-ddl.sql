@@ -177,6 +177,8 @@ CREATE TABLE flight_log
   latitude      FLOAT    NULL,
   longitude     FLOAT    NULL,
   speed         INT      NULL,
+  squawk        INT      NULL,
+  rssi          FLOAT    NULL,
   ts            DATETIME NOT NULL,
   CONSTRAINT flight_log_flight_fk FOREIGN KEY (flight) REFERENCES flight (id)
 )

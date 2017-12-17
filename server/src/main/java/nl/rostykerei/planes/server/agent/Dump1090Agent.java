@@ -79,6 +79,8 @@ public class Dump1090Agent {
             flightLog.setVerticalRate(record.getVertRate());
             flightLog.setLatitude(record.getLat());
             flightLog.setLongitude(record.getLon());
+            flightLog.setSquawk(record.getSquawk());
+            flightLog.setRssi(record.getRssi());
 
             flightLogService.create(flightLog);
         }

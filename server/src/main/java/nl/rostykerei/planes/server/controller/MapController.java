@@ -70,7 +70,8 @@ public class MapController {
                 .ifPresent(l -> result.put(f.getId(),
                     new FlightMapRow(f.getId(), l.getLatitude(), l.getLongitude(), l.getHeading(),
                             l.getSpeed(), l.getAltitude(), l.getVerticalRate(),
-                            type, classification, callsign, from, to, l.getTimestamp())
+                            type, classification, callsign, from, to,
+                            l.getSquawk(), l.getRssi(), l.getTimestamp())
                 ));
         });
 

@@ -16,11 +16,15 @@ public class FlightMapRow {
     private String callsign;
     private String from;
     private String to;
+    private Integer squawk;
+    private Float rssi;
     private long age;
 
     public FlightMapRow(int id, Float lat, Float lon, Integer heading,
                         Integer speed, Integer altitude, Integer verticalRate,
-                        String type, String classification, String callsign, String from, String to, Date timestamp) {
+                        String type, String classification, String callsign,
+                        String from, String to, Integer squawk, Float rssi,
+                        Date timestamp) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -33,6 +37,8 @@ public class FlightMapRow {
         this.callsign = callsign;
         this.from = from;
         this.to = to;
+        this.squawk = squawk;
+        this.rssi = rssi;
         this.age = System.currentTimeMillis() - timestamp.getTime();
     }
 
@@ -82,6 +88,14 @@ public class FlightMapRow {
 
     public String getTo() {
         return to;
+    }
+
+    public Integer getSquawk() {
+        return squawk;
+    }
+
+    public Float getRssi() {
+        return rssi;
     }
 
     public long getAge() {
