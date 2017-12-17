@@ -3,6 +3,7 @@ package nl.rostykerei.planes.server.agent;
 import nl.rostykerei.planes.server.model.Flight;
 import nl.rostykerei.planes.server.model.FlightLog;
 import nl.rostykerei.planes.server.model.Route;
+import nl.rostykerei.planes.server.response.FlightMapRow;
 import nl.rostykerei.planes.server.service.FlightLogService;
 import nl.rostykerei.planes.server.service.FlightService;
 import nl.rostykerei.planes.server.service.RouteService;
@@ -12,6 +13,7 @@ import nl.rostykerei.planes.server.service.dump1090.Dump1090Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +30,9 @@ public class Dump1090Agent {
     private Dump1090Service dump1090Service;
 
     private Dump1090Config dump1090Config;
+
+    @Autowired
+    private SimpMessagingTemplate wsBroker;
 
     private static final Logger logger = LoggerFactory.getLogger(Dump1090Agent.class);
 
@@ -83,7 +88,51 @@ public class Dump1090Agent {
             flightLog.setRssi(record.getRssi());
 
             flightLogService.create(flightLog);
+
+            wsBroker.convertAndSend("/topic/flight", convertFlightLog(flightLog));
         }
+    }
+
+    private FlightMapRow convertFlightLog(FlightLog flightLog) {
+        String type, classification, callsign, to, from;
+
+        Flight f = flightLog.getFlight();
+
+        if (f.getAircraft() != null && f.getAircraft().getType() != null) {
+            type = f.getAircraft().getType().getType();
+            classification = f.getAircraft().getType().getClassification();
+        } else {
+            type = null;
+            classification = null;
+        }
+
+        if (f.getRoute() != null) {
+            callsign = f.getRoute().getCallsign();
+
+            if (f.getRoute().getAirportTo() != null) {
+                to = f.getRoute().getAirportTo().getCode();
+            }
+            else {
+                to = null;
+            }
+
+            if (f.getRoute().getAirportFrom() != null) {
+                from = f.getRoute().getAirportFrom().getCode();
+            }
+            else {
+                from = null;
+            }
+        } else {
+            callsign = null;
+            to = null;
+            from = null;
+        }
+
+        return new FlightMapRow(flightLog.getFlight().getId(),
+                flightLog.getLatitude(), flightLog.getLongitude(), flightLog.getHeading(),
+                flightLog.getSpeed(), flightLog.getAltitude(), flightLog.getVerticalRate(),
+                type, classification, callsign, from, to,
+                flightLog.getSquawk(), flightLog.getRssi(), flightLog.getTimestamp());
     }
 
 }

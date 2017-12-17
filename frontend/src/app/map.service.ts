@@ -10,8 +10,7 @@ import { environment } from '../environments/environment';
 @Injectable()
 export class MapService {
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getActiveFlights(): Observable<Map<number, MapFlight>> {
     return this.http

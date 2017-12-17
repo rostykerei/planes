@@ -4,6 +4,9 @@ import {MapFlight} from "../model/map-flight";
 import {LngLat} from "../model/lng-lat";
 import {DashboardUtils} from "./dashboard-utils";
 import {environment} from "../../environments/environment";
+import {StompService} from "@stomp/ng2-stompjs";
+import {Subscription} from "rxjs/src/Subscription";
+import {ISubscription} from "rxjs/Subscription";
 
 declare const google: any;
 
@@ -27,13 +30,14 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
 
   path: any;
 
-  serverUpdateTimer: any;
   clientUpdateTimer: any;
+  stompSubscription:ISubscription;
 
   details: any;
   activeFlight: MapFlight;
 
-  constructor(private mapService: MapService) {
+  constructor(private mapService: MapService, private stompService: StompService) {
+
   }
 
   ngAfterViewInit(): void {
@@ -61,31 +65,26 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       }
     });
 
-    this.loadFlights();
-
-    this.serverUpdateTimer = setInterval(() => this.loadFlights(), DashboardComponent.SERVER_UPDATE_INTERVAL);
     this.clientUpdateTimer = setInterval(() => this.updateFlights(), DashboardComponent.CLIENT_UPDATE_INTERVAL);
+
+    this.stompSubscription = this.stompService
+      .subscribe('/topic/flight')
+      .map((message: any) => JSON.parse(message.body))
+      .subscribe((f: MapFlight) => {
+        if ((!this.markers.has(f.id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL)
+          && (f.lat && f.lon)
+          && (f.age < DashboardComponent.FLIGHT_MAX_AGE)) {
+          this.updateFlight(f);
+        }
+      });
   }
 
   ngOnDestroy(): void {
-    if (this.serverUpdateTimer) {
-      clearInterval(this.serverUpdateTimer);
-    }
-
     if (this.clientUpdateTimer) {
       clearInterval(this.clientUpdateTimer);
     }
-  }
 
-  flightsLoaded(flights: Map<number, MapFlight>): void {
-    flights.forEach((f, id) => {
-      if (
-        (!this.markers.has(id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL)
-        && (f.lat && f.lon)
-        && (f.age < DashboardComponent.FLIGHT_MAX_AGE)) {
-        this.updateFlight(f);
-      }
-    });
+    this.stompSubscription.unsubscribe();
   }
 
   updateFlight(f: MapFlight): void {
@@ -112,11 +111,11 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       });
 
       marker.addListener('click', () => {
-          this.map.panTo(marker.getPosition());
-          this.activeFlight = marker.get(DashboardComponent.DATA);
+        this.map.panTo(marker.getPosition());
+        this.activeFlight = marker.get(DashboardComponent.DATA);
 
-          this.loadPath(id);
-          this.loadDetails(id);
+        this.loadPath(id);
+        this.loadDetails(id);
       });
 
       let infowindow = new google.maps.InfoWindow({
@@ -141,10 +140,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
     marker.set(DashboardComponent.DATA, f);
   }
 
-
-  loadFlights(): void {
-    this.mapService.getActiveFlights().subscribe(f => this.flightsLoaded(f));
-  }
 
   loadPath(id: number): void {
     this.mapService.getFlightPath(id).subscribe(path => this.pathLoaded(id, path));
