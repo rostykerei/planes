@@ -43,22 +43,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.stompSubscription = this.stompService
       .subscribe('/topic/flight')
-      .map((message: any) => JSON.parse(message.body))
-      .subscribe((f: MapFlight) => {
-        if ((f.lat && f.lon) && (f.age < DashboardComponent.FLIGHT_MAX_AGE)) {
-          this.updateFlight(f);
-        }
-      });
+      .map((message) => JSON.parse(message.body))
+      .subscribe((f) => this.updateFlight(f));
 
     this.mapService.getActiveFlights().subscribe(f => this.flightsPreLoaded(f));
   }
 
   flightsPreLoaded(flights: Map<number, MapFlight>): void {
-    flights.forEach((f, id) => {
-      if ((f.lat && f.lon) && (f.age < DashboardComponent.FLIGHT_MAX_AGE)) {
-        this.updateFlight(f);
-      }
-    });
+    flights.forEach((f) => this.updateFlight(f));
   }
 
   ngAfterViewInit(): void {
@@ -100,6 +92,14 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   updateFlight(f: MapFlight): void {
     let id: number = f.id;
     let marker: any;
+
+    if (f.age > DashboardComponent.FLIGHT_MAX_AGE) {
+      return;
+    }
+
+    if (!f.lat || !f.lon) {
+      return;
+    }
 
     if (this.markers.has(id)) {
       marker = this.markers.get(id);
