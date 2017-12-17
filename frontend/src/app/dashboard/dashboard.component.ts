@@ -1,11 +1,10 @@
-import {AfterViewInit, Component, OnDestroy} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {MapService} from "../map.service";
 import {MapFlight} from "../model/map-flight";
 import {LngLat} from "../model/lng-lat";
 import {DashboardUtils} from "./dashboard-utils";
 import {environment} from "../../environments/environment";
 import {StompService} from "@stomp/ng2-stompjs";
-import {Subscription} from "rxjs/src/Subscription";
 import {ISubscription} from "rxjs/Subscription";
 
 declare const google: any;
@@ -15,9 +14,8 @@ declare const google: any;
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements AfterViewInit, OnDestroy {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  public static readonly SERVER_UPDATE_INTERVAL: number = 5000;
   public static readonly CLIENT_UPDATE_INTERVAL: number = 500;
   public static readonly FLIGHT_MAX_AGE: number = 60000;
 
@@ -31,13 +29,36 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
   path: any;
 
   clientUpdateTimer: any;
-  stompSubscription:ISubscription;
+  stompSubscription: ISubscription;
 
   details: any;
   activeFlight: MapFlight;
 
   constructor(private mapService: MapService, private stompService: StompService) {
 
+  }
+
+  ngOnInit(): void {
+    this.clientUpdateTimer = setInterval(() => this.updateFlights(), DashboardComponent.CLIENT_UPDATE_INTERVAL);
+
+    this.stompSubscription = this.stompService
+      .subscribe('/topic/flight')
+      .map((message: any) => JSON.parse(message.body))
+      .subscribe((f: MapFlight) => {
+        if ((f.lat && f.lon) && (f.age < DashboardComponent.FLIGHT_MAX_AGE)) {
+          this.updateFlight(f);
+        }
+      });
+
+    this.mapService.getActiveFlights().subscribe(f => this.flightsPreLoaded(f));
+  }
+
+  flightsPreLoaded(flights: Map<number, MapFlight>): void {
+    flights.forEach((f, id) => {
+      if ((f.lat && f.lon) && (f.age < DashboardComponent.FLIGHT_MAX_AGE)) {
+        this.updateFlight(f);
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -64,19 +85,6 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
         this.path.setMap(null);
       }
     });
-
-    this.clientUpdateTimer = setInterval(() => this.updateFlights(), DashboardComponent.CLIENT_UPDATE_INTERVAL);
-
-    this.stompSubscription = this.stompService
-      .subscribe('/topic/flight')
-      .map((message: any) => JSON.parse(message.body))
-      .subscribe((f: MapFlight) => {
-        if ((!this.markers.has(f.id) || f.age <= DashboardComponent.SERVER_UPDATE_INTERVAL)
-          && (f.lat && f.lon)
-          && (f.age < DashboardComponent.FLIGHT_MAX_AGE)) {
-          this.updateFlight(f);
-        }
-      });
   }
 
   ngOnDestroy(): void {
@@ -84,7 +92,9 @@ export class DashboardComponent implements AfterViewInit, OnDestroy {
       clearInterval(this.clientUpdateTimer);
     }
 
-    this.stompSubscription.unsubscribe();
+    if (this.stompSubscription) {
+      this.stompSubscription.unsubscribe();
+    }
   }
 
   updateFlight(f: MapFlight): void {

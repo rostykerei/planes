@@ -32,48 +32,11 @@ public class MapController {
     public Map<Integer, FlightMapRow> activeFlights() {
         Map<Integer, FlightMapRow> result = new HashMap<>();
 
-        flightService.findActiveFlights().forEach(f -> {
-            String type, classification, callsign, to, from;
-
-            if (f.getAircraft() != null && f.getAircraft().getType() != null) {
-                type = f.getAircraft().getType().getType();
-                classification = f.getAircraft().getType().getClassification();
-            } else {
-                type = null;
-                classification = null;
-            }
-
-            if (f.getRoute() != null) {
-                callsign = f.getRoute().getCallsign();
-
-                if (f.getRoute().getAirportTo() != null) {
-                    to = f.getRoute().getAirportTo().getCode();
-                }
-                else {
-                    to = null;
-                }
-
-                if (f.getRoute().getAirportFrom() != null) {
-                    from = f.getRoute().getAirportFrom().getCode();
-                }
-                else {
-                    from = null;
-                }
-            } else {
-                callsign = null;
-                to = null;
-                from = null;
-            }
-
-            flightLogService
+        // TODO improve to a single query
+        flightService.findActiveFlights().forEach(f -> flightLogService
                 .findLastFlightLog(f)
-                .ifPresent(l -> result.put(f.getId(),
-                    new FlightMapRow(f.getId(), l.getLatitude(), l.getLongitude(), l.getHeading(),
-                            l.getSpeed(), l.getAltitude(), l.getVerticalRate(),
-                            type, classification, callsign, from, to,
-                            l.getSquawk(), l.getRssi(), l.getTimestamp())
-                ));
-        });
+                .ifPresent(l -> result.put(f.getId(), new FlightMapRow(l)))
+        );
 
         return result;
     }

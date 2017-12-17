@@ -1,6 +1,7 @@
 package nl.rostykerei.planes.server.response;
 
-import java.util.Date;
+import nl.rostykerei.planes.server.model.Flight;
+import nl.rostykerei.planes.server.model.FlightLog;
 
 public class FlightMapRow {
 
@@ -20,26 +21,37 @@ public class FlightMapRow {
     private Float rssi;
     private long age;
 
-    public FlightMapRow(int id, Float lat, Float lon, Integer heading,
-                        Integer speed, Integer altitude, Integer verticalRate,
-                        String type, String classification, String callsign,
-                        String from, String to, Integer squawk, Float rssi,
-                        Date timestamp) {
-        this.id = id;
-        this.lat = lat;
-        this.lon = lon;
-        this.heading = heading;
-        this.speed = speed;
-        this.altitude = altitude;
-        this.verticalRate = verticalRate;
-        this.type = type;
-        this.classification = classification;
-        this.callsign = callsign;
-        this.from = from;
-        this.to = to;
-        this.squawk = squawk;
-        this.rssi = rssi;
-        this.age = System.currentTimeMillis() - timestamp.getTime();
+    public FlightMapRow(FlightLog flightLog) {
+        Flight flight = flightLog.getFlight();
+
+        if (flight.getAircraft() != null && flight.getAircraft().getType() != null) {
+            this.type = flight.getAircraft().getType().getType();
+            this.classification = flight.getAircraft().getType().getClassification();
+        }
+
+        if (flight.getRoute() != null) {
+            this.callsign = flight.getRoute().getCallsign();
+
+            if (flight.getRoute().getAirportTo() != null) {
+                this.to = flight.getRoute().getAirportTo().getCode();
+            }
+
+            if (flight.getRoute().getAirportFrom() != null) {
+                this.from = flight.getRoute().getAirportFrom().getCode();
+            }
+        }
+
+        this.id = flight.getId();
+        this.lat = flightLog.getLatitude();
+        this.lon = flightLog.getLongitude();
+        this.heading = flightLog.getHeading();
+        this.speed = flightLog.getSpeed();
+        this.altitude = flightLog.getAltitude();
+        this.verticalRate = flightLog.getVerticalRate();
+        this.squawk = flightLog.getSquawk();
+        this.rssi = flightLog.getRssi();
+
+        this.age = System.currentTimeMillis() - flightLog.getTimestamp().getTime();
     }
 
     public int getId() {

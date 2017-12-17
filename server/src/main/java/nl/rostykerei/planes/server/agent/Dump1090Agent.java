@@ -89,50 +89,7 @@ public class Dump1090Agent {
 
             flightLogService.create(flightLog);
 
-            wsBroker.convertAndSend("/topic/flight", convertFlightLog(flightLog));
+            wsBroker.convertAndSend("/topic/flight", new FlightMapRow(flightLog));
         }
     }
-
-    private FlightMapRow convertFlightLog(FlightLog flightLog) {
-        String type, classification, callsign, to, from;
-
-        Flight f = flightLog.getFlight();
-
-        if (f.getAircraft() != null && f.getAircraft().getType() != null) {
-            type = f.getAircraft().getType().getType();
-            classification = f.getAircraft().getType().getClassification();
-        } else {
-            type = null;
-            classification = null;
-        }
-
-        if (f.getRoute() != null) {
-            callsign = f.getRoute().getCallsign();
-
-            if (f.getRoute().getAirportTo() != null) {
-                to = f.getRoute().getAirportTo().getCode();
-            }
-            else {
-                to = null;
-            }
-
-            if (f.getRoute().getAirportFrom() != null) {
-                from = f.getRoute().getAirportFrom().getCode();
-            }
-            else {
-                from = null;
-            }
-        } else {
-            callsign = null;
-            to = null;
-            from = null;
-        }
-
-        return new FlightMapRow(flightLog.getFlight().getId(),
-                flightLog.getLatitude(), flightLog.getLongitude(), flightLog.getHeading(),
-                flightLog.getSpeed(), flightLog.getAltitude(), flightLog.getVerticalRate(),
-                type, classification, callsign, from, to,
-                flightLog.getSquawk(), flightLog.getRssi(), flightLog.getTimestamp());
-    }
-
 }
