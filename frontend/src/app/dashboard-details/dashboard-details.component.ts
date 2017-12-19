@@ -28,6 +28,7 @@ export class DashboardDetailsComponent implements OnChanges {
   airportToCity: string;
   airportToCountry: any;
 
+  aircraftCode: string;
   aircraftType: string;
   aircraftModel: string;
   aircraftRegistration: string;
@@ -70,7 +71,7 @@ export class DashboardDetailsComponent implements OnChanges {
   }
 
   private cleanDetails(): void {
-    this.callsign = 'UNKNOWN';
+    this.callsign = null;
     this.routeNumber = null;
 
     this.airportFromCode = null;
@@ -85,6 +86,7 @@ export class DashboardDetailsComponent implements OnChanges {
     this.airportToCity = null;
     this.airportToCountry = null;
 
+    this.aircraftCode = null;
     this.aircraftType = null;
     this.aircraftModel = null;
     this.aircraftRegistration = null;
@@ -123,9 +125,8 @@ export class DashboardDetailsComponent implements OnChanges {
     let aircraft = this.details.aircraft;
 
     if (aircraft) {
-      if (aircraft.model) {
-        this.aircraftModel = aircraft.model;
-      }
+      this.aircraftCode = aircraft.code;
+      this.aircraftModel = aircraft.model;
 
       if (aircraft.type) {
         this.aircraftType = aircraft.type.type;
