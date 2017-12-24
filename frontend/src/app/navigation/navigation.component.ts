@@ -1,12 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent {
 
   buttons : any = [
     {
@@ -30,13 +29,4 @@ export class NavigationComponent implements OnInit {
       path: "about"
     }
   ];
-
-  constructor(private route: ActivatedRoute, private router: Router) { }
-
-  ngOnInit() {
-  }
-
-  buttonClick(b: any) {
-    this.router.navigate([b.path]);
-  }
 }

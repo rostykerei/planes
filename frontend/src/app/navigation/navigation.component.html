@@ -9,15 +9,11 @@
          *ngFor="let link of buttons"
          [routerLink]="link.path"
          routerLinkActive #rla="routerLinkActive"
+         [routerLinkActiveOptions]= "{exact: true}"
          [active]="rla.isActive">
         {{link.label}}
       </a>
     </nav>
-<!--
-    <button
-      *ngFor="let b of buttons"
-      (click)="buttonClick(b)"
-      mat-button>{{b.name}}</button>-->
 
   </mat-toolbar-row>
 </mat-toolbar>
