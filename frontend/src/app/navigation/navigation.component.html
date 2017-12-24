@@ -1,13 +1,23 @@
-<mat-toolbar color="primary">
+<mat-toolbar>
   <mat-toolbar-row>
     <span style="font-weight: 400">Rosty's RADAR</span>
 
     <span class="spacer"></span>
 
+    <nav mat-tab-nav-bar color="primary">
+      <a mat-tab-link
+         *ngFor="let link of buttons"
+         [routerLink]="link.path"
+         routerLinkActive #rla="routerLinkActive"
+         [active]="rla.isActive">
+        {{link.label}}
+      </a>
+    </nav>
+<!--
     <button
       *ngFor="let b of buttons"
       (click)="buttonClick(b)"
-      mat-button>{{b.name}}</button>
+      mat-button>{{b.name}}</button>-->
 
   </mat-toolbar-row>
 </mat-toolbar>

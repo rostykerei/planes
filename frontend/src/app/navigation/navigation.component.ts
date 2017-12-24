@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -10,24 +10,24 @@ export class NavigationComponent implements OnInit {
 
   buttons : any = [
     {
-      name: "Dashboard",
-      path: "/"
+      label: "Dashboard",
+      path: ""
     },
     {
-      name: "Flight",
-      path: "/flights"
+      label: "Flight",
+      path: "flights"
     },
     {
-      name: "Aircrafts",
-      path: "/aircrafts"
+      label: "Aircrafts",
+      path: "aircrafts"
     },
     {
-      name: "Airlines",
-      path: "/airlines"
+      label: "Airlines",
+      path: "airlines"
     },
     {
-      name: "About",
-      path: "/about"
+      label: "About",
+      path: "about"
     }
   ];
 
