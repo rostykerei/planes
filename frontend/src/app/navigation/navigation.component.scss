@@ -6,6 +6,14 @@
   background: none;
 }
 
+.mat-toolbar-multiple-rows {
+  min-height: 56px;
+}
+
+.mat-toolbar-row {
+  height: 56px;
+}
+
 .mat-tab-nav-bar {
   margin-top: auto;
 }
