@@ -2,6 +2,7 @@ package nl.rostykerei.planes.server.service.dump1090;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +65,7 @@ public class Dump1090Response {
         @JsonProperty("seen_pos")
         private Float seenPos;
 
+        @JsonDeserialize(using = AltitudeDeserializer.class)
         private Integer altitude;
 
         @JsonProperty("vert_rate")

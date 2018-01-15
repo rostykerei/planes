@@ -37,7 +37,7 @@
       "lon": 4.394610,
       "nucp": 7,
       "seen_pos": 0.8,
-      "altitude": 10700,
+      "altitude": "ground",
       "vert_rate": 1280,
       "track": 252,
       "speed": 279,
