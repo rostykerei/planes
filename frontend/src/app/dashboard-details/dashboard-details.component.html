@@ -4,46 +4,41 @@
       <mat-icon>close</mat-icon>
     </button>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr>
-        <td><b>{{callsign || 'UNKNOWN'}}</b>
-          <small *ngIf="routeNumber">/ {{routeNumber}}</small>
-        </td>
-      </tr>
-    </table>
+    <div>
+      <b>{{callsign || 'UNKNOWN'}}</b> <small *ngIf="routeNumber">/ {{routeNumber}}</small>
+    </div>
+
+    <div style="text-align: center; margin-top: 0.5em;" *ngIf="airportFromCode && airportToCode">
+      <div style="float: left;">
+        <span *ngIf="airportFromCountry"
+              matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
+              matTooltipPosition="right"
+              style="line-height: 1.5em;"
+              [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
+      </div>
+
+      <div style="display: inline-block;" matTooltip="{{airportFromIata}} - {{airportFromName}}">
+        <div style="display: block;" class="airport-code">{{airportFromCode}}</div>
+        <div style="display: block;">{{airportFromCity}}</div>
+      </div>
+
+      <div style="display: inline-block; vertical-align: top; line-height: 1.5em; margin-right: 1em; margin-left: 1em;">&rarr;</div>
+
+      <div style="display: inline-block;" matTooltip="{{airportToIata}} - {{airportToName}}">
+        <div style="display: block;" class="airport-code">{{airportToCode}}</div>
+        <div style="display: block;">{{airportToCity}}</div>
+      </div>
+
+      <div style="float: right;">
+        <span *ngIf="airportToCountry"
+              matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
+              matTooltipPosition="left"
+              style="line-height: 1.5em;"
+              [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
+      </div>
+    </div>
 
     <br/>
-
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" *ngIf="airportFromCode && airportToCode">
-      <tr>
-        <td width="10%">
-          <span *ngIf="airportFromCountry"
-                matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
-                matTooltipPosition="right"
-                [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
-        </td>
-        <td width="45%" class="airport-code" matTooltip="{{airportFromIata}} - {{airportFromName}}">
-          {{airportFromCode}}
-        </td>
-        <td class="airport-arr">&rarr;</td>
-        <td width="45%" class="airport-code" matTooltip="{{airportToIata}} - {{airportToName}}">
-          {{airportToCode}}
-        </td>
-        <td width="10%" align="right">
-          <span *ngIf="airportToCountry"
-                matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
-                matTooltipPosition="left"
-                [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td class="airport-name">{{airportFromCity}}</td>
-        <td></td>
-        <td class="airport-name">{{airportToCity}}</td>
-        <td></td>
-      </tr>
-    </table>
 
     <div *ngIf="aircraftType">
     <hr/>
