@@ -20,6 +20,7 @@ import {StompConfig, StompService} from "@stomp/ng2-stompjs";
 import * as SockJS from 'sockjs-client';
 import {environment} from "../environments/environment";
 import {RoutesComponent} from './routes/routes.component';
+import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -48,7 +49,8 @@ const stompConfig: StompConfig = {
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    Ng2GoogleChartsModule
   ],
   providers: [MapService,
     StompService,

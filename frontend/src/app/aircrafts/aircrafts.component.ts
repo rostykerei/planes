@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-aircrafts',
@@ -6,6 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./aircrafts.component.scss']
 })
 export class AircraftsComponent implements OnInit {
+
+  pieChartData =  {
+    chartType: 'PieChart',
+    dataTable: [
+      ['Task', 'Hours per Day'],
+      ['Work',     11],
+      ['Eat',      2],
+      ['Commute',  2],
+      ['Watch TV', 2],
+      ['Sleep',    7]
+    ],
+    options: {'title': 'Tasks'},
+  };
 
   constructor() { }
 
