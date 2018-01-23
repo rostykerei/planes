@@ -19,6 +19,7 @@ import {DashboardDetailsComponent} from './dashboard-details/dashboard-details.c
 import {StompConfig, StompService} from "@stomp/ng2-stompjs";
 import * as SockJS from 'sockjs-client';
 import {environment} from "../environments/environment";
+import {RoutesComponent} from './routes/routes.component';
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -38,7 +39,8 @@ const stompConfig: StompConfig = {
     AirlinesComponent,
     AboutComponent,
     NavigationComponent,
-    DashboardDetailsComponent
+    DashboardDetailsComponent,
+    RoutesComponent
   ],
   imports: [
     BrowserModule,

@@ -13,16 +13,16 @@ export class NavigationComponent {
       path: ""
     },
     {
-      label: "Flight",
-      path: "flights"
-    },
-    {
       label: "Aircrafts",
       path: "aircrafts"
     },
     {
       label: "Airlines",
       path: "airlines"
+    },
+    {
+      label: "Routes",
+      path: "routes"
     },
     {
       label: "About",
