@@ -17,6 +17,10 @@ public class Dump1090Config {
         return enabled;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public String getUrl() {
         return url;
     }
