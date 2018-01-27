@@ -1,6 +1,11 @@
 <div class="cards">
-  <div class="card" style="background: red;">1</div>
-  <div class="card" style="background: green;">2</div>
+  <div class="card" style="background: red;">
+    <google-chart [data]="aircraftsChart" ></google-chart>
+  </div>
+
+  <div class="card" style="background: green;">
+    <google-chart [data]="airlinesChart" ></google-chart>
+  </div>
 </div>
 
 <div class="row" style="background: aqua">
@@ -8,7 +13,11 @@ zzz
 </div>
 
 <div class="cards">
-  <div class="card" style="background: orange;">3</div>
-  <div class="card" style="background: pink;">4</div>
+  <div class="card" style="background: orange;">
+    <google-chart [data]="originsChart" ></google-chart>
+  </div>
+  <div class="card" style="background: pink;">
+    <google-chart [data]="destinationsChart" ></google-chart>
+  </div>
 </div>
 
