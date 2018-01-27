@@ -1,0 +1,17 @@
+.cards {
+  max-width: 960px;
+  margin: 0 auto 0;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  grid-gap: 20px;
+}
+
+.card {
+  position: relative;
+}
+
+.row {
+  max-width: 960px;
+  margin: 20px auto 20px;
+}

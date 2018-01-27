@@ -2,9 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {AboutComponent} from "./about/about.component";
-import {AircraftsComponent} from "./aircrafts/aircrafts.component";
-import {AirlinesComponent} from "./airlines/airlines.component";
-import {RoutesComponent} from "./routes/routes.component";
+import {StatsComponent} from "./stats/stats.component";
+import {FlightsComponent} from "./flights/flights.component";
 
 const routes: Routes = [
   {
@@ -12,16 +11,12 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: 'aircrafts',
-    component: AircraftsComponent
+    path: 'stats',
+    component: StatsComponent
   },
   {
-    path: 'airlines',
-    component: AirlinesComponent
-  },
-  {
-    path: 'routes',
-    component: RoutesComponent
+    path: 'flights',
+    component: FlightsComponent
   },
   {
     path: 'about',
