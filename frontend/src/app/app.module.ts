@@ -21,6 +21,7 @@ import * as SockJS from 'sockjs-client';
 import {environment} from "../environments/environment";
 import {RoutesComponent} from './routes/routes.component';
 import {Ng2GoogleChartsModule} from 'ng2-google-charts';
+import {StatsComponent} from './stats/stats.component';
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -41,7 +42,8 @@ const stompConfig: StompConfig = {
     AboutComponent,
     NavigationComponent,
     DashboardDetailsComponent,
-    RoutesComponent
+    RoutesComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,
