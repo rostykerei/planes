@@ -107,6 +107,34 @@ export class StatsComponent implements OnInit {
     },
   };
 
+  flightsChart = {
+    chartType: 'ColumnChart',
+    dataTable: [
+      ['Date', 'Flights tracked'],
+      [new Date(2018, 0, 1), Math.random() * 1000],
+      [new Date(2018, 0, 2), Math.random() * 1000],
+      [new Date(2018, 0, 3), Math.random() * 1000],
+      [new Date(2018, 0, 4), Math.random() * 1000],
+      [new Date(2018, 0, 5), Math.random() * 1000],
+      [new Date(2018, 0, 6), Math.random() * 1000],
+      [new Date(2018, 0, 7), Math.random() * 1000],
+      [new Date(2018, 0, 8), Math.random() * 1000],
+      [new Date(2018, 0, 9), Math.random() * 1000],
+      [new Date(2018, 0, 10), Math.random() * 1000]
+    ],
+    options: {
+      title: 'Flights per day',
+      height: 280,
+      titleTextStyle: {
+        fontName: 'Roboto',
+        fontSize: 24,
+        bold: false
+      },
+      legend: 'none'
+    }
+
+  };
+
   constructor() {
   }
 
