@@ -7,9 +7,15 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "dump1090")
 public class Dump1090Config {
 
+    private boolean enabled;
+
     private String url;
 
     private int updateRate;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
 
     public String getUrl() {
         return url;

@@ -49,16 +49,17 @@ public class Dump1090Agent {
 
     @Scheduled(fixedRateString = "${dump1090.update-rate}")
     public void invoke() {
-        Dump1090Response response = dump1090Service.getData();
-        long now = System.currentTimeMillis();
+        if (dump1090Config.isEnabled()) {
+            Dump1090Response response = dump1090Service.getData();
+            if (response != null) {
 
-        if (response != null) {
-
-            if (now - response.getNowMilliseconds() < dump1090Config.getUpdateRate()) {
-                response.getAircraft().forEach(this::processRecord);
-            }
-            else {
-                logger.warn("Too old data, skipping...");
+                long deltaTime = System.currentTimeMillis() - response.getNowMilliseconds();
+                if (deltaTime < dump1090Config.getUpdateRate()) {
+                    response.getAircraft().forEach(this::processRecord);
+                }
+                else {
+                    logger.warn("Too old data, skipping...");
+                }
             }
         }
     }
