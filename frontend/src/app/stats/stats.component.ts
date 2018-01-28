@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {StatsService} from "./stats.service";
+import {NameValue} from "../model/name-value";
 
 @Component({
   selector: 'app-stats',
@@ -7,30 +9,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class StatsComponent implements OnInit {
 
-  aircraftsChart = {
-    chartType: 'PieChart',
-    dataTable: [
-      ['Aircraft', 'Flights'],
-      ['B738', Math.random() * 1000],
-      ['A320', Math.random() * 1000],
-      ['A319', Math.random() * 1000],
-      ['E190', Math.random() * 1000],
-      ['A321', Math.random() * 1000],
-      ['B737', Math.random() * 1000],
-      ['B77W', Math.random() * 1000],
-      ['E75L', Math.random() * 1000],
-      ['DH8D', Math.random() * 1000],
-      ['B772', Math.random() * 1000],
-    ],
-    options: {
-      title: 'Top Aircrafts', height: 280, legend: 'right',
-      titleTextStyle: {
-        fontName: 'Roboto',
-        fontSize: 24,
-        bold: false
-      }
-    }
-  };
+  aircraftsChart;
 
   airlinesChart = {
     chartType: 'PieChart',
@@ -132,13 +111,36 @@ export class StatsComponent implements OnInit {
       },
       legend: 'none'
     }
-
   };
 
-  constructor() {
+  constructor(private statsService: StatsService) {
   }
 
   ngOnInit() {
+    this.statsService.getTopAircrafts().subscribe(data => this.topAircraftsLoaded(data));
+  }
+
+  topAircraftsLoaded(data: NameValue[]) : void {
+    let dataTable = [];
+    dataTable.push(['Aircraft', 'Flights']);
+
+    data.forEach(d => {
+      dataTable.push([d.name, d.value]);
+    });
+
+    this.aircraftsChart = {
+      chartType: 'PieChart',
+      dataTable: dataTable,
+      options: {
+        title: 'Top Aircrafts', height: 280, legend: 'right',
+        titleTextStyle: {
+          fontName: 'Roboto',
+          fontSize: 24,
+          bold: false
+        }
+      }
+    };
+
   }
 
 }
