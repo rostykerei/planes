@@ -10,31 +10,7 @@ import {NameValue} from "../model/name-value";
 export class StatsComponent implements OnInit {
 
   aircraftsChart;
-
-  airlinesChart = {
-    chartType: 'PieChart',
-    dataTable: [
-      ['Airline', 'Flights'],
-      ['KLM', Math.random() * 1000],
-      ['RYR', Math.random() * 1000],
-      ['BAW', Math.random() * 1000],
-      ['EZY', Math.random() * 1000],
-      ['KLC', Math.random() * 1000],
-      ['WZZ', Math.random() * 1000],
-      ['DLH', Math.random() * 1000],
-      ['BEE', Math.random() * 1000],
-      ['AFR', Math.random() * 1000],
-      ['TRA', Math.random() * 1000],
-    ],
-    options: {
-      title: 'Top Airlines', height: 280, legend: 'right',
-      titleTextStyle: {
-        fontName: 'Roboto',
-        fontSize: 24,
-        bold: false
-      }
-    }
-  };
+  airlinesChart;
 
   originsChart = {
     chartType: 'PieChart',
@@ -118,6 +94,7 @@ export class StatsComponent implements OnInit {
 
   ngOnInit() {
     this.statsService.getTopAircrafts().subscribe(data => this.topAircraftsLoaded(data));
+    this.statsService.getTopAirlines().subscribe(data => this.topAirlinesLoaded(data));
   }
 
   topAircraftsLoaded(data: NameValue[]) : void {
@@ -140,7 +117,28 @@ export class StatsComponent implements OnInit {
         }
       }
     };
+  }
 
+  topAirlinesLoaded(data: NameValue[]) : void {
+    let dataTable = [];
+    dataTable.push(['Airlines', 'Flights']);
+
+    data.forEach(d => {
+      dataTable.push([d.name, d.value]);
+    });
+
+    this.airlinesChart = {
+      chartType: 'PieChart',
+      dataTable: dataTable,
+      options: {
+        title: 'Top Airlines', height: 280, legend: 'right',
+        titleTextStyle: {
+          fontName: 'Roboto',
+          fontSize: 24,
+          bold: false
+        }
+      }
+    };
   }
 
 }

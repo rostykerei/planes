@@ -13,4 +13,8 @@ export class StatsService {
     return this.http.get<NameValue[]>(environment.apiUrl + "stats/aircrafts");
   }
 
+  getTopAirlines(): Observable<NameValue[]> {
+    return this.http.get<NameValue[]>(environment.apiUrl + "stats/airlines");
+  }
+
 }
