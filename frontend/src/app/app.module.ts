@@ -25,6 +25,7 @@ import {StatsComponent} from './stats/stats.component';
 import {StatsService} from "./stats/stats.service";
 import {FlightsFilterComponent} from './flights-filter/flights-filter.component';
 import {MatInputModule} from "@angular/material";
+import {ChipsAutocompleteComponent} from './chips-autocomplete/chips-autocomplete.component';
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -47,7 +48,8 @@ const stompConfig: StompConfig = {
     DashboardDetailsComponent,
     RoutesComponent,
     StatsComponent,
-    FlightsFilterComponent
+    FlightsFilterComponent,
+    ChipsAutocompleteComponent
   ],
   imports: [
     BrowserModule,
