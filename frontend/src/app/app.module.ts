@@ -6,7 +6,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MaterialModule} from "./material.module";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {FlightsComponent} from './flights/flights.component';
 import {AircraftsComponent} from './aircrafts/aircrafts.component';
@@ -24,6 +24,7 @@ import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {StatsComponent} from './stats/stats.component';
 import {StatsService} from "./stats/stats.service";
 import {FlightsFilterComponent} from './flights-filter/flights-filter.component';
+import {MatInputModule} from "@angular/material";
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -55,6 +56,8 @@ const stompConfig: StompConfig = {
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
     Ng2GoogleChartsModule
   ],
   providers: [MapService,
