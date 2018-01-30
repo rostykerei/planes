@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material";
 
@@ -11,6 +11,9 @@ export class ChipsAutocompleteComponent implements OnInit {
 
   @ViewChild('chipInput', {read: MatAutocompleteTrigger})
   private autoCompleteTrigger: MatAutocompleteTrigger;
+
+  @Input() private title: string;
+
   // Set up reactive formcontrol
   autoCompleteChipList: FormControl = new FormControl();
   // Set up values to use with Chips
