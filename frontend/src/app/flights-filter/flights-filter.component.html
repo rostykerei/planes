@@ -1,24 +1,27 @@
 <mat-form-field style="width: 50%;">
   <mat-chip-list #chipList>
-    <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
-              [removable]="removable" (remove)="remove(fruit)">
-      {{fruit.name}}
+    <mat-chip
+      *ngFor="let chip of chips"
+      [selectable]="selectable"
+      [removable]="removable"
+      (remove)="removeChip(chip)">
+      {{chip.name}}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
-    <input matInput placeholder="New fruit..."
-           [matChipInputFor]="chipList"
-           [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-           [matChipInputAddOnBlur]="addOnBlur"
-           (matChipInputTokenEnd)="add($event)"
-           [matAutocomplete]="auto" [formControl]="stateCtrl"/>
 
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
-        <img style="vertical-align:middle;" aria-hidden src="{{state.flag}}" height="25" />
-        <span>{{ state.name }}</span> |
-        <small>Population: {{state.population}}</small>
-      </mat-option>
-    </mat-autocomplete>
-
+    <input
+      placeholder="Select option..."
+      [matChipInputFor]="chipList"
+      [matAutocomplete]="auto"
+      [matChipInputAddOnBlur]="addOnBlur"
+      [formControl]="autoCompleteChipList"
+      (focus)="inputFocus()" #chipInput
+      matInput/>
   </mat-chip-list>
+
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event, chipInput)">
+    <mat-option *ngFor="let option of filteredOptions" [value]="option">
+      {{ option.name }}
+    </mat-option>
+  </mat-autocomplete>
 </mat-form-field>

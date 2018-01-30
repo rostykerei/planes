@@ -1,15 +1,6 @@
-import {Component} from '@angular/core';
-import {MatChipInputEvent} from "@angular/material";
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import {Component, ViewChild} from '@angular/core';
+import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material";
 import {FormControl} from "@angular/forms";
-import {startWith} from 'rxjs/operators/startWith';
-import {map} from 'rxjs/operators/map';
-import {Observable} from "rxjs/Observable";
-
-
-export class State {
-  constructor(public name: string, public population: string, public flag: string) { }
-}
 
 @Component({
   selector: 'app-flights-filter',
@@ -18,81 +9,71 @@ export class State {
 })
 export class FlightsFilterComponent {
 
-  stateCtrl: FormControl;
-  filteredStates: Observable<any[]>;
-
-  states: State[] = [
-    {
-      name: 'Arkansas',
-      population: '2.978M',
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/9/9d/Flag_of_Arkansas.svg'
-    },
-    {
-      name: 'California',
-      population: '39.14M',
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/0/01/Flag_of_California.svg'
-    },
-    {
-      name: 'Florida',
-      population: '20.27M',
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Florida.svg'
-    },
-    {
-      name: 'Texas',
-      population: '27.47M',
-      flag: 'https://upload.wikimedia.org/wikipedia/commons/f/f7/Flag_of_Texas.svg'
-    }
-  ];
-
+  @ViewChild('chipInput', {read: MatAutocompleteTrigger})
+  private autoCompleteTrigger: MatAutocompleteTrigger;
+  // Set up reactive formcontrol
+  autoCompleteChipList: FormControl = new FormControl();
+  // Set up values to use with Chips
   visible: boolean = true;
   selectable: boolean = true;
   removable: boolean = true;
   addOnBlur: boolean = true;
-
-  // Enter, comma
-  separatorKeysCodes = [ENTER, COMMA];
-
-  fruits = [
-    { name: 'Lemon' },
-    { name: 'Lime' },
-    { name: 'Apple' },
+  // Set up Options Array
+  options = [
+    {name: 'Lemon'},
+    {name: 'Lime'},
+    {name: 'Apple'},
   ];
+  // Define filteredOptins Array and Chips Array
+  filteredOptions = [];
+  chips = [];
 
-  constructor() {
-    this.stateCtrl = new FormControl();
-    this.filteredStates = this.stateCtrl.valueChanges
-      .pipe(
-        startWith(''),
-        map(state => state ? this.filterStates(state) : this.states.slice())
-      );
+  ngOnInit() {
+    // Set initial value of filteredOptions to all Options
+    this.filteredOptions = this.options;
+    // Subscribe to listen for changes to AutoComplete input and run filter
+    this.autoCompleteChipList.valueChanges.subscribe(val => {
+      this.filterOptions(val);
+    })
   }
 
-  filterStates(name: string) {
-    return this.states.filter(state =>
-      state.name.toLowerCase().indexOf(name.toLowerCase()) === 0);
+  inputFocus() {
+    setTimeout(() => {
+      if (!this.autoCompleteTrigger.panelOpen) {
+        this.autoCompleteTrigger.openPanel();
+      }
+    }, 10);
   }
 
+  filterOptions(text: string) {
+    // Set filteredOptions array to filtered options
+    this.filteredOptions = this.options
+      .filter(obj => obj.name.toLowerCase().indexOf(text.toString().toLowerCase()) === 0);
+  }
 
-  add(event: MatChipInputEvent): void {
-    let input = event.input;
-    let value = event.value;
-
-    // Add our fruit
-    if ((value || '').trim()) {
-      this.fruits.push({ name: value.trim() });
-    }
-
-    // Reset the input value
+  addChip(event: MatAutocompleteSelectedEvent, input: any): void {
+    // Define selection constant
+    const selection = event.option.value;
+    // Add chip for selected option
+    this.chips.push(selection);
+    // Remove selected option from available options and set filteredOptions
+    this.options = this.options.filter(obj => obj.name !== selection.name);
+    this.filteredOptions = this.options;
+    // Reset the autocomplete input text value
     if (input) {
       input.value = '';
     }
   }
 
-  remove(fruit: any): void {
-    let index = this.fruits.indexOf(fruit);
-
+  removeChip(chip: any): void {
+    // Find key of object in array
+    let index = this.chips.indexOf(chip);
+    // If key exists
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      // Remove key from chips array
+      this.chips.splice(index, 1);
+      // Add key to options array
+      this.options.push(chip);
     }
   }
 }
