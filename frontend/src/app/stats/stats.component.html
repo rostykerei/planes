@@ -1,22 +1,26 @@
+<div class="row">
+  <app-flights-filter></app-flights-filter>
+</div>
+
 <div class="cards">
-  <div class="card" style="background: red;">
+  <div class="card">
     <google-chart [data]="aircraftsChart" ></google-chart>
   </div>
 
-  <div class="card" style="background: green;">
+  <div class="card">
     <google-chart [data]="airlinesChart" ></google-chart>
   </div>
 </div>
 
-<div class="row" style="background: aqua">
+<div class="row">
   <google-chart [data]="flightsChart" ></google-chart>
 </div>
 
 <div class="cards">
-  <div class="card" style="background: orange;">
+  <div class="card">
     <google-chart [data]="originsChart" ></google-chart>
   </div>
-  <div class="card" style="background: pink;">
+  <div class="card">
     <google-chart [data]="destinationsChart" ></google-chart>
   </div>
 </div>

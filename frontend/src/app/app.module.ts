@@ -23,6 +23,7 @@ import {RoutesComponent} from './routes/routes.component';
 import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {StatsComponent} from './stats/stats.component';
 import {StatsService} from "./stats/stats.service";
+import {FlightsFilterComponent} from './flights-filter/flights-filter.component';
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -44,7 +45,8 @@ const stompConfig: StompConfig = {
     NavigationComponent,
     DashboardDetailsComponent,
     RoutesComponent,
-    StatsComponent
+    StatsComponent,
+    FlightsFilterComponent
   ],
   imports: [
     BrowserModule,
