@@ -1,6 +1,8 @@
 package nl.rostykerei.planes.server.controller;
 
+import nl.rostykerei.planes.server.repository.AirlineRepository;
 import nl.rostykerei.planes.server.repository.AirportRepository;
+import nl.rostykerei.planes.server.response.Option;
 import nl.rostykerei.planes.server.response.OptionWithFlag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,8 +24,16 @@ public class FilterController {
     @Autowired
     private AirportRepository airportRepository;
 
+    @Autowired
+    private AirlineRepository airlineRepository;
+
     @RequestMapping("/airports/{query}")
     public List<OptionWithFlag> autoCompleteAirports(@PathVariable("query") String query) {
         return airportRepository.autoCompletePage(PAGE_REQUEST, query).getContent();
+    }
+
+    @RequestMapping("/airlines/{query}")
+    public List<Option> autoCompleteAirlines(@PathVariable("query") String query) {
+        return airlineRepository.autoCompletePage(PAGE_REQUEST, query).getContent();
     }
 }
