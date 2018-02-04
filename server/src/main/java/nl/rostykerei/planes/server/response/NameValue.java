@@ -1,4 +1,4 @@
-package nl.rostykerei.planes.server.repository.vo;
+package nl.rostykerei.planes.server.response;
 
 public class NameValue {
 
