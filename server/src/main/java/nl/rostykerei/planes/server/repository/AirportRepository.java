@@ -18,8 +18,10 @@ public interface AirportRepository extends CrudRepository<Airport, String> {
     @Query("SELECT a " +
             "FROM Airport a " +
             "JOIN FETCH a.country " +
-            "WHERE LOWER(a.code) LIKE LOWER(CONCAT('%', :query,'%')) " +
-            "OR LOWER(a.name) LIKE LOWER(CONCAT('%', :query,'%')) " +
+            "WHERE LOWER(a.code) LIKE LOWER(CONCAT(:query, '%')) " +
+            "OR LOWER(a.iataCode) LIKE LOWER(CONCAT(:query, '%')) " +
+            "OR LOWER(a.name) LIKE LOWER(CONCAT(:query, '%')) " +
+            "OR LOWER(a.city) LIKE LOWER(CONCAT(:query, '%')) " +
             "ORDER BY a.code")
     List<Airport> autoCompletePage(Pageable pageable, @Param("query") String query);
 
