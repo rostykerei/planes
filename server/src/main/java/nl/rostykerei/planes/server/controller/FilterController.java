@@ -1,10 +1,10 @@
 package nl.rostykerei.planes.server.controller;
 
+import nl.rostykerei.planes.server.model.Airline;
 import nl.rostykerei.planes.server.model.Airport;
 import nl.rostykerei.planes.server.repository.AirlineRepository;
 import nl.rostykerei.planes.server.repository.AirportRepository;
 import nl.rostykerei.planes.server.repository.FlightRepository;
-import nl.rostykerei.planes.server.response.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,13 +33,11 @@ public class FilterController {
 
     @RequestMapping("/airports/{query}")
     public List<Airport> autoCompleteAirports(@PathVariable("query") String query) {
-        return airportRepository
-                .autoCompletePage(PAGE_REQUEST, query)
-                .getContent();
+        return airportRepository.autoCompletePage(PAGE_REQUEST, query);
     }
 
     @RequestMapping("/airlines/{query}")
-    public List<Option> autoCompleteAirlines(@PathVariable("query") String query) {
-        return airlineRepository.autoCompletePage(PAGE_REQUEST, query).getContent();
+    public List<Airline> autoCompleteAirlines(@PathVariable("query") String query) {
+        return airlineRepository.autoCompletePage(PAGE_REQUEST, query);
     }
 }
