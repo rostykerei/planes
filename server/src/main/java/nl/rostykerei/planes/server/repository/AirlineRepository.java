@@ -23,6 +23,6 @@ public interface AirlineRepository extends CrudRepository<Airline, String> {
             "OR LOWER(a.name) LIKE LOWER(CONCAT(:query, '%')) " +
             "OR LOWER(a.callsign) LIKE LOWER(CONCAT(:query, '%')) " +
             "ORDER BY a.code")
-    List<Airline> autoCompletePage(Pageable pageable, @Param("query") String query);
+    List<Airline> autoComplete(Pageable pageable, @Param("query") String query);
 
 }

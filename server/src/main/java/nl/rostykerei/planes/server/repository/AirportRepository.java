@@ -23,6 +23,6 @@ public interface AirportRepository extends CrudRepository<Airport, String> {
             "OR LOWER(a.name) LIKE LOWER(CONCAT(:query, '%')) " +
             "OR LOWER(a.city) LIKE LOWER(CONCAT(:query, '%')) " +
             "ORDER BY a.code")
-    List<Airport> autoCompletePage(Pageable pageable, @Param("query") String query);
+    List<Airport> autoComplete(Pageable pageable, @Param("query") String query);
 
 }
