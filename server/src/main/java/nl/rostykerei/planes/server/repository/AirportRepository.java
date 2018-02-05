@@ -17,7 +17,7 @@ public interface AirportRepository extends CrudRepository<Airport, String> {
 
     @Query("SELECT a " +
             "FROM Airport a " +
-            "JOIN FETCH  a.country " +
+            "JOIN FETCH a.country " +
             "WHERE LOWER(a.code) LIKE LOWER(CONCAT('%', :query,'%')) " +
             "OR LOWER(a.name) LIKE LOWER(CONCAT('%', :query,'%')) " +
             "ORDER BY a.code")
