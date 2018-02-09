@@ -4,9 +4,11 @@ import {
   MatButtonModule,
   MatCardModule,
   MatChipsModule,
+  MatDatepickerModule,
   MatFormFieldModule,
   MatGridListModule,
   MatIconModule,
+  MatNativeDateModule,
   MatOptionModule,
   MatSidenavModule,
   MatTableModule,
@@ -21,14 +23,14 @@ import {
     MatGridListModule, MatTableModule, MatCardModule,
     MatTooltipModule, MatIconModule, MatFormFieldModule,
     MatChipsModule, MatOptionModule, MatAutocompleteModule,
-    MatSidenavModule
+    MatSidenavModule, MatNativeDateModule, MatDatepickerModule
   ],
   exports: [
     MatButtonModule, MatToolbarModule, MatTabsModule,
     MatGridListModule, MatTableModule, MatCardModule,
     MatTooltipModule, MatIconModule, MatFormFieldModule,
     MatChipsModule, MatOptionModule, MatAutocompleteModule,
-    MatSidenavModule
+    MatSidenavModule, MatNativeDateModule, MatDatepickerModule
   ]
 })
 export class MaterialModule {
