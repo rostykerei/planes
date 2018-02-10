@@ -14,16 +14,13 @@
       [matChipInputFor]="chipList"
       [matAutocomplete]="auto"
       [formControl]="autoCompleteChipList"
-      (focus)="inputFocus()"
       (blur)="inputBlur(chipInput)"
-      [ngModel]="mymodel"
-      (ngModelChange)="valuechange($event)"
       #chipInput
       matInput/>
   </mat-chip-list>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event, chipInput)">
-    <mat-option *ngFor="let option of filteredOptions" [value]="option">
+    <mat-option *ngFor="let option of options" [value]="option">
       <span *ngIf="option.country" [ngClass]="'flag-icon flag-icon-'+option.country.code.toLowerCase()"
             matTooltip="{{option.country.code}} - {{option.country.name}}"
             matTooltipPosition="right"></span>
