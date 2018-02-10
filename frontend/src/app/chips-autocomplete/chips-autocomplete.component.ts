@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material";
+import {AutocompleteService} from "../autocomplete.service";
 
 @Component({
   selector: 'app-chips-autocomplete',
@@ -14,37 +15,65 @@ export class ChipsAutocompleteComponent implements OnInit {
 
   @Input() private title: string;
 
+  mymodel: string = '';
+
   // Set up reactive formcontrol
   autoCompleteChipList: FormControl = new FormControl();
-  // Set up values to use with Chips
-  selectable: boolean = true;
-  removable: boolean = true;
-  addOnBlur: boolean = true;
+
+  color = 'warn';
+
   // Set up Options Array
   options = [
-    {name: 'AMS'},
-    {name: 'MSP'},
-    {name: 'LHR'},
   ];
   // Define filteredOptins Array and Chips Array
   filteredOptions = [];
   chips = [];
 
+
+  constructor(private autoCompleteService: AutocompleteService) {
+  }
+
   ngOnInit() {
     // Set initial value of filteredOptions to all Options
     this.filteredOptions = this.options;
     // Subscribe to listen for changes to AutoComplete input and run filter
-    this.autoCompleteChipList.valueChanges.subscribe(val => {
+    /*this.autoCompleteChipList.valueChanges.subscribe(val => {
       this.filterOptions(val);
-    })
+    });*/
+
+    this.autoCompleteChipList.valueChanges
+      .subscribe(val => {
+        if (val) {
+          this.autoCompleteService.getAirports(val)
+            .subscribe(res => {
+              this.filteredOptions = [];
+
+              res.forEach(a => {
+                this.filteredOptions.push(a);
+              });
+            });
+        }
+        else {
+          this.filteredOptions = [];
+        }
+      })
   }
 
   inputFocus() {
-    setTimeout(() => {
+/*    setTimeout(() => {
       if (!this.autoCompleteTrigger.panelOpen) {
         this.autoCompleteTrigger.openPanel();
       }
-    }, 10);
+    }, 10);*/
+  }
+
+  valuechange(newValue) {
+    //this.mymodel = newValue;
+    console.log(newValue)
+  }
+
+  inputBlur(input: any) {
+    input.value = '';
   }
 
   filterOptions(text: string) {

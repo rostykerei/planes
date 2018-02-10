@@ -2,26 +2,31 @@
   <mat-chip-list #chipList>
     <mat-chip
       *ngFor="let chip of chips"
-      [selectable]="selectable"
-      [removable]="removable"
+      [removable]="true"
+      [color]="color"
       (remove)="removeChip(chip)">
-      {{chip.name}}
-      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+      {{chip.iataCode}}
+      <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
 
     <input
       [placeholder]="title"
       [matChipInputFor]="chipList"
       [matAutocomplete]="auto"
-      [matChipInputAddOnBlur]="addOnBlur"
       [formControl]="autoCompleteChipList"
-      (focus)="inputFocus()" #chipInput
+      (focus)="inputFocus()"
+      (blur)="inputBlur(chipInput)"
+      [ngModel]="mymodel"
+      (ngModelChange)="valuechange($event)"
+      #chipInput
       matInput/>
   </mat-chip-list>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event, chipInput)">
     <mat-option *ngFor="let option of filteredOptions" [value]="option">
-      {{ option.name }}
+      <span [ngClass]="'flag-icon flag-icon-'+option.country.code.toLowerCase()"></span>
+      <span style="font-weight: bolder">{{option.iataCode}}</span> :
+      <span>{{ option.name }}</span>
     </mat-option>
   </mat-autocomplete>
 

@@ -44,14 +44,14 @@ public class FilterController {
         return aircraftTypeRepository.autoComplete(PAGE_REQUEST, query);
     }
 
-    @RequestMapping("/airports/{query}")
-    public List<Airport> autoCompleteAirports(@PathVariable("query") String query) {
-        return airportRepository.autoComplete(PAGE_REQUEST, query);
-    }
-
     @RequestMapping("/airlines/{query}")
     public List<Airline> autoCompleteAirlines(@PathVariable("query") String query) {
         return airlineRepository.autoComplete(PAGE_REQUEST, query);
+    }
+
+    @RequestMapping("/airports/{query}")
+    public List<Airport> autoCompleteAirports(@PathVariable("query") String query) {
+        return airportRepository.autoComplete(PAGE_REQUEST, query);
     }
 
     @RequestMapping("/routes/{query}")
