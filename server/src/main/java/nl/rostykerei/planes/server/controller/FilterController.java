@@ -1,13 +1,7 @@
 package nl.rostykerei.planes.server.controller;
 
-import nl.rostykerei.planes.server.model.Aircraft;
-import nl.rostykerei.planes.server.model.Airline;
-import nl.rostykerei.planes.server.model.Airport;
-import nl.rostykerei.planes.server.model.Route;
-import nl.rostykerei.planes.server.repository.AircraftRepository;
-import nl.rostykerei.planes.server.repository.AirlineRepository;
-import nl.rostykerei.planes.server.repository.AirportRepository;
-import nl.rostykerei.planes.server.repository.RouteRepository;
+import nl.rostykerei.planes.server.model.*;
+import nl.rostykerei.planes.server.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +23,9 @@ public class FilterController {
     private AircraftRepository aircraftRepository;
 
     @Autowired
+    private AircraftTypeRepository aircraftTypeRepository;
+
+    @Autowired
     private AirportRepository airportRepository;
 
     @Autowired
@@ -40,6 +37,11 @@ public class FilterController {
     @RequestMapping("/aircrafts/{query}")
     public List<Aircraft> autoCompleteAircraft(@PathVariable("query") String query) {
         return aircraftRepository.autoComplete(PAGE_REQUEST, query);
+    }
+
+    @RequestMapping("/types/{query}")
+    public List<AircraftType> autoCompleteAircraftType(@PathVariable("query") String query) {
+        return aircraftTypeRepository.autoComplete(PAGE_REQUEST, query);
     }
 
     @RequestMapping("/airports/{query}")
