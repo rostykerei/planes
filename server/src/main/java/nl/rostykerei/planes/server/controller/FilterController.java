@@ -1,8 +1,10 @@
 package nl.rostykerei.planes.server.controller;
 
+import nl.rostykerei.planes.server.model.Aircraft;
 import nl.rostykerei.planes.server.model.Airline;
 import nl.rostykerei.planes.server.model.Airport;
 import nl.rostykerei.planes.server.model.Route;
+import nl.rostykerei.planes.server.repository.AircraftRepository;
 import nl.rostykerei.planes.server.repository.AirlineRepository;
 import nl.rostykerei.planes.server.repository.AirportRepository;
 import nl.rostykerei.planes.server.repository.RouteRepository;
@@ -24,6 +26,9 @@ public class FilterController {
     private final static Pageable PAGE_REQUEST = PageRequest.of(0, 10);
 
     @Autowired
+    private AircraftRepository aircraftRepository;
+
+    @Autowired
     private AirportRepository airportRepository;
 
     @Autowired
@@ -31,6 +36,11 @@ public class FilterController {
 
     @Autowired
     private RouteRepository routeRepository;
+
+    @RequestMapping("/aircrafts/{query}")
+    public List<Aircraft> autoCompleteAircraft(@PathVariable("query") String query) {
+        return aircraftRepository.autoComplete(PAGE_REQUEST, query);
+    }
 
     @RequestMapping("/airports/{query}")
     public List<Airport> autoCompleteAirports(@PathVariable("query") String query) {
