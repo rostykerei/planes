@@ -1,30 +1,31 @@
 <h1 class="mat-h1">Filter</h1>
 
-<div class="cards">
-  <div class="card">
-    <mat-form-field style="width: 100%">
-      <input matInput [matDatepicker]="picker" placeholder="Date from">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-  </div>
-  <div class="card">
-    <app-chips-autocomplete
-      [title]="'Select aircrafts'"></app-chips-autocomplete>
-  </div>
+<mat-form-field style="width: 100%">
+  <input matInput [matDatepicker]="pickerFrom" placeholder="Date from">
+  <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+  <mat-datepicker #pickerFrom></mat-datepicker>
+</mat-form-field>
 
-  <div class="card">
-    <app-chips-autocomplete
-      [title]="'Select airlines'"></app-chips-autocomplete>
-  </div>
+<mat-form-field style="width: 100%">
+  <input matInput [matDatepicker]="pickerTo" placeholder="Date to">
+  <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+  <mat-datepicker #pickerTo></mat-datepicker>
+</mat-form-field>
 
-  <div class="card">
-    <app-chips-autocomplete
-      [title]="'Select origins'"></app-chips-autocomplete>
-  </div>
+<app-chips-autocomplete
+  [title]="'Aircrafts'"></app-chips-autocomplete>
 
-  <div class="card">
-    <app-chips-autocomplete
-      [title]="'Select destinations'"></app-chips-autocomplete>
-  </div>
-</div>
+<app-chips-autocomplete
+  [title]="'Types'"></app-chips-autocomplete>
+
+<app-chips-autocomplete
+  [title]="'Airlines'"></app-chips-autocomplete>
+
+<app-chips-autocomplete
+  [title]="'Flights'"></app-chips-autocomplete>
+
+<app-chips-autocomplete
+  [title]="'Origins'"></app-chips-autocomplete>
+
+<app-chips-autocomplete
+  [title]="'Destinations'"></app-chips-autocomplete>

@@ -22,9 +22,9 @@ export class ChipsAutocompleteComponent implements OnInit {
   addOnBlur: boolean = true;
   // Set up Options Array
   options = [
-    {name: 'Lemon'},
-    {name: 'Lime'},
-    {name: 'Apple'},
+    {name: 'AMS'},
+    {name: 'MSP'},
+    {name: 'LHR'},
   ];
   // Define filteredOptins Array and Chips Array
   filteredOptions = [];
