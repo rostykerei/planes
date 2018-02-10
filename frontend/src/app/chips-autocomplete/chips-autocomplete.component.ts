@@ -18,8 +18,6 @@ export class ChipsAutocompleteComponent implements OnInit {
   // Set up reactive formcontrol
   autoCompleteChipList: FormControl = new FormControl();
 
-  color = 'warn';
-
   options = new Set();
 
   chips = new Set();
@@ -30,22 +28,21 @@ export class ChipsAutocompleteComponent implements OnInit {
   ngOnInit() {
     this.autoCompleteChipList.valueChanges
       .subscribe(val => {
+        this.options.clear();
+
         if (val) {
           this.autoCompleteService.getAirports(val)
             .subscribe(res => {
               this.options.clear();
 
               res.forEach(a => {
-                if (!this.chips.has(a)) {
+                if (!this.chips.has(a.iataCode)) {
                   this.options.add(a);
                 }
               });
             });
         }
-        else {
-          this.options.clear();
-        }
-      })
+      });
   }
 
   inputBlur(input: any) {
@@ -55,11 +52,9 @@ export class ChipsAutocompleteComponent implements OnInit {
   addChip(event: MatAutocompleteSelectedEvent, input: any): void {
     // Define selection constant
     const selection = event.option.value;
-    // Add chip for selected option
-    this.chips.add(selection);
 
-    // Remove selected option from available options and set filteredOptions
-    ////this.options = this.options.filter(obj => obj.name !== selection.name);
+    // Add chip for selected option
+    this.chips.add(selection.iataCode);
 
     // Reset the autocomplete input text value
     if (input) {

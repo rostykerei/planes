@@ -3,20 +3,17 @@
     <mat-chip
       *ngFor="let chip of chips"
       [removable]="true"
-      [color]="color"
       (remove)="removeChip(chip)">
-      {{chip.iataCode}}
+      {{chip}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
 
-    <input
-      [placeholder]="title"
+    <input [placeholder]="title"
       [matChipInputFor]="chipList"
       [matAutocomplete]="auto"
       [formControl]="autoCompleteChipList"
       (blur)="inputBlur(chipInput)"
-      #chipInput
-      matInput/>
+      #chipInput matInput/>
   </mat-chip-list>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event, chipInput)">
