@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping("/filter")
 public class FilterController {
 
-    private final static Pageable PAGE_REQUEST = PageRequest.of(0, 10);
+    private final static Pageable PAGE_REQUEST = PageRequest.of(0, 5);
 
     @Autowired
     private AircraftRepository aircraftRepository;

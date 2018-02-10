@@ -24,7 +24,9 @@
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event, chipInput)">
     <mat-option *ngFor="let option of filteredOptions" [value]="option">
-      <span [ngClass]="'flag-icon flag-icon-'+option.country.code.toLowerCase()"></span>
+      <span *ngIf="option.country" [ngClass]="'flag-icon flag-icon-'+option.country.code.toLowerCase()"
+            matTooltip="{{option.country.code}} - {{option.country.name}}"
+            matTooltipPosition="right"></span>
       <span style="font-weight: bolder">{{option.iataCode}}</span> :
       <span>{{ option.name }}</span>
     </mat-option>
