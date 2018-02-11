@@ -4,9 +4,7 @@
       *ngFor="let chip of chips"
       [removable]="true"
       (remove)="removeChip(chip)">
-      <span matTooltip="{{chip.iataCode}} - {{chip.name}}" matTooltipPosition="right">
-        {{chip.code}}
-      </span>
+      {{chip}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
 
@@ -19,7 +17,7 @@
   </mat-chip-list>
 
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event, chipInput)">
-    <mat-option *ngFor="let option of options" [value]="option">
+    <mat-option *ngFor="let option of options" [value]="getChipText(option)">
       <span *ngIf="option.country" [ngClass]="'flag-icon flag-icon-'+option.country.code.toLowerCase()"
             matTooltip="{{option.country.code}} - {{option.country.name}}"
             matTooltipPosition="right"></span>

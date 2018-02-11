@@ -4,11 +4,10 @@ import {MatAutocompleteSelectedEvent} from "@angular/material";
 import {AutocompleteService} from "../autocomplete.service";
 
 @Component({
-  selector: 'app-chips-autocomplete',
-  templateUrl: './chips-autocomplete.component.html',
-  styleUrls: ['./chips-autocomplete.component.scss']
+  templateUrl: './autocomplete.component.html',
+  styleUrls: ['./autocomplete.component.scss']
 })
-export class ChipsAutocompleteComponent implements OnInit {
+export abstract class AutocompleteComponent implements OnInit {
 
   @Input() private title: string;
 
@@ -31,7 +30,7 @@ export class ChipsAutocompleteComponent implements OnInit {
             .subscribe(res => {
               res.forEach(a => {
                 for(let c of this.chips) {
-                  if (this.isSame(c, a)) return;
+                  if (this.getChipText(a) === c) return;
                 }
 
                   this.options.push(a);
@@ -41,9 +40,7 @@ export class ChipsAutocompleteComponent implements OnInit {
       });
   }
 
-  isSame(a: any, b:any): boolean {
-    return a.code === b.code;
-  }
+  abstract getChipText(a: any): boolean;
 
   addChip(event: MatAutocompleteSelectedEvent, input: any): void {
     const selection = event.option.value;
