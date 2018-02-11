@@ -1,23 +1,47 @@
-<div class="cards">
-  <div class="card">
-    <google-chart [data]="aircraftsChart" ></google-chart>
+<mat-drawer-container class="example-container" autosize>
+
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <app-flights-filter></app-flights-filter>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <div class="row">
+
+
+      <h1 class="mat-h1">
+        <button type="button" mat-button (click)="drawer.toggle()">
+          Toggle filter
+        </button>
+        Statistics
+      </h1>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <google-chart [data]="aircraftsChart" ></google-chart>
+      </div>
+
+      <div class="card">
+        <google-chart [data]="airlinesChart" ></google-chart>
+      </div>
+    </div>
+
+    <div class="row">
+      <google-chart [data]="flightsChart" ></google-chart>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <google-chart [data]="originsChart" ></google-chart>
+      </div>
+      <div class="card">
+        <google-chart [data]="destinationsChart" ></google-chart>
+      </div>
+    </div>
   </div>
 
-  <div class="card">
-    <google-chart [data]="airlinesChart" ></google-chart>
-  </div>
-</div>
+</mat-drawer-container>
 
-<div class="row">
-  <google-chart [data]="flightsChart" ></google-chart>
-</div>
 
-<div class="cards">
-  <div class="card">
-    <google-chart [data]="originsChart" ></google-chart>
-  </div>
-  <div class="card">
-    <google-chart [data]="destinationsChart" ></google-chart>
-  </div>
-</div>
+
 
