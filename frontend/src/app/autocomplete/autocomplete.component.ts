@@ -10,9 +10,8 @@ export abstract class AutocompleteComponent implements OnInit {
 
   autoCompleteChipList: FormControl = new FormControl();
 
-  options = [];
-
-  chips = [];
+  options = new Set<any>();
+  chips = new Set<string>();
 
   constructor(private autoCompleteService: AutocompleteService) {
   }
@@ -20,17 +19,17 @@ export abstract class AutocompleteComponent implements OnInit {
   ngOnInit() {
     this.autoCompleteChipList.valueChanges
       .subscribe(val => {
-        this.options = [];
+        this.options.clear();
 
         if (val) {
           this.autoCompleteService.getOptions(this.getApiName(), val)
             .subscribe(res => {
               res.forEach(a => {
-                for(let c of this.chips) {
-                  if (this.getChipText(a) === c) return;
+                if (this.chips.has(this.getChipText(a))) {
+                  return;
                 }
 
-                  this.options.push(a);
+                this.options.add(a);
               });
             });
         }
@@ -39,24 +38,21 @@ export abstract class AutocompleteComponent implements OnInit {
 
   abstract getApiName(): string;
 
-  protected getChipText(a: any): boolean {
+  protected getChipText(a: any): string {
     return a.code;
   }
 
   addChip(event: MatAutocompleteSelectedEvent, input: any): void {
     const selection = event.option.value;
-    this.chips.push(selection);
+    this.chips.add(selection);
+
     if (input) {
       input.value = '';
     }
   }
 
-  removeChip(chip: any): void {
-    // Find key of object in array
-    let index = this.chips.indexOf(chip);
-    if (index >= 0) {
-      this.chips.splice(index, 1);
-    }
+  removeChip(chip: string): void {
+    this.chips.delete(chip);
   }
 
 }
