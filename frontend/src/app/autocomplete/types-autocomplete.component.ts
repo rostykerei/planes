@@ -14,12 +14,11 @@ export class TypesAutocompleteComponent extends AutocompleteComponent {
     return "types";
   }
 
-
   protected getChipText(a: any): string {
     return a.type;
   }
 
   protected getOptionText(a: any): string {
-    return '<b>' + a.type + '</b>&nbsp;:&nbsp;' + a.manufacturer + ' ' + a.model;
+    return '<b>' + a.type + '</b>&nbsp;:&nbsp;' + (a.manufacturer || '') + ' ' + (a.model || '');
   }
 }
