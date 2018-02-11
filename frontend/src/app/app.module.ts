@@ -29,6 +29,7 @@ import {AutocompleteService} from "./autocomplete.service";
 import {AirportsAutocompleteComponent} from "./autocomplete/airports-autocomplete.component";
 import {TypesAutocompleteComponent} from "./autocomplete/types-autocomplete.component";
 import {AirlinesAutocompleteComponent} from "./autocomplete/airlines-autocomplete.component";
+import {RoutesAutocompleteComponent} from "./autocomplete/routes-autocomplete.component";
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -54,7 +55,8 @@ const stompConfig: StompConfig = {
     FlightsFilterComponent,
     AirportsAutocompleteComponent,
     TypesAutocompleteComponent,
-    AirlinesAutocompleteComponent
+    AirlinesAutocompleteComponent,
+    RoutesAutocompleteComponent
   ],
   imports: [
     BrowserModule,
