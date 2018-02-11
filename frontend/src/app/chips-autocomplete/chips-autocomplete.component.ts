@@ -1,6 +1,6 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {MatAutocompleteSelectedEvent, MatAutocompleteTrigger} from "@angular/material";
+import {MatAutocompleteSelectedEvent} from "@angular/material";
 import {AutocompleteService} from "../autocomplete.service";
 
 @Component({
@@ -10,17 +10,13 @@ import {AutocompleteService} from "../autocomplete.service";
 })
 export class ChipsAutocompleteComponent implements OnInit {
 
-  @ViewChild('chipInput', {read: MatAutocompleteTrigger})
-  private autoCompleteTrigger: MatAutocompleteTrigger;
-
   @Input() private title: string;
 
-  // Set up reactive formcontrol
   autoCompleteChipList: FormControl = new FormControl();
 
-  options = new Set();
+  options = [];
 
-  chips = new Set();
+  chips = [];
 
   constructor(private autoCompleteService: AutocompleteService) {
   }
@@ -28,42 +24,41 @@ export class ChipsAutocompleteComponent implements OnInit {
   ngOnInit() {
     this.autoCompleteChipList.valueChanges
       .subscribe(val => {
-        this.options.clear();
+        this.options = [];
 
         if (val) {
           this.autoCompleteService.getAirports(val)
             .subscribe(res => {
-              this.options.clear();
-
               res.forEach(a => {
-                if (!this.chips.has(a.iataCode)) {
-                  this.options.add(a);
+                for(let c of this.chips) {
+                  if (this.isSame(c, a)) return;
                 }
+
+                  this.options.push(a);
               });
             });
         }
       });
   }
 
-  inputBlur(input: any) {
-    input.value = '';
+  isSame(a: any, b:any): boolean {
+    return a.code === b.code;
   }
 
   addChip(event: MatAutocompleteSelectedEvent, input: any): void {
-    // Define selection constant
     const selection = event.option.value;
-
-    // Add chip for selected option
-    this.chips.add(selection.iataCode);
-
-    // Reset the autocomplete input text value
+    this.chips.push(selection);
     if (input) {
       input.value = '';
     }
   }
 
   removeChip(chip: any): void {
-    this.chips.delete(chip);
+    // Find key of object in array
+    let index = this.chips.indexOf(chip);
+    if (index >= 0) {
+      this.chips.splice(index, 1);
+    }
   }
 
 }

@@ -4,7 +4,9 @@
       *ngFor="let chip of chips"
       [removable]="true"
       (remove)="removeChip(chip)">
-      {{chip}}
+      <span matTooltip="{{chip.iataCode}} - {{chip.name}}" matTooltipPosition="right">
+        {{chip.code}}
+      </span>
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
 
@@ -12,7 +14,7 @@
       [matChipInputFor]="chipList"
       [matAutocomplete]="auto"
       [formControl]="autoCompleteChipList"
-      (blur)="inputBlur(chipInput)"
+      (blur)="chipInput.value = ''"
       #chipInput matInput/>
   </mat-chip-list>
 
@@ -21,7 +23,7 @@
       <span *ngIf="option.country" [ngClass]="'flag-icon flag-icon-'+option.country.code.toLowerCase()"
             matTooltip="{{option.country.code}} - {{option.country.name}}"
             matTooltipPosition="right"></span>
-      <span style="font-weight: bolder">{{option.iataCode}}</span> :
+      <span style="font-weight: bolder">{{option.code}}</span> :
       <span>{{ option.name }}</span>
     </mat-option>
   </mat-autocomplete>
