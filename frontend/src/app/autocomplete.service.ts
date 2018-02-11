@@ -9,8 +9,8 @@ export class AutocompleteService {
 
   constructor(private http: HttpClient) {}
 
-  getAirports(q: string): Observable<any> {
-    return this.http.get<LngLat[]>(environment.apiUrl + "filter/airports/" + q);
+  getOptions(entity: string, q: string): Observable<any> {
+    return this.http.get<LngLat[]>(environment.apiUrl + "filter/" + entity + "/" + q);
   }
 
 }

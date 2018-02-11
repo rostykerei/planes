@@ -3,13 +3,10 @@ import {FormControl} from "@angular/forms";
 import {MatAutocompleteSelectedEvent} from "@angular/material";
 import {AutocompleteService} from "../autocomplete.service";
 
-@Component({
-  templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.scss']
-})
+@Component({})
 export abstract class AutocompleteComponent implements OnInit {
 
-  @Input() private title: string;
+  @Input() title: string;
 
   autoCompleteChipList: FormControl = new FormControl();
 
@@ -26,7 +23,7 @@ export abstract class AutocompleteComponent implements OnInit {
         this.options = [];
 
         if (val) {
-          this.autoCompleteService.getAirports(val)
+          this.autoCompleteService.getOptions(this.getApiName(), val)
             .subscribe(res => {
               res.forEach(a => {
                 for(let c of this.chips) {
@@ -40,7 +37,11 @@ export abstract class AutocompleteComponent implements OnInit {
       });
   }
 
-  abstract getChipText(a: any): boolean;
+  abstract getApiName(): string;
+
+  protected getChipText(a: any): boolean {
+    return a.code;
+  }
 
   addChip(event: MatAutocompleteSelectedEvent, input: any): void {
     const selection = event.option.value;
