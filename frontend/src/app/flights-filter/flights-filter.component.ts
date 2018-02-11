@@ -7,4 +7,8 @@ import {Component} from '@angular/core';
 })
 export class FlightsFilterComponent {
 
+  change(field: string, value: Set<string>) {
+    console.log(field);
+    console.log(value);
+  }
 }

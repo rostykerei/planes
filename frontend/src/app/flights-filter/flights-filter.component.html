@@ -12,14 +12,14 @@
   <mat-datepicker #pickerTo></mat-datepicker>
 </mat-form-field>
 
-<app-aircrafts-autocomplete chipColor="#E1BEE7"></app-aircrafts-autocomplete>
+<app-aircrafts-autocomplete (onChange)="change('aircrafts', $event)" chipColor="#E1BEE7"></app-aircrafts-autocomplete>
 
-<app-types-autocomplete chipColor="#C5CAE9"></app-types-autocomplete>
+<app-types-autocomplete (onChange)="change('types', $event)" chipColor="#C5CAE9"></app-types-autocomplete>
 
-<app-airlines-autocomplete chipColor="#B3E5FC"></app-airlines-autocomplete>
+<app-airlines-autocomplete (onChange)="change('airlines', $event)" chipColor="#B3E5FC"></app-airlines-autocomplete>
 
-<app-routes-autocomplete chipColor="#B2DFDB"></app-routes-autocomplete>
+<app-routes-autocomplete (onChange)="change('routes', $event)" chipColor="#B2DFDB"></app-routes-autocomplete>
 
-<app-airports-autocomplete chipColor="#DCEDC8" [title]="'Origins'"></app-airports-autocomplete>
+<app-airports-autocomplete (onChange)="change('origins', $event)" chipColor="#DCEDC8" [title]="'Origins'"></app-airports-autocomplete>
 
-<app-airports-autocomplete chipColor="#FFF9C4" [title]="'Destinations'"></app-airports-autocomplete>
+<app-airports-autocomplete (onChange)="change('destinations', $event)" chipColor="#FFF9C4" [title]="'Destinations'"></app-airports-autocomplete>
