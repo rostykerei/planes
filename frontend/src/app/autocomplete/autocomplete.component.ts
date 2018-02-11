@@ -22,7 +22,8 @@ export abstract class AutocompleteComponent implements OnInit {
         this.options.clear();
 
         if (val) {
-          this.autoCompleteService.getOptions(this.getApiName(), val)
+          this.autoCompleteService
+            .getOptions(this.getApiName(), val)
             .subscribe(res => {
               res.forEach(a => {
                 if (this.chips.has(this.getChipText(a))) {
@@ -40,6 +41,10 @@ export abstract class AutocompleteComponent implements OnInit {
 
   protected getChipText(a: any): string {
     return a.code;
+  }
+
+  protected getOptionText(a: any): string {
+    return a.name;
   }
 
   addChip(event: MatAutocompleteSelectedEvent, input: any): void {
