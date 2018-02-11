@@ -7,6 +7,7 @@ import {AutocompleteService} from "../autocomplete.service";
 export abstract class AutocompleteComponent implements OnInit {
 
   @Input() title: string;
+  @Input() chipColor: string = '#D1C4E9';
 
   autoCompleteChipList: FormControl = new FormControl();
 

@@ -3,7 +3,7 @@ import {Component} from "@angular/core";
 
 @Component({
   selector: 'app-airports-autocomplete',
-  templateUrl: './airports-autocomplete.component.html',
+  templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss']
 })
 export class AirportsAutocompleteComponent extends AutocompleteComponent {

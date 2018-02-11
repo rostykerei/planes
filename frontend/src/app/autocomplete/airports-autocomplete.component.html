@@ -3,7 +3,8 @@
     <mat-chip
       *ngFor="let chip of chips"
       [removable]="true"
-      (remove)="removeChip(chip)">
+      (remove)="removeChip(chip)"
+      [style.backgroundColor]="chipColor">
       {{chip}}
       <mat-icon matChipRemove>cancel</mat-icon>
     </mat-chip>
