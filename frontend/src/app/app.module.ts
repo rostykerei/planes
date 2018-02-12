@@ -26,11 +26,11 @@ import {StatsService} from "./stats/stats.service";
 import {FlightsFilterComponent} from './flights-filter/flights-filter.component';
 import {MatInputModule} from "@angular/material";
 import {AutocompleteService} from "./autocomplete.service";
-import {AirportsAutocompleteComponent} from "./autocomplete/airports-autocomplete.component";
-import {TypesAutocompleteComponent} from "./autocomplete/types-autocomplete.component";
-import {AirlinesAutocompleteComponent} from "./autocomplete/airlines-autocomplete.component";
-import {RoutesAutocompleteComponent} from "./autocomplete/routes-autocomplete.component";
-import {AircraftsAutocompleteComponent} from "./autocomplete/aircrafts-autocomplete.component";
+import {AutocompleteAircraftsComponent} from "./autocomplete/autocomplete-aircrafts.component";
+import {AutocompleteAirportsComponent} from "./autocomplete/autocomplete-airports.component";
+import {AutocompleteAirlinesComponent} from "./autocomplete/autocomplete-airlines.component";
+import {AutocompleteTypesComponent} from "./autocomplete/autocomplete-types.component";
+import {AutocompleteRoutesComponent} from "./autocomplete/autocomplete-routes.component";
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -54,11 +54,11 @@ const stompConfig: StompConfig = {
     RoutesComponent,
     StatsComponent,
     FlightsFilterComponent,
-    AircraftsAutocompleteComponent,
-    AirportsAutocompleteComponent,
-    TypesAutocompleteComponent,
-    AirlinesAutocompleteComponent,
-    RoutesAutocompleteComponent
+    AutocompleteAircraftsComponent,
+    AutocompleteAirportsComponent,
+    AutocompleteAirlinesComponent,
+    AutocompleteTypesComponent,
+    AutocompleteRoutesComponent
   ],
   imports: [
     BrowserModule,

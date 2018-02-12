@@ -2,11 +2,11 @@ import {AutocompleteComponent} from "./autocomplete.component";
 import {Component} from "@angular/core";
 
 @Component({
-  selector: 'app-airports-autocomplete',
-  templateUrl: './airports-autocomplete.component.html',
+  selector: 'app-autocomplete-airports',
+  templateUrl: './autocomplete-airports.component.html',
   styleUrls: ['./autocomplete.component.scss']
 })
-export class AirportsAutocompleteComponent extends AutocompleteComponent {
+export class AutocompleteAirportsComponent extends AutocompleteComponent {
 
   title: string = 'Airports';
 

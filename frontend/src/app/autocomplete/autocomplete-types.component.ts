@@ -2,25 +2,23 @@ import {AutocompleteComponent} from "./autocomplete.component";
 import {Component} from "@angular/core";
 
 @Component({
-  selector: 'app-aircrafts-autocomplete',
+  selector: 'app-autocomplete-types',
   templateUrl: './autocomplete.component.html',
   styleUrls: ['./autocomplete.component.scss']
 })
-export class AircraftsAutocompleteComponent extends AutocompleteComponent {
+export class AutocompleteTypesComponent extends AutocompleteComponent {
 
-  title: string = 'Aircrafts';
+  title: string = 'Types';
 
   getApiName(): string {
-    return "aircrafts";
+    return "types";
   }
 
   protected getChipText(a: any): string {
-    return a.registration;
+    return a.type;
   }
 
   protected getOptionText(a: any): string {
-    return '<b>' + a.registration + '</b>'
-      + '&nbsp;:&nbsp;'
-      + (a.model ? a.model : (a.type ? a.type.type : ''));
+    return '<b>' + a.type + '</b>&nbsp;:&nbsp;' + (a.manufacturer || '') + ' ' + (a.model || '');
   }
 }
