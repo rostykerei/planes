@@ -1,5 +1,10 @@
 <mat-form-field>
-  <input matInput [formControl]="date" [max]="maxDate" (focus)="pickerFrom.open()" [matDatepicker]="pickerFrom" [placeholder]="title">
+  <input matInput
+         [formControl]="date"
+         [min]="minDate" [max]="maxDate"
+         [matDatepicker]="pickerFrom"
+         [placeholder]="title"
+         (dateChange)="change()">
   <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
   <mat-datepicker #pickerFrom></mat-datepicker>
 </mat-form-field>

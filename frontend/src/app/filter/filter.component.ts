@@ -17,6 +17,8 @@ export class FilterComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {
   }
 
+  dateFrom: string = null;
+  dateTo: string = null;
   aircrafts: Set<string> = new Set<string>();
   types: Set<string> = new Set<string>();
   airlines: Set<string> = new Set<string>();
@@ -25,6 +27,8 @@ export class FilterComponent implements OnInit {
   destinations: Set<string> = new Set<string>();
 
   ngOnInit() {
+    this.dateFrom = this.setDateField('dateFrom');
+    this.dateTo = this.setDateField('dateTo');
     this.setFilterField(this.aircrafts, 'aircrafts');
     this.setFilterField(this.types, 'types');
     this.setFilterField(this.airlines, 'airlines');
@@ -35,18 +39,44 @@ export class FilterComponent implements OnInit {
     this.onReady.emit(this.state);
   }
 
+  changeDate(field: string, value: string) {
+    let queryParams = {};
+    queryParams[field] = value;
+    this.state[field] = value;
+
+    this.applyChange(queryParams);
+  }
+
   change(field: string, value: Set<string>) {
     let queryParams = {};
-    queryParams[field] = Array.from(value.values());
+    let values: string[] = Array.from(value.values());
 
+    queryParams[field] = values;
+    this.state[field] = values;
+
+    this.applyChange(queryParams);
+  }
+
+  private applyChange(queryParams: any) {
     this.router.navigate([], {
         queryParams: queryParams,
         queryParamsHandling: 'merge'
       }
     );
 
-    this.state[field] = queryParams[field];
     this.onChange.emit(this.state);
+  }
+
+  private setDateField(name: string): string {
+    let query = this.route.snapshot.queryParams;
+
+    if (query.hasOwnProperty(name)) {
+      // todo validate date
+      this.state[name] = query[name];
+      return query[name];
+    }
+
+    return null;
   }
 
   private setFilterField(field: Set<string>, name: string): void {

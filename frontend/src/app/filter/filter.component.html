@@ -1,7 +1,7 @@
 <h1 class="mat-h1">Filter</h1>
 
-<app-datepicker title="Date from"></app-datepicker>
-<app-datepicker title="Date to"></app-datepicker>
+<app-datepicker [value]="dateFrom" (onChange)="changeDate('dateFrom', $event)" title="Date from"></app-datepicker>
+<app-datepicker [value]="dateTo" (onChange)="changeDate('dateTo', $event)" title="Date to"></app-datepicker>
 
 <app-autocomplete-aircrafts (onChange)="change('aircrafts', $event)" [chips]="aircrafts" chipColor="#E1BEE7"></app-autocomplete-aircrafts>
 <app-autocomplete-types (onChange)="change('types', $event)" [chips]="types" chipColor="#C5CAE9"></app-autocomplete-types>
