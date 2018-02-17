@@ -1,18 +1,18 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {FlightsFilter} from "../model/flights-filter";
+import {Filter} from "./filter";
 
 @Component({
-  selector: 'app-flights-filter',
-  templateUrl: './flights-filter.component.html',
-  styleUrls: ['./flights-filter.component.scss']
+  selector: 'app-filter',
+  templateUrl: './filter.component.html',
+  styleUrls: ['./filter.component.scss']
 })
-export class FlightsFilterComponent implements OnInit {
+export class FilterComponent implements OnInit {
 
-  @Output() onChange: EventEmitter<FlightsFilter> = new EventEmitter();
-  @Output() onReady: EventEmitter<FlightsFilter> = new EventEmitter();
+  @Output() onChange: EventEmitter<Filter> = new EventEmitter();
+  @Output() onReady: EventEmitter<Filter> = new EventEmitter();
 
-  state: FlightsFilter = new FlightsFilter();
+  state: Filter = new Filter();
 
   constructor(private route: ActivatedRoute, private router: Router) {
   }

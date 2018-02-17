@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {StatsService} from "./stats.service";
 import {NameValue} from "../model/name-value";
-import {FlightsFilter} from "../model/flights-filter";
+import {Filter} from "../filter/filter";
 
 @Component({
   selector: 'app-stats',
@@ -95,7 +95,7 @@ export class StatsComponent {
 
 
 
-  filterReady(event: FlightsFilter) {
+  filterReady(event: Filter) {
     console.log("filter ready");
     console.log(event);
 
@@ -103,7 +103,7 @@ export class StatsComponent {
     this.statsService.getTopAirlines().subscribe(data => this.topAirlinesLoaded(data));
   }
 
-  filterChange(event: FlightsFilter) {
+  filterChange(event: Filter) {
     console.log("filter changed");
     console.log(event);
   }

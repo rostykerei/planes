@@ -1,16 +1,7 @@
 <h1 class="mat-h1">Filter</h1>
 
-<mat-form-field style="width: 100%">
-  <input matInput [matDatepicker]="pickerFrom" placeholder="Date from">
-  <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
-  <mat-datepicker #pickerFrom></mat-datepicker>
-</mat-form-field>
-
-<mat-form-field style="width: 100%">
-  <input matInput [matDatepicker]="pickerTo" placeholder="Date to">
-  <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
-  <mat-datepicker #pickerTo></mat-datepicker>
-</mat-form-field>
+<app-datepicker title="Date from"></app-datepicker>
+<app-datepicker title="Date to"></app-datepicker>
 
 <app-autocomplete-aircrafts (onChange)="change('aircrafts', $event)" [chips]="aircrafts" chipColor="#E1BEE7"></app-autocomplete-aircrafts>
 <app-autocomplete-types (onChange)="change('types', $event)" [chips]="types" chipColor="#C5CAE9"></app-autocomplete-types>

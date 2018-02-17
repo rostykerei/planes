@@ -23,7 +23,7 @@ import {RoutesComponent} from './routes/routes.component';
 import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {StatsComponent} from './stats/stats.component';
 import {StatsService} from "./stats/stats.service";
-import {FlightsFilterComponent} from './flights-filter/flights-filter.component';
+import {FilterComponent} from './filter/filter.component';
 import {MatInputModule} from "@angular/material";
 import {AutocompleteService} from "./autocomplete.service";
 import {AutocompleteAircraftsComponent} from "./autocomplete/autocomplete-aircrafts.component";
@@ -31,6 +31,7 @@ import {AutocompleteAirportsComponent} from "./autocomplete/autocomplete-airport
 import {AutocompleteAirlinesComponent} from "./autocomplete/autocomplete-airlines.component";
 import {AutocompleteTypesComponent} from "./autocomplete/autocomplete-types.component";
 import {AutocompleteRoutesComponent} from "./autocomplete/autocomplete-routes.component";
+import {DatepickerComponent} from './datepicker/datepicker.component';
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -53,12 +54,13 @@ const stompConfig: StompConfig = {
     DashboardDetailsComponent,
     RoutesComponent,
     StatsComponent,
-    FlightsFilterComponent,
+    FilterComponent,
     AutocompleteAircraftsComponent,
     AutocompleteAirportsComponent,
     AutocompleteAirlinesComponent,
     AutocompleteTypesComponent,
-    AutocompleteRoutesComponent
+    AutocompleteRoutesComponent,
+    DatepickerComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,8 @@ const stompConfig: StompConfig = {
     {
       provide: StompConfig,
       useValue: stompConfig
-    }],
+    }
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
