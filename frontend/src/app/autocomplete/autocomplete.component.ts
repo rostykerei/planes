@@ -13,8 +13,8 @@ export abstract class AutocompleteComponent implements OnInit {
 
   autoCompleteChipList: FormControl = new FormControl();
 
-  options = new Set<any>();
-  chips = new Set<string>();
+  options: Set<any> = new Set<any>();
+  @Input() chips: Set<string> = new Set<string>();
 
   constructor(private autoCompleteService: AutocompleteService) {
   }
