@@ -1,10 +1,10 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 import {MAT_DATE_FORMATS} from '@angular/material/core';
-import {DatepickerDateAdapter} from "./datepicker-date-adapter";
-import {MatDateFormats} from "@angular/material/core/typings/datetime/date-formats";
-import {DateAdapter, MAT_DATE_LOCALE} from "@angular/material";
-import {DatepickerUtils} from "./datapicker-utils";
+import {DatepickerDateAdapter} from './datepicker-date-adapter';
+import {MatDateFormats} from '@angular/material/core/typings/datetime/date-formats';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material';
+import {DatepickerUtils} from './datapicker-utils';
 
 export const DATE_FORMAT: MatDateFormats = {
   parse: {
@@ -41,8 +41,7 @@ export class DatepickerComponent {
   set value(val: string) {
     if (DatepickerUtils.isValid(val)) {
       this.date.setValue(DatepickerUtils.toDate(val));
-    }
-    else {
+    } else {
       this.date.setValue(null);
     }
   }
@@ -51,8 +50,7 @@ export class DatepickerComponent {
     if (this.date.valid) {
       if (this.date.value) {
         this.onChange.emit(DatepickerUtils.toString(this.date.value));
-      }
-      else {
+      } else {
         this.onChange.emit(null);
       }
     }

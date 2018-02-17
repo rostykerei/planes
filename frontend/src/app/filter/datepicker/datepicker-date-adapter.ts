@@ -1,4 +1,4 @@
-import {MomentDateAdapter} from "@angular/material-moment-adapter";
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
 
 export class DatepickerDateAdapter extends MomentDateAdapter {
 

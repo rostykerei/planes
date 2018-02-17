@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {StatsService} from "./stats.service";
-import {NameValue} from "../model/name-value";
-import {Filter} from "../filter/filter";
+import {StatsService} from './stats.service';
+import {NameValue} from '../model/name-value';
+import {Filter} from '../filter/filter';
 
 @Component({
   selector: 'app-stats',
@@ -96,7 +96,7 @@ export class StatsComponent {
 
 
   filterReady(event: Filter) {
-    console.log("filter ready");
+    console.log('filter ready');
     console.log(event);
 
     this.statsService.getTopAircrafts().subscribe(data => this.topAircraftsLoaded(data));
@@ -104,12 +104,12 @@ export class StatsComponent {
   }
 
   filterChange(event: Filter) {
-    console.log("filter changed");
+    console.log('filter changed');
     console.log(event);
   }
 
-  topAircraftsLoaded(data: NameValue[]) : void {
-    let dataTable = [];
+  topAircraftsLoaded(data: NameValue[]): void {
+    const dataTable = [];
     dataTable.push(['Aircraft', 'Flights']);
 
     data.forEach(d => {
@@ -130,8 +130,8 @@ export class StatsComponent {
     };
   }
 
-  topAirlinesLoaded(data: NameValue[]) : void {
-    let dataTable = [];
+  topAirlinesLoaded(data: NameValue[]): void {
+    const dataTable = [];
     dataTable.push(['Airlines', 'Flights']);
 
     data.forEach(d => {

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {MapFlight} from "../../model/map-flight";
-import {DashboardUtils} from "../dashboard-utils";
-import {environment} from "../../../environments/environment";
+import {MapFlight} from '../../model/map-flight';
+import {DashboardUtils} from '../dashboard-utils';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard-details',
@@ -45,7 +45,6 @@ export class DashboardDetailsComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
     if (changes.hasOwnProperty('details')) {
       this.cleanDetails();
       this.updateRoute();
@@ -58,8 +57,7 @@ export class DashboardDetailsComponent implements OnChanges {
         this.distance = DashboardUtils.distance(
           environment.mapStartLat, environment.mapStartLon,
           this.flight);
-      }
-      else {
+      } else {
         this.distance = null;
       }
     }
@@ -97,7 +95,7 @@ export class DashboardDetailsComponent implements OnChanges {
   }
 
   private updateRoute(): void {
-    let route = this.details.route;
+    const route = this.details.route;
 
     if (route) {
       this.callsign = route.callsign;
@@ -122,7 +120,7 @@ export class DashboardDetailsComponent implements OnChanges {
   }
 
   private updateAircraft(): void {
-    let aircraft = this.details.aircraft;
+    const aircraft = this.details.aircraft;
 
     if (aircraft) {
       this.aircraftCode = aircraft.code;
@@ -143,8 +141,8 @@ export class DashboardDetailsComponent implements OnChanges {
   }
 
   private updateAirline(): void {
-    let route = this.details.route;
-    let aircraft = this.details.aircraft;
+    const route = this.details.route;
+    const aircraft = this.details.aircraft;
 
     if (route && route.airline) {
       this.airlineName = route.airline.name;
@@ -154,11 +152,10 @@ export class DashboardDetailsComponent implements OnChanges {
         && this.details.aircraft
         && this.details.aircraft.airline
         && this.details.aircraft.airline.code
-        && this.airlineCode != this.details.aircraft.airline.code) {
+        && this.airlineCode !== this.details.aircraft.airline.code) {
         this.airlineOperatedBy = this.details.aircraft.airline.name;
       }
-    }
-    else if (aircraft && aircraft.airline) {
+    } else if (aircraft && aircraft.airline) {
       this.airlineName = aircraft.airline.name;
       this.airlineCode = aircraft.airline.code;
     }

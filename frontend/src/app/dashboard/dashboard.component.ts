@@ -1,11 +1,11 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {MapService} from "../map.service";
-import {MapFlight} from "../model/map-flight";
-import {LngLat} from "../model/lng-lat";
-import {DashboardUtils} from "./dashboard-utils";
-import {environment} from "../../environments/environment";
-import {StompService} from "@stomp/ng2-stompjs";
-import {ISubscription} from "rxjs/Subscription";
+import {MapService} from '../map.service';
+import {MapFlight} from '../model/map-flight';
+import {LngLat} from '../model/lng-lat';
+import {DashboardUtils} from './dashboard-utils';
+import {environment} from '../../environments/environment';
+import {StompService} from '@stomp/ng2-stompjs';
+import {ISubscription} from 'rxjs/Subscription';
 
 declare const google: any;
 
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    let mapProp = {
+    const mapProp = {
       center: new google.maps.LatLng(environment.mapStartLat, environment.mapStartLon),
       zoom: environment.mapStartZoom,
       mapTypeId: environment.mapTypeId,
@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     };
 
-    this.map = new google.maps.Map(document.getElementById("map"), mapProp);
+    this.map = new google.maps.Map(document.getElementById('map'), mapProp);
 
     this.map.addListener('click', () => {
       this.details = null;
@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateFlight(f: MapFlight): void {
-    let id: number = f.id;
+    const id: number = f.id;
     let marker: any;
 
     if (f.age > DashboardComponent.FLIGHT_MAX_AGE) {
@@ -108,12 +108,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       marker.setIcon(DashboardUtils.getIcon(f));
 
       // Update path
-      if (this.path && this.activeFlight && this.activeFlight.id == id) {
+      if (this.path && this.activeFlight && this.activeFlight.id === id) {
         this.drawnPath.push({lat: f.lat, lng: f.lon});
         this.path.setPath(this.drawnPath);
       }
-    }
-    else {
+    } else {
       marker = new google.maps.Marker({
         map: this.map,
         position: {lat: f.lat, lng: f.lon},
@@ -128,7 +127,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         this.loadDetails(id);
       });
 
-      let infowindow = new google.maps.InfoWindow({
+      const infowindow = new google.maps.InfoWindow({
         maxWidth: 65
       });
 
@@ -201,7 +200,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // remove stale flights
       if (data.age > DashboardComponent.FLIGHT_MAX_AGE) {
-        if (this.activeFlight && this.activeFlight.id == data.id) {
+        if (this.activeFlight && this.activeFlight.id === data.id) {
           this.activeFlight = null;
 
           if (this.path) {
@@ -221,7 +220,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
       marker.set(DashboardComponent.DATA, data);
 
-      if (this.activeFlight && this.activeFlight.id == data.id) {
+      if (this.activeFlight && this.activeFlight.id === data.id) {
         this.activeFlight = data;
       }
     });

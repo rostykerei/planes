@@ -7,22 +7,22 @@ import {Component} from '@angular/core';
 })
 export class NavigationComponent {
 
-  buttons : any = [
+  buttons: any = [
     {
-      label: "Dashboard",
-      path: ""
+      label: 'Dashboard',
+      path: ''
     },
     {
-      label: "Statistics",
-      path: "stats"
+      label: 'Statistics',
+      path: 'stats'
     },
     {
-      label: "Flights",
-      path: "flights"
+      label: 'Flights',
+      path: 'flights'
     },
     {
-      label: "About",
-      path: "about"
+      label: 'About',
+      path: 'about'
     }
   ];
 }

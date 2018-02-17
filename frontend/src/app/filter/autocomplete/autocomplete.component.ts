@@ -1,13 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {MatAutocompleteSelectedEvent} from "@angular/material";
-import {AutocompleteService} from "../../autocomplete.service";
+import {FormControl} from '@angular/forms';
+import {MatAutocompleteSelectedEvent} from '@angular/material';
+import {AutocompleteService} from '../../autocomplete.service';
 
 @Component({})
 export abstract class AutocompleteComponent implements OnInit {
 
   @Input() title: string;
-  @Input() chipColor: string = '#D1C4E9';
+  @Input() chipColor = '#D1C4E9';
   @Input() chips: Set<string> = new Set<string>();
 
   @Output() onChange: EventEmitter<Set<string>> = new EventEmitter();

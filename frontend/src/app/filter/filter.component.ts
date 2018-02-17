@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {Filter} from "./filter";
-import {DatepickerUtils} from "./datepicker/datapicker-utils";
+import {ActivatedRoute, Router} from '@angular/router';
+import {Filter} from './filter';
+import {DatepickerUtils} from './datepicker/datapicker-utils';
 
 @Component({
   selector: 'app-filter',
@@ -41,7 +41,7 @@ export class FilterComponent implements OnInit {
   }
 
   changeDate(field: string, value: string) {
-    let queryParams = {};
+    const queryParams = {};
     queryParams[field] = value;
     this.state[field] = value;
 
@@ -49,8 +49,8 @@ export class FilterComponent implements OnInit {
   }
 
   change(field: string, value: Set<string>) {
-    let queryParams = {};
-    let values: string[] = Array.from(value.values());
+    const queryParams = {};
+    const values: string[] = Array.from(value.values());
 
     queryParams[field] = values;
     this.state[field] = values;
@@ -69,7 +69,7 @@ export class FilterComponent implements OnInit {
   }
 
   private setDateField(name: string): string {
-    let query = this.route.snapshot.queryParams;
+    const query = this.route.snapshot.queryParams;
 
     if (query.hasOwnProperty(name)) {
       if (DatepickerUtils.isValid(query[name])) {
@@ -82,7 +82,7 @@ export class FilterComponent implements OnInit {
   }
 
   private setFilterField(field: Set<string>, name: string): void {
-    let query = this.route.snapshot.queryParams;
+    const query = this.route.snapshot.queryParams;
 
     if (query.hasOwnProperty(name)) {
       if (query[name] instanceof Array) {
@@ -91,8 +91,7 @@ export class FilterComponent implements OnInit {
         });
 
         this.state[name] = query[name];
-      }
-      else {
+      } else {
         field.add(query[name]);
         this.state[name] = [query[name]];
       }

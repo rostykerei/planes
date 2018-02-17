@@ -1,5 +1,5 @@
-import {AutocompleteComponent} from "./autocomplete.component";
-import {Component} from "@angular/core";
+import {AutocompleteComponent} from './autocomplete.component';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-autocomplete-aircrafts',
@@ -8,10 +8,10 @@ import {Component} from "@angular/core";
 })
 export class AutocompleteAircraftsComponent extends AutocompleteComponent {
 
-  title: string = 'Aircrafts';
+  title = 'Aircrafts';
 
   getApiName(): string {
-    return "aircrafts";
+    return 'aircrafts';
   }
 
   protected getChipText(a: any): string {
