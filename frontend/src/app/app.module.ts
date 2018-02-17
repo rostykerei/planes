@@ -9,29 +9,26 @@ import {MaterialModule} from "./material.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {FlightsComponent} from './flights/flights.component';
-import {AircraftsComponent} from './aircrafts/aircrafts.component';
-import {AirlinesComponent} from './airlines/airlines.component';
 import {AboutComponent} from './about/about.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {MapService} from "./map.service";
 import {HttpClientModule} from "@angular/common/http";
-import {DashboardDetailsComponent} from './dashboard-details/dashboard-details.component';
+import {DashboardDetailsComponent} from './dashboard/dashboard-details/dashboard-details.component';
 import {StompConfig, StompService} from "@stomp/ng2-stompjs";
 import * as SockJS from 'sockjs-client';
 import {environment} from "../environments/environment";
-import {RoutesComponent} from './routes/routes.component';
 import {Ng2GoogleChartsModule} from 'ng2-google-charts';
 import {StatsComponent} from './stats/stats.component';
 import {StatsService} from "./stats/stats.service";
 import {FilterComponent} from './filter/filter.component';
 import {MatInputModule} from "@angular/material";
 import {AutocompleteService} from "./autocomplete.service";
-import {AutocompleteAircraftsComponent} from "./autocomplete/autocomplete-aircrafts.component";
-import {AutocompleteAirportsComponent} from "./autocomplete/autocomplete-airports.component";
-import {AutocompleteAirlinesComponent} from "./autocomplete/autocomplete-airlines.component";
-import {AutocompleteTypesComponent} from "./autocomplete/autocomplete-types.component";
-import {AutocompleteRoutesComponent} from "./autocomplete/autocomplete-routes.component";
-import {DatepickerComponent} from './datepicker/datepicker.component';
+import {AutocompleteAircraftsComponent} from "./filter/autocomplete/autocomplete-aircrafts.component";
+import {AutocompleteAirportsComponent} from "./filter/autocomplete/autocomplete-airports.component";
+import {AutocompleteAirlinesComponent} from "./filter/autocomplete/autocomplete-airlines.component";
+import {AutocompleteTypesComponent} from "./filter/autocomplete/autocomplete-types.component";
+import {AutocompleteRoutesComponent} from "./filter/autocomplete/autocomplete-routes.component";
+import {DatepickerComponent} from './filter/datepicker/datepicker.component';
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -47,12 +44,9 @@ const stompConfig: StompConfig = {
     AppComponent,
     DashboardComponent,
     FlightsComponent,
-    AircraftsComponent,
-    AirlinesComponent,
     AboutComponent,
     NavigationComponent,
     DashboardDetailsComponent,
-    RoutesComponent,
     StatsComponent,
     FilterComponent,
     AutocompleteAircraftsComponent,

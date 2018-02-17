@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {MapFlight} from "../model/map-flight";
-import {DashboardUtils} from "../dashboard/dashboard-utils";
-import {environment} from "../../environments/environment";
+import {MapFlight} from "../../model/map-flight";
+import {DashboardUtils} from "../dashboard-utils";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-dashboard-details',

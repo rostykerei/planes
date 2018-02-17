@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Filter} from "./filter";
-import {DatepickerUtils} from "../datepicker/datapicker-utils";
+import {DatepickerUtils} from "./datepicker/datapicker-utils";
 
 @Component({
   selector: 'app-filter',
