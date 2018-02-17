@@ -1,6 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Filter} from "./filter";
+import {DatepickerUtils} from "../datepicker/datapicker-utils";
 
 @Component({
   selector: 'app-filter',
@@ -71,9 +72,10 @@ export class FilterComponent implements OnInit {
     let query = this.route.snapshot.queryParams;
 
     if (query.hasOwnProperty(name)) {
-      // todo validate date
-      this.state[name] = query[name];
-      return query[name];
+      if (DatepickerUtils.isValid(query[name])) {
+        this.state[name] = query[name];
+        return query[name];
+      }
     }
 
     return null;
