@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MAT_DATE_FORMATS} from '@angular/material/core';
-import {DatepickerDateAdapter} from "./datepiker-date-adapter";
+import {DatepickerDateAdapter} from "./datepicker-date-adapter";
 import {MatDateFormats} from "@angular/material/core/typings/datetime/date-formats";
 import {DateAdapter, MAT_DATE_LOCALE} from "@angular/material";
 import * as moment from 'moment';
