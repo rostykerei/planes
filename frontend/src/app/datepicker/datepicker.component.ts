@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MAT_DATE_FORMATS} from '@angular/material/core';
-import {DateAdapter} from "./date-adapter";
+import {DatepickerDateAdapter} from "./datepiker-date-adapter";
 import {MatDateFormats} from "@angular/material/core/typings/datetime/date-formats";
+import {DateAdapter, MAT_DATE_LOCALE} from "@angular/material";
 
 export const MY_FORMATS: MatDateFormats = {
   parse: {
@@ -22,7 +23,7 @@ export const MY_FORMATS: MatDateFormats = {
   styleUrls: ['./datepicker.component.scss'],
   providers: [
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
-    {provide: DateAdapter, useClass: DateAdapter}
+    {provide: DateAdapter, useClass: DatepickerDateAdapter, deps: [MAT_DATE_LOCALE]}
   ]
 })
 export class DatepickerComponent implements OnInit {

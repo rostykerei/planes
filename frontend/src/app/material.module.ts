@@ -16,7 +16,6 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
-import {MomentDateModule} from "@angular/material-moment-adapter";
 
 @NgModule({
   imports: [
@@ -24,8 +23,7 @@ import {MomentDateModule} from "@angular/material-moment-adapter";
     MatGridListModule, MatTableModule, MatCardModule,
     MatTooltipModule, MatIconModule, MatFormFieldModule,
     MatChipsModule, MatOptionModule, MatAutocompleteModule,
-    MatSidenavModule, MatNativeDateModule, MatDatepickerModule,
-    MomentDateModule
+    MatSidenavModule, MatNativeDateModule, MatDatepickerModule
   ],
   exports: [
     MatButtonModule, MatToolbarModule, MatTabsModule,
