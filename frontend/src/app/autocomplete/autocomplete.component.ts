@@ -8,13 +8,12 @@ export abstract class AutocompleteComponent implements OnInit {
 
   @Input() title: string;
   @Input() chipColor: string = '#D1C4E9';
+  @Input() chips: Set<string> = new Set<string>();
 
   @Output() onChange: EventEmitter<Set<string>> = new EventEmitter();
 
   autoCompleteChipList: FormControl = new FormControl();
-
   options: Set<any> = new Set<any>();
-  @Input() chips: Set<string> = new Set<string>();
 
   constructor(private autoCompleteService: AutocompleteService) {
   }

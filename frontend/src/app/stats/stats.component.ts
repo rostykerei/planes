@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {StatsService} from "./stats.service";
 import {NameValue} from "../model/name-value";
+import {FlightsFilter} from "../model/flights-filter";
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
   styleUrls: ['./stats.component.scss']
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent {
 
   aircraftsChart;
   airlinesChart;
@@ -92,9 +93,19 @@ export class StatsComponent implements OnInit {
   constructor(private statsService: StatsService) {
   }
 
-  ngOnInit() {
+
+
+  filterReady(event: FlightsFilter) {
+    console.log("filter ready");
+    console.log(event);
+
     this.statsService.getTopAircrafts().subscribe(data => this.topAircraftsLoaded(data));
     this.statsService.getTopAirlines().subscribe(data => this.topAirlinesLoaded(data));
+  }
+
+  filterChange(event: FlightsFilter) {
+    console.log("filter changed");
+    console.log(event);
   }
 
   topAircraftsLoaded(data: NameValue[]) : void {

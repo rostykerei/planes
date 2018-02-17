@@ -1,7 +1,7 @@
 <mat-drawer-container class="example-container" autosize>
 
   <mat-drawer #drawer class="example-sidenav" mode="side">
-    <app-flights-filter></app-flights-filter>
+    <app-flights-filter (onReady)="filterReady($event)"  (onChange)="filterChange($event)"></app-flights-filter>
   </mat-drawer>
 
   <div class="example-sidenav-content">

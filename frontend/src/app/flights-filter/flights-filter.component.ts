@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
+import {FlightsFilter} from "../model/flights-filter";
 
 @Component({
   selector: 'app-flights-filter',
@@ -7,6 +8,11 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./flights-filter.component.scss']
 })
 export class FlightsFilterComponent implements OnInit {
+
+  @Output() onChange: EventEmitter<FlightsFilter> = new EventEmitter();
+  @Output() onReady: EventEmitter<FlightsFilter> = new EventEmitter();
+
+  state: FlightsFilter = new FlightsFilter();
 
   constructor(private route: ActivatedRoute, private router: Router) {
   }
@@ -25,6 +31,8 @@ export class FlightsFilterComponent implements OnInit {
     this.setFilterField(this.routes, 'routes');
     this.setFilterField(this.origins, 'origins');
     this.setFilterField(this.destinations, 'destinations');
+
+    this.onReady.emit(this.state);
   }
 
   change(field: string, value: Set<string>) {
@@ -36,6 +44,9 @@ export class FlightsFilterComponent implements OnInit {
         queryParamsHandling: 'merge'
       }
     );
+
+    this.state[field] = queryParams[field];
+    this.onChange.emit(this.state);
   }
 
   private setFilterField(field: Set<string>, name: string): void {
@@ -45,10 +56,13 @@ export class FlightsFilterComponent implements OnInit {
       if (query[name] instanceof Array) {
         query[name].forEach(a => {
           field.add(a);
-        })
+        });
+
+        this.state[name] = query[name];
       }
       else {
         field.add(query[name]);
+        this.state[name] = [query[name]];
       }
     }
   }
