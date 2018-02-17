@@ -4,14 +4,14 @@ import {MAT_DATE_FORMATS} from '@angular/material/core';
 import {DatepickerDateAdapter} from "./datepicker-date-adapter";
 import {MatDateFormats} from "@angular/material/core/typings/datetime/date-formats";
 import {DateAdapter, MAT_DATE_LOCALE} from "@angular/material";
-import * as moment from 'moment';
+import {DatepickerUtils} from "./datapicker-utils";
 
 export const DATE_FORMAT: MatDateFormats = {
   parse: {
-    dateInput: 'DD-MM-YYYY',
+    dateInput: DatepickerUtils.FORMAT,
   },
   display: {
-    dateInput: 'DD-MM-YYYY',
+    dateInput: DatepickerUtils.FORMAT,
     monthYearLabel: 'MMM YYYY',
     dateA11yLabel: 'LL',
     monthYearA11yLabel: 'MMMM YYYY',
@@ -30,36 +30,27 @@ export const DATE_FORMAT: MatDateFormats = {
 export class DatepickerComponent {
 
   @Input() title: string;
-
   @Output() onChange: EventEmitter<String> = new EventEmitter();
 
-  minDate: Date = new Date(2018, 1, 1);
-  maxDate: Date = new Date();
+  minDate: Date = DatepickerUtils.MIN_DATE;
+  maxDate: Date = DatepickerUtils.MAX_DATE;
 
   date = new FormControl();
 
   @Input()
   set value(val: string) {
-    if (val) {
-      let m = moment(val, 'DD-MM-YYYY');
-
-      if (m.isValid()
-        && m.toDate().getTime() >= this.minDate.getTime()
-        && m.toDate().getTime() <= this.maxDate.getTime()) {
-
-        this.date.setValue(m.toDate());
-      }
-      else {
-        this.date.setValue(null);
-      }
+    if (DatepickerUtils.isValid(val)) {
+      this.date.setValue(DatepickerUtils.toDate(val));
     }
-
+    else {
+      this.date.setValue(null);
+    }
   }
 
   change() {
     if (this.date.valid) {
       if (this.date.value) {
-        this.onChange.emit(this.date.value.format("DD-MM-YYYY"));
+        this.onChange.emit(DatepickerUtils.toString(this.date.value));
       }
       else {
         this.onChange.emit(null);
