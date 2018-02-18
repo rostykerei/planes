@@ -8,14 +8,25 @@ export abstract class AutocompleteComponent implements OnInit {
 
   @Input() title: string;
   @Input() chipColor = '#D1C4E9';
-  @Input() chips: Set<string> = new Set<string>();
 
   @Output() onChange: EventEmitter<Set<string>> = new EventEmitter();
 
   autoCompleteChipList: FormControl = new FormControl();
   options: Set<any> = new Set<any>();
+  chips: Set<string> = new Set<string>();
 
   constructor(private autoCompleteService: AutocompleteService) {
+  }
+
+  @Input()
+  set values(input: Set<string>) {
+    if (!input || input.size === 0) {
+      this.chips = new Set<string>();
+      this.autoCompleteChipList.setValue(null);
+    } else {
+      this.chips = input;
+    }
+
   }
 
   ngOnInit() {

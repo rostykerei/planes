@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Filter} from './filter';
 import {DatepickerUtils} from './datepicker/datapicker-utils';
@@ -9,6 +9,9 @@ import {DatepickerUtils} from './datepicker/datapicker-utils';
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit {
+
+  @Input() goButtonIcon: string;
+  @Input() goButtonText: string;
 
   @Output() onChange: EventEmitter<Filter> = new EventEmitter();
   @Output() onReady: EventEmitter<Filter> = new EventEmitter();
@@ -56,6 +59,25 @@ export class FilterComponent implements OnInit {
     this.state[field] = values;
 
     this.applyChange(queryParams);
+  }
+
+  clear(): void {
+    this.dateFrom = null;
+    this.dateTo = null;
+    this.aircrafts = new Set<string>();
+    this.types = new Set<string>();
+    this.airlines = new Set<string>();
+    this.routes = new Set<string>();
+    this.origins = new Set<string>();
+    this.destinations = new Set<string>();
+
+    this.router.navigate([], {
+        queryParams: {}
+      }
+    );
+
+    this.state = new Filter();
+    this.onChange.emit(this.state);
   }
 
   private applyChange(queryParams: any) {

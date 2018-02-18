@@ -1,7 +1,11 @@
 <mat-drawer-container class="container" autosize>
 
   <mat-drawer #drawer class="sidenav" mode="side" [opened]="true" (onOpen)="showFilterBtn.checked = true" (onClose)="showFilterBtn.checked = false" >
-    <app-filter (onReady)="filterReady($event)" (onChange)="filterChange($event)"></app-filter>
+    <app-filter
+      (onReady)="filterReady($event)"
+      (onChange)="filterChange($event)"
+      goButtonIcon="show_chart" goButtonText="Stats">
+    </app-filter>
   </mat-drawer>
 
   <div class="content" style="height: 1000px">
