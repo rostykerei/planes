@@ -9,3 +9,8 @@
 <app-autocomplete-routes (onChange)="change('routes', $event)" [chips]="routes" chipColor="#B2DFDB"></app-autocomplete-routes>
 <app-autocomplete-airports (onChange)="change('origins', $event)" [chips]="origins" chipColor="#DCEDC8" [title]="'Origins'"></app-autocomplete-airports>
 <app-autocomplete-airports (onChange)="change('destinations', $event)" [chips]="destinations" chipColor="#FFF9C4" [title]="'Destinations'"></app-autocomplete-airports>
+
+<div class="buttons">
+<button mat-raised-button color="primary"><mat-icon>clear</mat-icon> Clear</button>
+<button mat-raised-button color="accent"><mat-icon>flight_takeoff</mat-icon> Flights</button>
+</div>
