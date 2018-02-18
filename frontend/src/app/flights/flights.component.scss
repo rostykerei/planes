@@ -1,14 +1,15 @@
-.example-container {
+.container {
   width: 100%;
-  min-height: 800px;
+  background: none;
 }
 
-.example-sidenav-content {
+.content {
   height: 100%;
+  padding: 20px;
 }
 
-.example-sidenav {
+.sidenav {
   padding: 20px;
   width: 300px;
-  border: solid 1px black;
+  background: #fbfbfb;
 }

@@ -1,13 +1,23 @@
-<mat-drawer-container class="example-container" autosize>
+<mat-drawer-container class="container" autosize>
 
-  <mat-drawer #drawer class="example-sidenav" mode="side">
-    <app-filter></app-filter>
+  <mat-drawer #drawer class="sidenav" mode="side" [opened]="true" (onOpen)="showFilterBtn.checked = true" (onClose)="showFilterBtn.checked = false" >
+    <app-filter (onReady)="filterReady($event)" (onChange)="filterChange($event)"></app-filter>
   </mat-drawer>
 
-  <div class="example-sidenav-content">
-    <button type="button" mat-button (click)="drawer.toggle()">
-      Toggle sidenav
-    </button>
+  <div class="content" style="height: 1000px">
+
+    <mat-button-toggle #showFilterBtn title="Toggle filter" [checked]="true" style="float: right;" color="primary" (click)="drawer.toggle()">
+      <mat-icon>filter_list</mat-icon>
+    </mat-button-toggle>
+
+    <div class="row">
+      <h1 class="mat-h1"><mat-icon>flight_takeoff</mat-icon> Flights</h1>
+    </div>
+
   </div>
 
 </mat-drawer-container>
+
+
+
+
