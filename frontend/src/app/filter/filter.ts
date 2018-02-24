@@ -17,14 +17,14 @@ export class Filter {
   }
 
   public clear() : void {
-    this.dateFrom.date = null;
-    this.dateTo.date = null;
-    this.aircrafts.clear();
-    this.types.clear();
-    this.airlines.clear();
-    this.routes.clear();
-    this.origins.clear();
-    this.destinations.clear();
+    this.dateFrom = new DateWrapper();
+    this.dateTo = new DateWrapper();;
+    this.aircrafts = new Set<string>();
+    this.types = new Set<string>();
+    this.airlines = new Set<string>();
+    this.routes = new Set<string>();
+    this.origins = new Set<string>();
+    this.destinations = new Set<string>();
   }
 
   public toQueryParams() : any {
@@ -62,11 +62,29 @@ export class Filter {
       q['origins'] = Array.from(this.origins.values());
     }
 
-    if (this.origins.size > 0) {
+    if (this.destinations.size > 0) {
       q['destinations'] = Array.from(this.destinations.values());
     }
 
     return q;
+  }
+
+  public toQueryString() : string {
+    let params = this.toQueryParams();
+    let q = '';
+
+    for (let key in params) {
+      let value = params[key];
+
+      if (value instanceof Array) {
+        value.forEach(v => q += '&' + key + '=' + encodeURI(v));
+      }
+      else {
+        q += '&' + key + '=' + encodeURI(value);
+      }
+    }
+
+    return q.length > 1 ? q.substring(1) : '';
   }
 
   public static fromQueryParams(params: Params): Filter {

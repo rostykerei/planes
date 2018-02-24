@@ -105,7 +105,7 @@ export class StatsComponent {
 
   filterChange(event: Filter) {
     console.log('filter changed');
-    console.log(event);
+    console.log(event.toQueryString());
   }
 
   topAircraftsLoaded(data: NameValue[]): void {
