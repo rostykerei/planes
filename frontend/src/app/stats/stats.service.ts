@@ -9,12 +9,18 @@ export class StatsService {
 
   constructor(private http: HttpClient) {}
 
-  getTopAircrafts(): Observable<NameValue[]> {
-    return this.http.get<NameValue[]>(environment.apiUrl + 'stats/aircrafts');
+  getTopAircrafts(filter: string): Observable<NameValue[]> {
+    let url = environment.apiUrl + 'stats/aircrafts';
+    url += filter ? '?' + filter : '';
+
+    return this.http.get<NameValue[]>(url);
   }
 
-  getTopAirlines(): Observable<NameValue[]> {
-    return this.http.get<NameValue[]>(environment.apiUrl + 'stats/airlines');
+  getTopAirlines(filter: string): Observable<NameValue[]> {
+    let url = environment.apiUrl + 'stats/airlines';
+    url += filter ? '?' + filter : '';
+
+    return this.http.get<NameValue[]>(url);
   }
 
 }

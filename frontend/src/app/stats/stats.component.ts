@@ -94,18 +94,9 @@ export class StatsComponent {
   }
 
 
-
-  filterReady(event: Filter) {
-    console.log('filter ready');
-    console.log(event);
-
-    this.statsService.getTopAircrafts().subscribe(data => this.topAircraftsLoaded(data));
-    this.statsService.getTopAirlines().subscribe(data => this.topAirlinesLoaded(data));
-  }
-
   filterChange(event: Filter) {
-    console.log('filter changed');
-    console.log(event.toQueryString());
+    this.statsService.getTopAircrafts(event.toQueryString()).subscribe(data => this.topAircraftsLoaded(data));
+    this.statsService.getTopAirlines(event.toQueryString()).subscribe(data => this.topAirlinesLoaded(data));
   }
 
   topAircraftsLoaded(data: NameValue[]): void {

@@ -18,7 +18,7 @@ export class Filter {
 
   public clear() : void {
     this.dateFrom = new DateWrapper();
-    this.dateTo = new DateWrapper();;
+    this.dateTo = new DateWrapper();
     this.aircrafts = new Set<string>();
     this.types = new Set<string>();
     this.airlines = new Set<string>();
