@@ -30,30 +30,34 @@ export const DATE_FORMAT: MatDateFormats = {
 export class DatepickerComponent {
 
   @Input() title: string;
-  @Output() onChange: EventEmitter<String> = new EventEmitter();
+  @Output() onChange: EventEmitter<DateWrapper> = new EventEmitter();
 
   minDate: Date = DatepickerUtils.MIN_DATE;
   maxDate: Date = DatepickerUtils.MAX_DATE;
 
   date = new FormControl();
 
+  dateWrapper: DateWrapper;
+
   @Input()
-  set value(val: string) {
-    if (DatepickerUtils.isValid(val)) {
-      this.date.setValue(DatepickerUtils.toDate(val));
-    } else {
-      this.date.setValue(null);
-    }
+  set value(val: DateWrapper) {
+    this.dateWrapper = val;
+    this.date.setValue(val.date);
   }
 
   change() {
     if (this.date.valid) {
       if (this.date.value) {
-        this.onChange.emit(DatepickerUtils.toString(this.date.value));
+        this.dateWrapper.date = this.date.value.toDate();
       } else {
-        this.onChange.emit(null);
+        this.dateWrapper.date = null;
       }
+
+      this.onChange.emit(this.dateWrapper);
     }
   }
+}
 
+export class DateWrapper {
+  date: Date;
 }

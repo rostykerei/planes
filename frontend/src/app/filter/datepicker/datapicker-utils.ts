@@ -22,7 +22,7 @@ export class DatepickerUtils {
     return moment(input, this.FORMAT).toDate();
   }
 
-  public static toString(input: any): string {
-    return input.format(DatepickerUtils.FORMAT);
+  public static toString(input: Date): string {
+    return moment(input).format(this.FORMAT);
   }
 }

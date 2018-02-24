@@ -20,13 +20,11 @@ export abstract class AutocompleteComponent implements OnInit {
 
   @Input()
   set values(input: Set<string>) {
-    if (!input || input.size === 0) {
-      this.chips = new Set<string>();
+    if (input.size === 0) {
       this.autoCompleteChipList.setValue(null);
-    } else {
-      this.chips = input;
     }
 
+    this.chips = input;
   }
 
   ngOnInit() {
