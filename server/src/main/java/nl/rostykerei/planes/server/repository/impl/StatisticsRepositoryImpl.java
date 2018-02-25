@@ -2,18 +2,32 @@ package nl.rostykerei.planes.server.repository.impl;
 
 import nl.rostykerei.planes.server.repository.StatisticsRepository;
 import nl.rostykerei.planes.server.request.Filter;
+import nl.rostykerei.planes.server.request.FilterField;
 import nl.rostykerei.planes.server.response.NameValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class StatisticsRepositoryImpl implements StatisticsRepository {
 
     private EntityManager em;
+
+    private final static Map<FilterField, String> FILTER_MAP = new HashMap<>();
+
+    static {
+        FILTER_MAP.put(FilterField.AIRCRAFTS, "aircraft.registration");
+        FILTER_MAP.put(FilterField.TYPES, "aircraftType.type");
+        FILTER_MAP.put(FilterField.AIRLINES, "airline.code");
+        FILTER_MAP.put(FilterField.ROUTES, "route.callsign");
+        FILTER_MAP.put(FilterField.ORIGINS, "origin.code");
+        FILTER_MAP.put(FilterField.DESTINATIONS, "destination.code");
+    }
 
     @Autowired
     public StatisticsRepositoryImpl(EntityManager em) {
@@ -24,39 +38,83 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<NameValue> getTopAircrafts(Filter filter, int size) {
-        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(a.type.type, COUNT(a)) " +
-                "FROM Flight f JOIN Aircraft a ON f.aircraft = a.code " +
-                "WHERE a.type IS NOT NULL " +
-                "GROUP BY a.type ORDER BY count(a) DESC";
+        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(aircraft.type.type, COUNT(aircraft)) " +
+                "FROM Flight flight " +
+                "JOIN Aircraft aircraft ON flight.aircraft = aircraft.code " +
+                "LEFT JOIN AircraftType aircraftType ON aircraft.type = aircraftType.type " +
+                "JOIN Airline airline ON aircraft.airline = airline.code " +
+                "LEFT JOIN Route route ON flight.route = route.callsign " +
+                "LEFT JOIN Airport origin ON route.airportFrom = origin.code " +
+                "LEFT JOIN Airport destination ON route.airportTo = destination.code " +
+                "WHERE aircraft.type IS NOT NULL ";
 
-        return em.createQuery(query)
-                .setMaxResults(size)
-                .getResultList();
+        query += filterClause(filter);
+        query += "GROUP BY aircraft.type ORDER BY count(aircraft) DESC";
 
+        Query q = filterClause(em.createQuery(query), filter);
+
+        return q.setMaxResults(size).getResultList();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<NameValue> getTopAirlines(Filter filter, int size) {
-        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(al.code, COUNT(al)) " +
-                "FROM Flight f " +
-                "JOIN Aircraft a ON f.aircraft = a.code " +
-                "JOIN Airline al ON a.airline = al.code " +
-                "WHERE a.airline IS NOT NULL ";
+        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(airline.code, COUNT(airline)) " +
+                "FROM Flight flight " +
+                "JOIN Aircraft aircraft ON flight.aircraft = aircraft.code " +
+                "LEFT JOIN AircraftType aircraftType ON aircraft.type = aircraftType.type " +
+                "JOIN Airline airline ON aircraft.airline = airline.code " +
+                "LEFT JOIN Route route ON flight.route = route.callsign " +
+                "LEFT JOIN Airport origin ON route.airportFrom = origin.code " +
+                "LEFT JOIN Airport destination ON route.airportTo = destination.code " +
+                "WHERE aircraft.airline IS NOT NULL ";
 
-        if (!filter.getAirlines().isEmpty()) {
-            query += "AND al.code IN :airlines ";
+        query += filterClause(filter);
+        query += "GROUP BY airline.code ORDER BY count(airline) DESC";
+
+        Query q = filterClause(em.createQuery(query), filter);
+
+        return q.setMaxResults(size).getResultList();
+    }
+
+    private String filterClause(Filter filter) {
+        StringBuilder q = new StringBuilder();
+
+        if (filter.getDateFrom().isPresent()) {
+            q.append("AND flight.firstContact > :dateFrom ");
         }
 
-        query += "GROUP BY al.code ORDER BY count(al) DESC";
-
-        Query q = em.createQuery(query);
-
-        if (!filter.getAirlines().isEmpty()) {
-            q.setParameter("airlines", filter.getAirlines());
+        if (filter.getDateTo().isPresent()) {
+            q.append("AND flight.lastContact < :dateTo ");
         }
 
-        return q.setMaxResults(size)
-                .getResultList();
+        for (FilterField field : filter.getSets()) {
+            if (!filter.getSet(field).isEmpty()) {
+                q.append("AND ")
+                .append(FILTER_MAP.get(field))
+                .append(" IN :")
+                .append(field.getName())
+                .append(" ");
+            }
+        }
+
+        return q.toString();
+    }
+
+    private Query filterClause(Query query, Filter filter) {
+
+        if (filter.getDateFrom().isPresent()) {
+            query.setParameter("dateFrom", filter.getDateFrom().get());
+        }
+
+        if (filter.getDateTo().isPresent()) {
+            query.setParameter("dateTo", filter.getDateTo().get());
+        }
+
+        for (FilterField field : filter.getSets()) {
+            query.setParameter(field.getName(), filter.getSet(field));
+        }
+
+        return query;
     }
 }

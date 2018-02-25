@@ -1,6 +1,7 @@
 package nl.rostykerei.planes.server.util;
 
 import nl.rostykerei.planes.server.request.Filter;
+import nl.rostykerei.planes.server.request.FilterField;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -14,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 @Component
 public class FilterArgumentResolver implements HandlerMethodArgumentResolver {
@@ -33,12 +33,15 @@ public class FilterArgumentResolver implements HandlerMethodArgumentResolver {
         filter.setDateFrom(parseDate(nativeWebRequest, "dateFrom"));
         filter.setDateTo(parseDate(nativeWebRequest, "dateTo"));
 
-        populateSet(params, "aircrafts", filter.getAircrafts());
-        populateSet(params, "types", filter.getTypes());
-        populateSet(params, "airlines", filter.getAirlines());
-        populateSet(params, "routes", filter.getRoutes());
-        populateSet(params, "origins", filter.getOrigins());
-        populateSet(params, "destinations", filter.getDestinations());
+        for (FilterField field : FilterField.values()) {
+            if (params.containsKey(field.getName())) {
+                for (String val : params.get(field.getName())) {
+                    if (StringUtils.hasText(val)) {
+                        filter.getSet(field).add(val);
+                    }
+                }
+            }
+        }
 
         return filter;
     }
@@ -57,15 +60,5 @@ public class FilterArgumentResolver implements HandlerMethodArgumentResolver {
         }
 
         return Optional.empty();
-    }
-
-    private void populateSet(Map<String, String[]> params, String name, Set<String> set) {
-        if (params.containsKey(name)) {
-            for (String val : params.get(name)) {
-                if (StringUtils.hasText(val)) {
-                    set.add(val);
-                }
-            }
-        }
     }
 }

@@ -1,59 +1,39 @@
 package nl.rostykerei.planes.server.request;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class Filter {
 
     private Optional<Date> dateFrom = Optional.empty();
     private Optional<Date> dateTo = Optional.empty();;
 
-    private Set<String> aircrafts = new HashSet<>();
-    private Set<String> types = new HashSet<>();
-    private Set<String> airlines = new HashSet<>();
-    private Set<String> routes = new HashSet<>();
-    private Set<String> origins = new HashSet<>();
-    private Set<String> destinations = new HashSet<>();
+    private Map<FilterField, Set<String>> map = new HashMap<>();
 
     public Optional<Date> getDateFrom() {
         return dateFrom;
-    }
-
-    public Optional<Date> getDateTo() {
-        return dateTo;
     }
 
     public void setDateFrom(Optional<Date> dateFrom) {
         this.dateFrom = dateFrom;
     }
 
+    public Optional<Date> getDateTo() {
+        return dateTo;
+    }
+
     public void setDateTo(Optional<Date> dateTo) {
         this.dateTo = dateTo;
     }
 
-    public Set<String> getAircrafts() {
-        return aircrafts;
+    public Set<FilterField> getSets() {
+        return map.keySet();
     }
 
-    public Set<String> getTypes() {
-        return types;
-    }
+    public Set<String> getSet(FilterField field) {
+        if (!map.containsKey(field)) {
+            map.put(field, new HashSet<>());
+        }
 
-    public Set<String> getAirlines() {
-        return airlines;
-    }
-
-    public Set<String> getRoutes() {
-        return routes;
-    }
-
-    public Set<String> getOrigins() {
-        return origins;
-    }
-
-    public Set<String> getDestinations() {
-        return destinations;
+        return map.get(field);
     }
 }
