@@ -34,22 +34,21 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
         this.em = em;
     }
 
-
     @Override
     @SuppressWarnings("unchecked")
     public List<NameValue> getTopAircrafts(Filter filter, int size) {
-        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(aircraft.type.type, COUNT(aircraft)) " +
+        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(aircraft.type.type, COUNT(flight)) " +
                 "FROM Flight flight " +
                 "JOIN Aircraft aircraft ON flight.aircraft = aircraft.code " +
-                "LEFT JOIN AircraftType aircraftType ON aircraft.type = aircraftType.type " +
-                "JOIN Airline airline ON aircraft.airline = airline.code " +
+                "JOIN AircraftType aircraftType ON aircraft.type = aircraftType.type " +
+                "LEFT JOIN Airline airline ON aircraft.airline = airline.code " +
                 "LEFT JOIN Route route ON flight.route = route.callsign " +
                 "LEFT JOIN Airport origin ON route.airportFrom = origin.code " +
                 "LEFT JOIN Airport destination ON route.airportTo = destination.code " +
                 "WHERE aircraft.type IS NOT NULL ";
 
         query += filterClause(filter);
-        query += "GROUP BY aircraft.type ORDER BY count(aircraft) DESC";
+        query += "GROUP BY aircraft.type ORDER BY count(flight) DESC";
 
         Query q = filterClause(em.createQuery(query), filter);
 
@@ -59,7 +58,7 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<NameValue> getTopAirlines(Filter filter, int size) {
-        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(airline.code, COUNT(airline)) " +
+        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(airline.code, COUNT(flight)) " +
                 "FROM Flight flight " +
                 "JOIN Aircraft aircraft ON flight.aircraft = aircraft.code " +
                 "LEFT JOIN AircraftType aircraftType ON aircraft.type = aircraftType.type " +
@@ -70,7 +69,48 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
                 "WHERE aircraft.airline IS NOT NULL ";
 
         query += filterClause(filter);
-        query += "GROUP BY airline.code ORDER BY count(airline) DESC";
+        query += "GROUP BY airline.code ORDER BY count(flight) DESC";
+
+        Query q = filterClause(em.createQuery(query), filter);
+
+        return q.setMaxResults(size).getResultList();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<NameValue> getTopOrigins(Filter filter, int size) {
+        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(origin.code, COUNT(flight)) " +
+                "FROM Flight flight " +
+                "LEFT JOIN Aircraft aircraft ON flight.aircraft = aircraft.code " +
+                "LEFT JOIN AircraftType aircraftType ON aircraft.type = aircraftType.type " +
+                "LEFT JOIN Airline airline ON aircraft.airline = airline.code " +
+                "JOIN Route route ON flight.route = route.callsign " +
+                "JOIN Airport origin ON route.airportFrom = origin.code " +
+                "LEFT JOIN Airport destination ON route.airportTo = destination.code " +
+                "WHERE route.airportFrom IS NOT NULL ";
+
+        query += filterClause(filter);
+        query += "GROUP BY origin.code ORDER BY count(flight) DESC";
+
+        Query q = filterClause(em.createQuery(query), filter);
+
+        return q.setMaxResults(size).getResultList();
+    }
+
+    @Override
+    public List<NameValue> getTopDestinations(Filter filter, int size) {
+        String query = "SELECT NEW nl.rostykerei.planes.server.response.NameValue(destination.code, COUNT(flight)) " +
+                "FROM Flight flight " +
+                "LEFT JOIN Aircraft aircraft ON flight.aircraft = aircraft.code " +
+                "LEFT JOIN AircraftType aircraftType ON aircraft.type = aircraftType.type " +
+                "LEFT JOIN Airline airline ON aircraft.airline = airline.code " +
+                "JOIN Route route ON flight.route = route.callsign " +
+                "LEFT JOIN Airport origin ON route.airportFrom = origin.code " +
+                "JOIN Airport destination ON route.airportTo = destination.code " +
+                "WHERE route.airportTo IS NOT NULL ";
+
+        query += filterClause(filter);
+        query += "GROUP BY destination.code ORDER BY count(flight) DESC";
 
         Query q = filterClause(em.createQuery(query), filter);
 

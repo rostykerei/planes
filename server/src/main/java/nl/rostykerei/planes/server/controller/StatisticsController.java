@@ -27,6 +27,16 @@ public class StatisticsController {
 
     @RequestMapping("/airlines")
     public List<NameValue> getTopAirlines(Filter filter) {
-        return repository.getTopAirlines(filter,SIZE);
+        return repository.getTopAirlines(filter, SIZE);
+    }
+
+    @RequestMapping("/origins")
+    public List<NameValue> getTopOrigins(Filter filter) {
+        return repository.getTopOrigins(filter, SIZE);
+    }
+
+    @RequestMapping("/destinations")
+    public List<NameValue> getTopDestinations(Filter filter) {
+        return repository.getTopDestinations(filter, SIZE);
     }
 }

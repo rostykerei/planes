@@ -8,8 +8,11 @@ import java.util.List;
 
 public interface StatisticsRepository {
 
-
     List<NameValue> getTopAircrafts(Filter filter, int size);
 
     List<NameValue> getTopAirlines(Filter filter, int size);
+
+    List<NameValue> getTopOrigins(Filter filter, int size);
+
+    List<NameValue> getTopDestinations(Filter filter, int size);
 }
