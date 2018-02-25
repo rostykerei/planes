@@ -1,6 +1,7 @@
 package nl.rostykerei.planes.server.controller;
 
 import nl.rostykerei.planes.server.repository.StatisticsRepository;
+import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.response.NameValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -22,12 +23,12 @@ public class StatisticsController {
     private StatisticsRepository repository;
 
     @RequestMapping("/aircrafts")
-    public List<NameValue> getTopAircrafts() {
+    public List<NameValue> getTopAircrafts(Filter filter) {
         return repository.getTopAircrafts(PAGE_REQUEST).getContent();
     }
 
     @RequestMapping("/airlines")
-    public List<NameValue> getTopAirlines() {
+    public List<NameValue> getTopAirlines(Filter filter) {
         return repository.getTopAirlines(PAGE_REQUEST).getContent();
     }
 }
