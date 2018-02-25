@@ -3,7 +3,7 @@
   <mat-drawer #drawer class="sidenav" mode="side" [opened]="true" (onOpen)="showFilterBtn.checked = true" (onClose)="showFilterBtn.checked = false" >
     <app-filter
       (onReady)="filterChange($event)" (onChange)="filterChange($event)"
-      goButtonIcon="flight_takeoff" goButtonText="Flights"></app-filter>
+      goButtonIcon="flight_takeoff" goButtonText="Flights" goButtonLink="/flights"></app-filter>
   </mat-drawer>
 
   <div class="content">

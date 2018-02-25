@@ -11,6 +11,7 @@ export class FilterComponent implements OnInit {
 
   @Input() goButtonIcon: string;
   @Input() goButtonText: string;
+  @Input() goButtonLink: string;
 
   @Output() onChange: EventEmitter<Filter> = new EventEmitter();
   @Output() onReady: EventEmitter<Filter> = new EventEmitter();
@@ -42,6 +43,13 @@ export class FilterComponent implements OnInit {
 
     this.model.clear();
     this.onChange.emit(this.model);
+  }
+
+  go(): void {
+    this.router.navigate([this.goButtonLink], {
+        queryParams: this.model.toQueryParams(),
+      }
+    );
   }
 
 
