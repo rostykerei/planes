@@ -12,56 +12,8 @@ export class StatsComponent {
 
   aircraftsChart;
   airlinesChart;
-
-  originsChart = {
-    chartType: 'PieChart',
-    dataTable: [
-      ['Airport', 'Flights'],
-      ['EHAM', Math.random() * 1000],
-      ['EGLL', Math.random() * 1000],
-      ['EGSS', Math.random() * 1000],
-      ['EGCC', Math.random() * 1000],
-      ['EGGW', Math.random() * 1000],
-      ['EDDF', Math.random() * 1000],
-      ['EBBR', Math.random() * 1000],
-      ['EDDM', Math.random() * 1000],
-      ['LFPG', Math.random() * 1000],
-      ['EIDW', Math.random() * 1000],
-    ],
-    options: {
-      title: 'Top Origins', height: 280, legend: 'right',
-      titleTextStyle: {
-        fontName: 'Roboto',
-        fontSize: 24,
-        bold: false
-      }
-    }
-  };
-
-  destinationsChart = {
-    chartType: 'PieChart',
-    dataTable: [
-      ['Airport', 'Flights'],
-      ['EHAM', Math.random() * 1000],
-      ['EGLL', Math.random() * 1000],
-      ['EGSS', Math.random() * 1000],
-      ['EGGW', Math.random() * 1000],
-      ['EIDW', Math.random() * 1000],
-      ['EGKK', Math.random() * 1000],
-      ['EKCH', Math.random() * 1000],
-      ['EGCC', Math.random() * 1000],
-      ['ESSA', Math.random() * 1000],
-      ['EGBB', Math.random() * 1000],
-    ],
-    options: {
-      title: 'Top Destinations', height: 280, legend: 'right',
-      titleTextStyle: {
-        fontName: 'Roboto',
-        fontSize: 24,
-        bold: false
-      }
-    },
-  };
+  originsChart;
+  destinationsChart;
 
   flightsChart = {
     chartType: 'ColumnChart',
@@ -97,6 +49,8 @@ export class StatsComponent {
   filterChange(event: Filter) {
     this.statsService.getTopAircrafts(event.toQueryString()).subscribe(data => this.topAircraftsLoaded(data));
     this.statsService.getTopAirlines(event.toQueryString()).subscribe(data => this.topAirlinesLoaded(data));
+    this.statsService.getTopOrigins(event.toQueryString()).subscribe(data => this.topOriginsLoaded(data));
+    this.statsService.getTopDestinations(event.toQueryString()).subscribe(data => this.topDestinationsLoaded(data));
   }
 
   topAircraftsLoaded(data: NameValue[]): void {
@@ -143,4 +97,47 @@ export class StatsComponent {
     };
   }
 
+  topOriginsLoaded(data: NameValue[]): void {
+    const dataTable = [];
+    dataTable.push(['Airport', 'Flights']);
+
+    data.forEach(d => {
+      dataTable.push([d.name, d.value]);
+    });
+
+    this.originsChart = {
+      chartType: 'PieChart',
+      dataTable: dataTable,
+      options: {
+        title: 'Top Origins', height: 280, legend: 'right',
+        titleTextStyle: {
+          fontName: 'Roboto',
+          fontSize: 24,
+          bold: false
+        }
+      }
+    };
+  }
+
+  topDestinationsLoaded(data: NameValue[]): void {
+    const dataTable = [];
+    dataTable.push(['Airport', 'Flights']);
+
+    data.forEach(d => {
+      dataTable.push([d.name, d.value]);
+    });
+
+    this.destinationsChart = {
+      chartType: 'PieChart',
+      dataTable: dataTable,
+      options: {
+        title: 'Top Destinations', height: 280, legend: 'right',
+        titleTextStyle: {
+          fontName: 'Roboto',
+          fontSize: 24,
+          bold: false
+        }
+      }
+    };
+  }
 }
