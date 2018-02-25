@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -41,11 +42,21 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
                 "FROM Flight f " +
                 "JOIN Aircraft a ON f.aircraft = a.code " +
                 "JOIN Airline al ON a.airline = al.code " +
-                "WHERE a.airline IS NOT NULL " +
-                "GROUP BY al.code ORDER BY count(al) DESC";
+                "WHERE a.airline IS NOT NULL ";
 
-        return em.createQuery(query)
-                .setMaxResults(size)
+        if (!filter.getAirlines().isEmpty()) {
+            query += "AND al.code IN :airlines ";
+        }
+
+        query += "GROUP BY al.code ORDER BY count(al) DESC";
+
+        Query q = em.createQuery(query);
+
+        if (!filter.getAirlines().isEmpty()) {
+            q.setParameter("airlines", filter.getAirlines());
+        }
+
+        return q.setMaxResults(size)
                 .getResultList();
     }
 }
