@@ -32,14 +32,16 @@ export class StatsComponent {
     ],
     options: {
       title: 'Flights per day',
-      height: 280,
+      height: 300,
       titleTextStyle: {
         fontName: 'Roboto',
         fontSize: 24,
-        bold: false
+        bold: false,
+        color: '#000000'
       },
       legend: 'none',
-      backgroundColor: { fill:'transparent' }
+      backgroundColor: { fill:'transparent' },
+      theme: 'material'
     }
   };
 
@@ -66,13 +68,15 @@ export class StatsComponent {
       chartType: 'PieChart',
       dataTable: dataTable,
       options: {
-        title: 'Top Aircrafts', height: 280, legend: 'right',
+        title: 'Top Aircrafts', height: 300, legend: 'right',
         titleTextStyle: {
           fontName: 'Roboto',
           fontSize: 24,
-          bold: false
+          bold: false,
+          color: '#000000'
         },
-        backgroundColor: { fill:'transparent' }
+        backgroundColor: { fill:'transparent' },
+        theme: 'material'
       }
     };
   }
@@ -89,13 +93,15 @@ export class StatsComponent {
       chartType: 'PieChart',
       dataTable: dataTable,
       options: {
-        title: 'Top Airlines', height: 280, legend: 'right',
+        title: 'Top Airlines', height: 300, legend: 'right',
         titleTextStyle: {
           fontName: 'Roboto',
           fontSize: 24,
-          bold: false
+          bold: false,
+          color: '#000000'
         },
-        backgroundColor: { fill:'transparent' }
+        backgroundColor: { fill:'transparent' },
+        theme: 'material'
       }
     };
   }
@@ -112,13 +118,15 @@ export class StatsComponent {
       chartType: 'PieChart',
       dataTable: dataTable,
       options: {
-        title: 'Top Origins', height: 280, legend: 'right',
+        title: 'Top Origins', height: 300, legend: 'right',
         titleTextStyle: {
           fontName: 'Roboto',
           fontSize: 24,
-          bold: false
+          bold: false,
+          color: '#000000'
         },
-        backgroundColor: { fill:'transparent' }
+        backgroundColor: { fill:'transparent' },
+        theme: 'material'
       }
     };
   }
@@ -135,13 +143,15 @@ export class StatsComponent {
       chartType: 'PieChart',
       dataTable: dataTable,
       options: {
-        title: 'Top Destinations', height: 280, legend: 'right',
+        title: 'Top Destinations', height: 300, legend: 'right',
         titleTextStyle: {
           fontName: 'Roboto',
           fontSize: 24,
-          bold: false
+          bold: false,
+          color: '#000000'
         },
-        backgroundColor: { fill:'transparent' }
+        backgroundColor: { fill:'transparent' },
+        theme: 'material'
       }
     };
   }
