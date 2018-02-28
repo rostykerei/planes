@@ -1,17 +1,42 @@
 $flag-icon-css-path: '~flag-icon-css/flags' !default;
 @import "~flag-icon-css/sass/flag-icon";
 
-/* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+// Material design
+@import '~@angular/material/theming';
+@include mat-core();
+
+$primary: mat-palette($mat-light-blue, 400);
+$accent: mat-palette($mat-deep-orange, 400);
+
+$theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);
+////
 
 html, body {
   padding: 0;
   margin: 0;
 }
 
+body {
+  background-color: #fafafa;
+}
 .gm-style-iw + div {display: none;}
 
 .gm-style-iw div {
   max-width: none !important;
   width: 100%;
+}
+
+a {
+  color: mat-color($primary);
+}
+
+/* focus style */
+.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus, .mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus, .mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus, .mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus{
+  background: #ffffff;
+}
+/* ink bar style */
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar{
+  height: 3px;
 }

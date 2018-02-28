@@ -38,7 +38,8 @@ export class StatsComponent {
         fontSize: 24,
         bold: false
       },
-      legend: 'none'
+      legend: 'none',
+      backgroundColor: { fill:'transparent' }
     }
   };
 
@@ -70,7 +71,8 @@ export class StatsComponent {
           fontName: 'Roboto',
           fontSize: 24,
           bold: false
-        }
+        },
+        backgroundColor: { fill:'transparent' }
       }
     };
   }
@@ -92,7 +94,8 @@ export class StatsComponent {
           fontName: 'Roboto',
           fontSize: 24,
           bold: false
-        }
+        },
+        backgroundColor: { fill:'transparent' }
       }
     };
   }
@@ -114,7 +117,8 @@ export class StatsComponent {
           fontName: 'Roboto',
           fontSize: 24,
           bold: false
-        }
+        },
+        backgroundColor: { fill:'transparent' }
       }
     };
   }
@@ -136,7 +140,8 @@ export class StatsComponent {
           fontName: 'Roboto',
           fontSize: 24,
           bold: false
-        }
+        },
+        backgroundColor: { fill:'transparent' }
       }
     };
   }

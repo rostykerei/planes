@@ -1,7 +1,7 @@
 <mat-toolbar>
   <mat-toolbar-row>
-    <img routerLink="/" src="assets/logo.svg" style="height: 1.5em; margin-right: .5em"/>
-    <span routerLink="/" style="font-weight: 400">Rosty's RADAR</span>
+    <span class="logo-icon">✈️</span>
+    <span class="logo">Rosty's <span style="font-weight: 500;">RADAR</span></span>
 
     <span class="spacer"></span>
 
@@ -12,7 +12,7 @@
          routerLinkActive #rla="routerLinkActive"
          [routerLinkActiveOptions]= "{exact: true}"
          [active]="rla.isActive">
-        {{link.label}}
+        <mat-icon>{{link.icon}}</mat-icon> {{link.label}}
       </a>
     </nav>
 

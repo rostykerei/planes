@@ -1,6 +1,6 @@
 <mat-card class="details-card">
   <mat-card-content>
-    <button (click)="closeClick()" style="right: -16px; top: -16px; position: absolute;" mat-mini-fab color="primary">
+    <button (click)="closeClick()" style="right: -16px; top: -16px; position: absolute;" mat-mini-fab color="accent">
       <mat-icon>close</mat-icon>
     </button>
 
@@ -51,7 +51,7 @@
         </td>
       </tr>
       <tr>
-        <td width="30%"><a href="#">{{aircraftRegistration}}</a></td>
+        <td width="30%"><a [routerLink]="['/stats']" [queryParams]="{aircrafts: aircraftRegistration}">{{aircraftRegistration}}</a></td>
         <td align="right"><small>{{aircraftModel}}</small></td>
       </tr>
     </table>
@@ -68,7 +68,7 @@
         </td>
       </tr>
       <tr>
-        <td width="20%"><a href="#">{{airlineCode}}</a></td>
+        <td width="20%"><a [routerLink]="['/stats']" [queryParams]="{airlines: airlineCode}">{{airlineCode}}</a></td>
         <td align="right"><small>{{airlineName}}</small></td>
       </tr>
       <tr *ngIf="airlineOperatedBy">
