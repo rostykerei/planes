@@ -6,15 +6,20 @@
       goButtonIcon="flight_takeoff" goButtonText="Flights" goButtonLink="/flights"></app-filter>
   </mat-drawer>
 
+
+  <div class="title">
+    <div>
+      <mat-icon>show_chart</mat-icon>
+      <h1 class="mat-h1">Statistics</h1>
+    </div>
+  </div>
+
   <div class="content">
 
-    <mat-button-toggle #showFilterBtn title="Toggle filter" [checked]="true" style="float: right;" color="primary" (click)="drawer.toggle()">
+    <button mat-fab color="primary" (click)="drawer.toggle()" style="float: right; top: -48px; right: 16px;">
       <mat-icon>filter_list</mat-icon>
-    </mat-button-toggle>
+    </button>
 
-    <div class="row">
-      <h1 class="mat-h1"><mat-icon>show_chart</mat-icon> Statistics</h1>
-    </div>
 
     <div class="cards">
       <div class="card">

@@ -6,16 +6,17 @@
     </app-filter>
   </mat-drawer>
 
-  <div class="content">
-
-    <mat-button-toggle #showFilterBtn title="Toggle filter" [checked]="true" style="float: right;" color="primary" (click)="drawer.toggle()">
-      <mat-icon>filter_list</mat-icon>
-    </mat-button-toggle>
-
-    <div class="row">
-      <h1 class="mat-h1"><mat-icon>flight_takeoff</mat-icon> Flights</h1>
+  <div class="title">
+    <div>
+      <mat-icon>flight_takeoff</mat-icon>
+      <h1 class="mat-h1">Flights</h1>
     </div>
+  </div>
 
+  <div class="content">
+    <button mat-fab color="primary" (click)="drawer.toggle()" style="float: right; top: -48px; right: 16px;">
+      <mat-icon>filter_list</mat-icon>
+    </button>
   </div>
 
 </mat-drawer-container>
