@@ -3,6 +3,8 @@ version: '2.1'
 services:
   db:
     image: mysql:latest
+    volumes:
+      - "data:/var/lib/mysql"
     environment:
       - MYSQL_ROOT_PASSWORD=p4SSW0rd
       - MYSQL_DATABASE=demo
@@ -21,3 +23,6 @@ services:
       - DATABASE_NAME=demo
       - DATABASE_PORT=3306
       - SPRING_PROFILES_ACTIVE=docker
+volumes:
+  data:
+    driver: local

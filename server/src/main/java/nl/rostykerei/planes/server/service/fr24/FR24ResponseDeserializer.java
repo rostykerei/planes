@@ -49,7 +49,7 @@ public class FR24ResponseDeserializer extends JsonDeserializer {
 
             JsonNode n = node.get(field);
 
-            if (n.isArray() && field.startsWith(FLIGHT_NODE_PREFIX)) {
+            if (n.isArray()) {
                 FR24Response.Flight flight = new FR24Response.Flight();
                 flight.setId(field);
 
