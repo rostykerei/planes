@@ -54,72 +54,32 @@ export class DashboardUtils {
   }
 
   static formatPopup(f: MapFlight): String {
-    let s = '<b>';
-    s += f.callsign ? f.callsign : 'UNKNOWN';
-    s += '</b>';
+    let fl = '', heading = '';
 
-    if (f.altitude || f.speed) {
-      s += '<br clear="all"/>';
-
-      if (f.altitude) {
-        s += 'FL';
-
-        if (f.altitude < 10000) {
-          s += '0';
-        }
-
-        s += Math.round(f.altitude / 100);
-
-        if (f.verticalRate) {
-          if (f.verticalRate > 0) {
-            s += '&uarr;';
-          } else if (f.verticalRate < 0) {
-            s += '&darr;';
-          }
-        }
-
-        s += '&emsp;';
+    if (f.altitude) {
+      fl = f.altitude < 10000 ? 'FL0' : 'FL';
+      fl += Math.round(f.altitude / 100);
+      if (f.verticalRate && f.verticalRate !== 0) {
+        fl += f.verticalRate > 0 ? '&uarr;' : '&darr;';
       }
-
-      if (f.speed) {
-        s += '<span style="float: right;">';
-        s += f.speed + 'kt';
-        s += '</span>';
-      }
-
-
     }
 
-    if (f.type || f.heading) {
-      s += '<br clear="all"/>';
+    let speed = f.speed ? f.speed + 'kt' : '';
 
-      if (f.type) {
-        s += f.type + '&emsp;';
-      }
-
-      if (f.heading) {
-        s += '<span style="float: right;">';
-
-        if (f.heading < 100) {
-          s += '0';
-        }
-
-        s += f.heading + '&deg;';
-        s += '</span>';
-      }
-
+    if (f.heading) {
+      heading = f.heading < 100 ? (f.heading < 10 ? '00' : '0') : '';
+      heading += f.heading + '&deg;';
     }
 
-    if (f.from || f.to) {
-      s += '<br clear="all"/>';
-      s += '<span>';
-      s += f.from || '';
-      s += '</span><span style="float: right">';
-      s += f.to || '';
-      s += '</span>';
-    }
-
-    return s;
+    return `<div class="map-popup">
+        <b>${f.callsign || 'UNKNOWN'}</b>
+        <span>${fl}</span>
+        <span>${speed}</span>
+        <span>${f.type || ''}</span>
+        <span>${heading}</span>
+        <span>${f.from || ''}</span>
+        <span>${f.to || ''}</span>
+    </div>`;
   }
 
   static getIcon(f: MapFlight): any {

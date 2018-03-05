@@ -61,3 +61,22 @@ a {
     }
   }
 }
+
+.map-popup {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  b {
+    flex-basis: 100%;
+    font-weight: bold;
+  }
+
+  span {
+    flex-basis: 42.5%;
+  }
+
+  span:nth-of-type(2n) {
+    text-align: right;
+  }
+}
