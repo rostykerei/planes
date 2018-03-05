@@ -6,7 +6,7 @@
 
   <mat-card-content>
     <!-- Callsign & route number -->
-    <div class="row flex-block align-end">
+    <div class="row flex-block">
       <span *ngIf="callsign" class="callsign" (click)="navStats('routes', callsign)">{{callsign}}</span>
       <span *ngIf="!callsign" class="callsign unknown">UNKNOWN</span>
       <span *ngIf="routeNumber" class="route-number">

@@ -28,6 +28,7 @@ mat-card-content {
 .row:first-of-type {
   padding-top: 0;
 }
+
 .row:last-of-type {
   padding-bottom: 0;
   border: none;
@@ -39,19 +40,10 @@ mat-card-content {
   align-items: center;
 }
 
-
-.align-end {
-  //align-items: flex-end;
-}
-
 .callsign {
   cursor: pointer;
   font-weight: bold;
   font-size: 1.25em;
-  text-decoration: underline;
-}
-
-.callsign:hover {
   text-decoration: underline;
 }
 
@@ -63,9 +55,6 @@ mat-card-content {
 
 .unknown {
   cursor: auto;
-}
-
-.unknown:hover {
   text-decoration: none;
 }
 
