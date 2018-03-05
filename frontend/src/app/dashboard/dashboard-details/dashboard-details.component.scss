@@ -5,19 +5,122 @@
   width: 20%;
   min-width: 200px;
   max-width: 350px;
+
+  button {
+    right: -16px;
+    top: -16px;
+    position: absolute;
+  }
 }
-.airport-code {
-  text-align: center;
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between
+}
+
+.row {
+  padding-bottom: 8px;
+  padding-top: 8px;
+  border-bottom: solid 1px rgba(0, 0, 0, .2);
+}
+
+.row:first-of-type {
+  padding-top: 0;
+}
+.row:last-of-type {
+  padding-bottom: 0;
+  border: none;
+}
+
+.flex-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.align-end {
+  //align-items: flex-end;
+}
+
+.callsign {
+  cursor: pointer;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.25em;
   text-decoration: underline;
 }
 
-.airport-arr {
-  text-align: center;
-  vertical-align: middle;
+.callsign:hover {
+  text-decoration: underline;
 }
 
-.airport-name {
+.route-number {
+  cursor: pointer;
+  font-size: 0.7em;
+  font-weight: 400;
+}
+
+.unknown {
+  cursor: auto;
+}
+
+.unknown:hover {
+  text-decoration: none;
+}
+
+.airport {
+  cursor: pointer;
+
+  div {
+    text-align: center;
+  }
+
+  div:first-child {
+    font-weight: bold;
+    font-size: 1.5em;
+    text-decoration: underline;
+  }
+}
+
+.img {
   text-align: center;
+  margin-top: 5px;
+  margin-bottom: 10px;
+
+  img {
+    max-height: 50px;
+    max-width: 100%;
+  }
+
+  .op {
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+  }
+}
+
+.links {
+  justify-content: center;
+
+  a {
+    font-size: 0.85em;
+    margin: 4px 4px 0;
+  }
+}
+
+.data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+    flex-basis: 42.5%;
+
+    span:first-of-type {
+      font-weight: bold;
+    }
+
+  }
 }

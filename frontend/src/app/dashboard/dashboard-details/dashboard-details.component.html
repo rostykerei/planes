@@ -1,161 +1,140 @@
-<mat-card class="details-card">
+<mat-card class="details-card" xmlns="http://www.w3.org/1999/html">
+
+  <button (click)="closeClick()" mat-mini-fab color="accent">
+    <mat-icon>close</mat-icon>
+  </button>
+
   <mat-card-content>
-    <button (click)="closeClick()" style="right: -16px; top: -16px; position: absolute;" mat-mini-fab color="accent">
-      <mat-icon>close</mat-icon>
-    </button>
-
-    <div>
-      <b>{{callsign || 'UNKNOWN'}}</b> <small *ngIf="routeNumber">/ {{routeNumber}}</small>
+    <!-- Callsign & route number -->
+    <div class="row flex-block align-end">
+      <span *ngIf="callsign" class="callsign" (click)="navStats('routes', callsign)">{{callsign}}</span>
+      <span *ngIf="!callsign" class="callsign unknown">UNKNOWN</span>
+      <span *ngIf="routeNumber" class="route-number">
+        IATA: <a [routerLink]="['/stats']" [queryParams]="{routes: callsign}">{{routeNumber}}</a></span>
     </div>
 
-    <div style="text-align: center; margin-top: 0.5em;" *ngIf="airportFromCode && airportToCode">
-      <div style="float: left;">
-        <span *ngIf="airportFromCountry"
-              matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
-              matTooltipPosition="right"
-              style="line-height: 1.5em;"
-              [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
+    <!-- Airports -->
+    <div *ngIf="airportFromCode && airportToCode" class="row flex-block">
+       <span *ngIf="airportFromCountry"
+             matTooltip="{{airportFromCountry.code}} - {{airportFromCountry.name}}"
+             matTooltipPosition="right"
+             [ngClass]="'flag-icon flag-icon-'+airportFromCountry.code.toLowerCase()"></span>
+
+      <div class="airport" (click)="navStats('origins', airportFromCode)"
+           matTooltip="{{airportFromIata}} - {{airportFromName}}">
+        <div>{{airportFromCode}}</div>
+        <div>{{airportFromCity}}</div>
       </div>
 
-      <div style="display: inline-block;" matTooltip="{{airportFromIata}} - {{airportFromName}}">
-        <div style="display: block;" class="airport-code">{{airportFromCode}}</div>
-        <div style="display: block;">{{airportFromCity}}</div>
+      <span>&rarr;</span>
+
+      <div class="airport" (click)="navStats('destinations', airportToCode)"
+           matTooltip="{{airportToIata}} - {{airportToName}}">
+        <div>{{airportToCode}}</div>
+        <div>{{airportToCity}}</div>
       </div>
 
-      <div style="display: inline-block; vertical-align: top; line-height: 1.5em; margin-right: 1em; margin-left: 1em;">&rarr;</div>
+      <span *ngIf="airportToCountry"
+            matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
+            matTooltipPosition="left"
+            [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
+    </div>
 
-      <div style="display: inline-block;" matTooltip="{{airportToIata}} - {{airportToName}}">
-        <div style="display: block;" class="airport-code">{{airportToCode}}</div>
-        <div style="display: block;">{{airportToCity}}</div>
+    <!-- Type -->
+    <div *ngIf="aircraftType" class="row">
+      <div class="img">
+        <a matTooltip="{{aircraftModel}}" [routerLink]="['/stats']" [queryParams]="{types: aircraftType}">
+          <img class="op" src="assets/types/{{aircraftType}}.png" onerror="this.src='assets/empty.png'"/>
+        </a>
       </div>
-
-      <div style="float: right;">
-        <span *ngIf="airportToCountry"
-              matTooltip="{{airportToCountry.code}} - {{airportToCountry.name}}"
-              matTooltipPosition="left"
-              style="line-height: 1.5em;"
-              [ngClass]="'flag-icon flag-icon-'+airportToCountry.code.toLowerCase()"></span>
+      <div class="flex-block">
+        <a [routerLink]="['/stats']" [queryParams]="{aircrafts: aircraftRegistration}">{{aircraftRegistration}}</a>
+        <a [routerLink]="['/stats']" [queryParams]="{types: aircraftType}">{{aircraftType}}</a>
       </div>
     </div>
 
-    <br/>
-
-    <div *ngIf="aircraftType">
-    <hr/>
-
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr>
-        <td align="center" colspan="2">
-          <img style="max-height: 50px; max-width: 100%; opacity: 0.8; filter: alpha(opacity=80);"
-               src="assets/types/{{aircraftType}}.png" onerror="this.src='assets/empty.png'"/>
-        </td>
-      </tr>
-      <tr>
-        <td width="30%"><a [routerLink]="['/stats']" [queryParams]="{aircrafts: aircraftRegistration}">{{aircraftRegistration}}</a></td>
-        <td align="right"><small>{{aircraftModel}}</small></td>
-      </tr>
-    </table>
+    <!-- Airline -->
+    <div *ngIf="airlineCode" class="row">
+      <div class="img">
+        <a matTooltip="{{airlineName}}" [routerLink]="['/stats']" [queryParams]="{airlines: airlineCode}">
+          <img src="assets/airlines/{{airlineCode}}.png"
+               onerror="this.src='assets/empty.png'"/>
+        </a>
+      </div>
+      <div class="flex-block">
+        <a [routerLink]="['/stats']" [queryParams]="{airlines: airlineCode}">{{airlineCode}}</a>
+        <small *ngIf="airlineOperatedBy">by {{airlineOperatedBy}}</small>
+      </div>
     </div>
 
-    <div *ngIf="airlineCode">
-    <hr/>
+    <!-- Data -->
+    <div class="row data">
+      <div>
+        <span matTooltip="Altitude">ALT</span>
+        <span *ngIf="flight.altitude">{{flight.altitude | number:'1.0'}}<small>ft</small></span>
+        <span *ngIf="!flight.altitude">&mdash;</span>
+      </div>
 
-    <table cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr>
-        <td align="center" colspan="2">
-          <img style="max-height: 50px; max-width: 100%;"
-               src="assets/airlines/{{airlineCode}}.png" onerror="this.src='assets/empty.png'"/>
-        </td>
-      </tr>
-      <tr>
-        <td width="20%"><a [routerLink]="['/stats']" [queryParams]="{airlines: airlineCode}">{{airlineCode}}</a></td>
-        <td align="right"><small>{{airlineName}}</small></td>
-      </tr>
-      <tr *ngIf="airlineOperatedBy">
-        <td colspan="2" align="right"><small>Operated by {{airlineOperatedBy}}</small></td>
-      </tr>
-    </table>
+      <div>
+        <span matTooltip="Speed">SPD</span>
+        <span *ngIf="flight.speed">{{flight.speed | number:'1.0'}}<small>kt</small></span>
+        <span *ngIf="!flight.speed">&mdash;</span>
+      </div>
+
+      <div>
+        <span matTooltip="Vertical Rate">VRT</span>
+        <span *ngIf="flight.verticalRate != null">{{flight.verticalRate | number:'1.0'}}<small>ft/min</small></span>
+        <span *ngIf="flight.verticalRate == null">&mdash;</span>
+      </div>
+
+      <div>
+        <span matTooltip="Course">CRS</span>
+        <span *ngIf="flight.heading">{{flight.heading | number:'3.0'}}&deg;</span>
+        <span *ngIf="!flight.heading">&mdash;</span>
+      </div>
+
+      <div>
+        <span matTooltip="Latitude">LAT</span>
+        <span *ngIf="flight.lat">{{flight.lat | number:'1.5-5'}}</span>
+        <span *ngIf="!flight.lat">&mdash;</span>
+      </div>
+
+      <div>
+        <span matTooltip="Longitude">LON</span>
+        <span *ngIf="flight.lon">{{flight.lon | number:'1.5-5'}}</span>
+        <span *ngIf="!flight.lon">&mdash;</span>
+      </div>
+
+      <div>
+        <span matTooltip="Distance">DST</span>
+        <span *ngIf="distance">{{distance | number:'1.1-1'}}<small>nm</small></span>
+        <span *ngIf="!distance">&mdash;</span>
+      </div>
+
+      <div>
+        <span matTooltip="Last contact">LCT</span>
+        <span *ngIf="flight.age">{{flight.age / 1000 | number:'1.0-0'}}<small>sec</small></span>
+        <span *ngIf="!flight.age">&mdash;</span>
+      </div>
+
+      <div>
+        <span matTooltip="Squawk code">SQK</span>
+        <span *ngIf="flight.squawk">{{flight.squawk}}</span>
+        <span *ngIf="!flight.squawk">&mdash;</span>
+      </div>
+
+      <div>
+        <span matTooltip="Received signal strength indicator">RSI</span>
+        <span *ngIf="flight.rssi">{{flight.rssi | number:'1.1-1'}}<small>dBFS</small></span>
+        <span *ngIf="!flight.rssi">&mdash;</span>
+      </div>
     </div>
 
-    <hr/>
-
-    <table *ngIf="flight" cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr>
-        <td width="15%" matTooltip="Altitude"><b>ALT</b></td>
-        <td width="25%" align="right">
-          <span *ngIf="flight.altitude">{{flight.altitude | number:'1.0'}}<small>ft</small></span>
-          <span *ngIf="!flight.altitude">&mdash;</span>
-        </td>
-        <td width="20%"></td>
-        <td width="15%" matTooltip="Speed"><b>SPD</b></td>
-        <td width="25%" align="right">
-          <span *ngIf="flight.speed">{{flight.speed | number:'1.0'}}<small>kt</small></span>
-          <span *ngIf="!flight.speed">&mdash;</span>
-        </td>
-      </tr>
-      <tr>
-        <td matTooltip="Vertical Rate"><b>VRT</b></td>
-        <td align="right">
-          <span *ngIf="flight.verticalRate != null">{{flight.verticalRate | number:'1.0'}}<small>ft/min</small></span>
-          <span *ngIf="flight.verticalRate == null">&mdash;</span>
-        </td>
-        <td></td>
-        <td matTooltip="Course"><b>CRS</b></td>
-        <td align="right">
-          <span *ngIf="flight.heading">{{flight.heading | number:'3.0'}}&deg;</span>
-          <span *ngIf="!flight.heading">&mdash;</span>
-        </td>
-      </tr>
-      <tr>
-        <td matTooltip="Latitude"><b>LAT</b></td>
-        <td align="right">
-          <span *ngIf="flight.lat">{{flight.lat | number:'1.5-5'}}</span>
-          <span *ngIf="!flight.lat">&mdash;</span>
-        </td>
-        <td></td>
-        <td matTooltip="Longitude"><b>LON</b></td>
-        <td align="right">
-          <span *ngIf="flight.lon">{{flight.lon | number:'1.5-5'}}</span>
-          <span *ngIf="!flight.lon">&mdash;</span>
-        </td>
-      </tr>
-      <tr>
-        <td matTooltip="Distance"><b>DST</b></td>
-        <td align="right">
-          <span *ngIf="distance">{{distance | number:'1.1-1'}}<small>nm</small></span>
-          <span *ngIf="!distance">&mdash;</span>
-        </td>
-        <td></td>
-        <td matTooltip="Last contact"><b>LCT</b></td>
-        <td align="right">
-          <span *ngIf="flight.age">{{flight.age / 1000 | number:'1.0-0'}}<small>sec</small></span>
-          <span *ngIf="!flight.age">&mdash;</span>
-        </td>
-      </tr>
-      <tr>
-        <td matTooltip="Squawk code"><b>SQK</b></td>
-        <td align="right">
-          <span *ngIf="flight.squawk">{{flight.squawk}}</span>
-          <span *ngIf="!flight.squawk">&mdash;</span>
-        </td>
-        <td></td>
-        <td matTooltip="Received signal strength indicator"><b>RSI</b></td>
-        <td align="right">
-          <span *ngIf="flight.rssi">{{flight.rssi | number:'1.1-1'}}<small>dBFS</small></span>
-          <span *ngIf="!flight.rssi">&mdash;</span>
-        </td>
-      </tr>
-    </table>
-
-    <table *ngIf="!flight" cellpadding="0" cellspacing="0" border="0" width="100%">
-      <tr>
-        <td style="background: red; color: white; text-align: center"><b>CONTACT LOST</b></td>
-      </tr>
-    </table>
+    <!-- Links -->
+    <div class="row flex-block links">
+      <a href="http://fr24.com/{{flight.callsign}}" target="_blank">[FR24]</a>
+      <a href="https://uk.flightaware.com/live/flight/{{flight.callsign}}" target="_blank">[FlightAware]</a>
+      <a href="https://planefinder.net/flight/{{flight.callsign}}" target="_blank">[PlaneFinder]</a>
+    </div>
   </mat-card-content>
-  <mat-card-actions *ngIf="flight.callsign" style="text-align: center; font-size: x-small;">
-    <a href="http://fr24.com/{{flight.callsign}}" target="_blank">[FR24]</a>
-    <a href="https://uk.flightaware.com/live/flight/{{flight.callsign}}" target="_blank">[FlightAware]</a>
-    <a href="https://planefinder.net/flight/{{flight.callsign}}" target="_blank">[PlaneFinder]</a>
-  </mat-card-actions>
 </mat-card>

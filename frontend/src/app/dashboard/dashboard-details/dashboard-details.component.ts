@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '
 import {MapFlight} from '../../model/map-flight';
 import {DashboardUtils} from '../dashboard-utils';
 import {environment} from '../../../environments/environment';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard-details',
@@ -41,7 +42,7 @@ export class DashboardDetailsComponent implements OnChanges {
 
   @Output() close = new EventEmitter();
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -159,5 +160,16 @@ export class DashboardDetailsComponent implements OnChanges {
       this.airlineName = aircraft.airline.name;
       this.airlineCode = aircraft.airline.code;
     }
+  }
+
+  navStats(key: string, value): void {
+    let q = {};
+    q[key] = value;
+
+    this.router.navigate(['/stats'], {
+        queryParams: q
+      }
+    );
+
   }
 }
