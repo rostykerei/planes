@@ -1,3 +1,5 @@
+@import "../../../common";
+
 .details-card {
   position: absolute;
   top: 100px;
@@ -111,5 +113,19 @@ mat-card-content {
       font-weight: bold;
     }
 
+  }
+}
+
+.contact-lost {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: mat-color($radar-app-warn);
+
+  span {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }

@@ -68,7 +68,7 @@
     </div>
 
     <!-- Data -->
-    <div class="row data">
+    <div *ngIf="flight" class="row data">
       <div>
         <span matTooltip="Altitude">ALT</span>
         <span *ngIf="flight.altitude">{{flight.altitude | number:'1.0'}}<small>ft</small></span>
@@ -130,8 +130,15 @@
       </div>
     </div>
 
+    <!-- Contact Lost -->
+    <div *ngIf="!flight" class="row contact-lost">
+      <mat-icon>warning</mat-icon>
+      <span>Contact Lost</span>
+      <mat-icon>warning</mat-icon>
+    </div>
+
     <!-- Links -->
-    <div class="row flex-block links">
+    <div *ngIf="flight.callsign" class="row flex-block links">
       <a href="http://fr24.com/{{flight.callsign}}" target="_blank">[FR24]</a>
       <a href="https://uk.flightaware.com/live/flight/{{flight.callsign}}" target="_blank">[FlightAware]</a>
       <a href="https://planefinder.net/flight/{{flight.callsign}}" target="_blank">[PlaneFinder]</a>
