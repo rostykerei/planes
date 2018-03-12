@@ -1,7 +1,9 @@
 import {Component} from '@angular/core';
 import {StatsService} from './stats.service';
-import {NameValue} from '../model/name-value';
+import {CodeNameValue} from '../model/code-name-value';
 import {Filter} from '../filter/filter';
+
+declare const google: any;
 
 @Component({
   selector: 'app-stats',
@@ -50,25 +52,25 @@ export class StatsComponent {
 
 
   filterChange(event: Filter) {
-    this.statsService.getTopAircrafts(event.toQueryString()).subscribe(data => this.topAircraftsLoaded(data));
+    this.statsService.getTopTypes(event.toQueryString()).subscribe(data => this.topTypesLoaded(data));
     this.statsService.getTopAirlines(event.toQueryString()).subscribe(data => this.topAirlinesLoaded(data));
     this.statsService.getTopOrigins(event.toQueryString()).subscribe(data => this.topOriginsLoaded(data));
     this.statsService.getTopDestinations(event.toQueryString()).subscribe(data => this.topDestinationsLoaded(data));
   }
 
-  topAircraftsLoaded(data: NameValue[]): void {
+  topTypesLoaded(data: CodeNameValue[]): void {
     const dataTable = [];
-    dataTable.push(['Aircraft', 'Flights']);
+    dataTable.push(['Types', 'Flights']);
 
     data.forEach(d => {
-      dataTable.push([d.name, d.value]);
+      dataTable.push([d.code, d.value]);
     });
 
     this.aircraftsChart = {
       chartType: 'PieChart',
       dataTable: dataTable,
       options: {
-        title: 'Top Aircrafts', height: 300, legend: 'right',
+        title: 'Top Types', height: 300, legend: 'right',
         titleTextStyle: {
           fontName: 'Roboto',
           fontSize: 24,
@@ -81,7 +83,7 @@ export class StatsComponent {
     };
   }
 
-  topAirlinesLoaded(data: NameValue[]): void {
+  topAirlinesLoaded(data: CodeNameValue[]): void {
     const dataTable = [];
     dataTable.push(['Airlines', 'Flights']);
 
@@ -106,7 +108,7 @@ export class StatsComponent {
     };
   }
 
-  topOriginsLoaded(data: NameValue[]): void {
+  topOriginsLoaded(data: CodeNameValue[]): void {
     const dataTable = [];
     dataTable.push(['Airport', 'Flights']);
 
@@ -131,7 +133,7 @@ export class StatsComponent {
     };
   }
 
-  topDestinationsLoaded(data: NameValue[]): void {
+  topDestinationsLoaded(data: CodeNameValue[]): void {
     const dataTable = [];
     dataTable.push(['Airport', 'Flights']);
 

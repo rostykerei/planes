@@ -36,4 +36,8 @@ public class Filter {
 
         return map.get(field);
     }
+
+    public boolean contains(FilterField field) {
+        return map.containsKey(field);
+    }
 }

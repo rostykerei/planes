@@ -2,7 +2,7 @@ package nl.rostykerei.planes.server.controller;
 
 import nl.rostykerei.planes.server.repository.StatisticsRepository;
 import nl.rostykerei.planes.server.request.Filter;
-import nl.rostykerei.planes.server.response.NameValue;
+import nl.rostykerei.planes.server.response.CodeNameValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,23 +20,23 @@ public class StatisticsController {
     @Autowired
     private StatisticsRepository repository;
 
-    @RequestMapping("/aircrafts")
-    public List<NameValue> getTopAircrafts(Filter filter) {
-        return repository.getTopAircrafts(filter, SIZE);
+    @RequestMapping("/types")
+    public List<CodeNameValue> getTopTypes(Filter filter) {
+        return repository.getTopTypes(filter, SIZE);
     }
 
     @RequestMapping("/airlines")
-    public List<NameValue> getTopAirlines(Filter filter) {
+    public List<CodeNameValue> getTopAirlines(Filter filter) {
         return repository.getTopAirlines(filter, SIZE);
     }
 
     @RequestMapping("/origins")
-    public List<NameValue> getTopOrigins(Filter filter) {
+    public List<CodeNameValue> getTopOrigins(Filter filter) {
         return repository.getTopOrigins(filter, SIZE);
     }
 
     @RequestMapping("/destinations")
-    public List<NameValue> getTopDestinations(Filter filter) {
+    public List<CodeNameValue> getTopDestinations(Filter filter) {
         return repository.getTopDestinations(filter, SIZE);
     }
 }
