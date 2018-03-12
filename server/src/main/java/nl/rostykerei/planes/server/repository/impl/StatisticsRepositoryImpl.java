@@ -125,6 +125,14 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     private Predicate buildPredicate(Filter filter, CriteriaBuilder builder, Root<Flight> c) {
         List<Predicate> predicates = new ArrayList<>();
 
+        if (filter.getDateFrom().isPresent()) {
+            predicates.add(builder.greaterThanOrEqualTo(c.get(Flight_.firstContact), filter.getDateFrom().get()));
+        }
+
+        if (filter.getDateTo().isPresent()) {
+            predicates.add(builder.lessThanOrEqualTo(c.get(Flight_.lastContact), filter.getDateTo().get()));
+        }
+
         if (filter.contains(FilterField.AIRCRAFTS)) {
             predicates.add(c.get(Flight_.aircraft).get(Aircraft_.registration).in(filter.getSet(FilterField.AIRCRAFTS)));
         }
@@ -149,12 +157,7 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
             predicates.add(c.get(Flight_.route).get(Route_.airportTo).get(Airport_.code).in(filter.getSet(FilterField.DESTINATIONS)));
         }
 
-        Predicate predicate = builder.isTrue(builder.literal(true));
-
-        if (!predicates.isEmpty()) {
-            predicate = builder.and(predicates.toArray(new Predicate[0]));
-        }
-
-        return predicate;
+        return predicates.isEmpty() ?
+                builder.isTrue(builder.literal(true)) : builder.and(predicates.toArray(new Predicate[0]));
     }
 }
