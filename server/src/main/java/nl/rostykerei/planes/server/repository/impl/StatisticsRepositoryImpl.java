@@ -5,6 +5,7 @@ import nl.rostykerei.planes.server.repository.StatisticsRepository;
 import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.request.FilterField;
 import nl.rostykerei.planes.server.response.CodeNameValue;
+import nl.rostykerei.planes.server.response.DateHourValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.*;
 import javax.persistence.metamodel.SingularAttribute;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -84,6 +86,37 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     }
 
     @Override
+    public List<DateHourValue> getFlightsPerHour(Filter filter) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<DateHourValue> q = builder.createQuery(DateHourValue.class);
+
+        Root<Flight> c = q.from(Flight.class);
+
+        Expression<Long> count = builder.count(c.get(Flight_.id));
+
+        CompoundSelection<DateHourValue> selection = builder.construct(DateHourValue.class,
+                builder.function("date", Date.class, c.get(Flight_.firstContact)),
+                builder.function("hour", Integer.class, c.get(Flight_.firstContact)),
+                count);
+
+        Predicate predicate = buildPredicate(filter, builder, c);
+
+        return em.createQuery(
+                q.select(selection)
+                        .groupBy(
+                                builder.function("date", Date.class, c.get(Flight_.firstContact)),
+                                builder.function("hour", Integer.class, c.get(Flight_.firstContact))
+                        )
+                        .orderBy(
+                                builder.desc(builder.function("date", Date.class, c.get(Flight_.firstContact))),
+                                builder.desc(builder.function("hour", Integer.class, c.get(Flight_.firstContact)))
+                        )
+        )
+                .setMaxResults(100)
+                .getResultList();
+    }
+
+    @Override
     public List<CodeNameValue> getTopOrigins(Filter filter, int size) {
         return getTopAirport(filter, size, Route_.airportFrom, Route_.airportTo);
     }
@@ -94,7 +127,7 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     }
 
     private List<CodeNameValue> getTopAirport(Filter filter, int size,
-                                             SingularAttribute<Route, Airport> a1, SingularAttribute<Route, Airport> a2) {
+                                              SingularAttribute<Route, Airport> a1, SingularAttribute<Route, Airport> a2) {
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<CodeNameValue> q = builder.createQuery(CodeNameValue.class);
