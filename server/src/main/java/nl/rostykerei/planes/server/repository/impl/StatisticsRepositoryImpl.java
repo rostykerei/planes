@@ -99,10 +99,19 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
                 builder.function("hour", Integer.class, c.get(Flight_.firstContact)),
                 count);
 
+        Join<Flight, Aircraft> joinAircraft = c.join(Flight_.aircraft);
+        joinAircraft.join(Aircraft_.type, JoinType.LEFT);
+        joinAircraft.join(Aircraft_.airline, JoinType.LEFT);
+
+        Join<Flight, Route> joinRoute = c.join(Flight_.route, JoinType.LEFT);
+        joinRoute.join(Route_.airportFrom, JoinType.LEFT);
+        joinRoute.join(Route_.airportTo, JoinType.LEFT);
+
         Predicate predicate = buildPredicate(filter, builder, c);
 
         return em.createQuery(
                 q.select(selection)
+                        .where(predicate)
                         .groupBy(
                                 builder.function("date", Date.class, c.get(Flight_.firstContact)),
                                 builder.function("hour", Integer.class, c.get(Flight_.firstContact))
