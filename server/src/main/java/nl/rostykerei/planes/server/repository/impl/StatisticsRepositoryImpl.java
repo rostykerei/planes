@@ -5,7 +5,7 @@ import nl.rostykerei.planes.server.repository.StatisticsRepository;
 import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.request.FilterField;
 import nl.rostykerei.planes.server.response.CodeNameValue;
-import nl.rostykerei.planes.server.response.DateHourValue;
+import nl.rostykerei.planes.server.response.DateValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -86,15 +86,15 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     }
 
     @Override
-    public List<DateHourValue> getFlightsPerHour(Filter filter) {
+    public List<DateValue> getFlightsPerHour(Filter filter) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<DateHourValue> q = builder.createQuery(DateHourValue.class);
+        CriteriaQuery<DateValue> q = builder.createQuery(DateValue.class);
 
         Root<Flight> c = q.from(Flight.class);
 
         Expression<Long> count = builder.count(c.get(Flight_.id));
 
-        CompoundSelection<DateHourValue> selection = builder.construct(DateHourValue.class,
+        CompoundSelection<DateValue> selection = builder.construct(DateValue.class,
                 builder.function("date", Date.class, c.get(Flight_.firstContact)),
                 builder.function("hour", Integer.class, c.get(Flight_.firstContact)),
                 count);

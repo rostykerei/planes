@@ -3,7 +3,7 @@ package nl.rostykerei.planes.server.controller;
 import nl.rostykerei.planes.server.repository.StatisticsRepository;
 import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.response.CodeNameValue;
-import nl.rostykerei.planes.server.response.DateHourValue;
+import nl.rostykerei.planes.server.response.DateValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +32,7 @@ public class StatisticsController {
     }
 
     @RequestMapping("/flights")
-    public List<DateHourValue> getFlight(Filter filter) {
+    public List<DateValue> getFlight(Filter filter) {
         return repository.getFlightsPerHour(filter);
     }
 
