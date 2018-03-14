@@ -6,6 +6,7 @@ import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.request.FilterField;
 import nl.rostykerei.planes.server.response.CodeNameValue;
 import nl.rostykerei.planes.server.response.DateValue;
+import nl.rostykerei.planes.server.response.PairValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -133,6 +134,35 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     @Override
     public List<CodeNameValue> getTopDestinations(Filter filter, int size) {
         return getTopAirport(filter, size, Route_.airportTo, Route_.airportFrom);
+    }
+
+    @Override
+    public List<PairValue> getTopRoutes(Filter filter, int size) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<PairValue> q = builder.createQuery(PairValue.class);
+
+        Root<Flight> c = q.from(Flight.class);
+
+        Join<Flight, Route> joinRoute = c.join(Flight_.route);
+        Join<Route, Airport> joinAirportFrom = joinRoute.join(Route_.airportFrom);
+        Join<Route, Airport> joinAirportTo = joinRoute.join(Route_.airportTo);
+
+        Join<Flight, Aircraft> joinAircraft = c.join(Flight_.aircraft, JoinType.LEFT);
+        joinAircraft.join(Aircraft_.airline, JoinType.LEFT);
+        joinAircraft.join(Aircraft_.type, JoinType.LEFT);
+
+        Path<String> fromCode = joinAirportFrom.get(Airport_.code);
+        Path<String> toCode = joinAirportTo.get(Airport_.code);
+        Expression<Long> count = builder.count(c.get(Flight_.id));
+
+        CompoundSelection<PairValue> selection = builder.construct(PairValue.class,
+                fromCode, toCode, count);
+
+        Predicate predicate = buildPredicate(filter, builder, c);
+
+        return em.createQuery(q.select(selection).where(predicate).groupBy(fromCode, toCode).orderBy(builder.desc(count)))
+                .setMaxResults(size)
+                .getResultList();
     }
 
     private List<CodeNameValue> getTopAirport(Filter filter, int size,

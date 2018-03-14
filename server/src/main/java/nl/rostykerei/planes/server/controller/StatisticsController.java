@@ -4,6 +4,7 @@ import nl.rostykerei.planes.server.repository.StatisticsRepository;
 import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.response.CodeNameValue;
 import nl.rostykerei.planes.server.response.DateValue;
+import nl.rostykerei.planes.server.response.PairValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,5 +45,10 @@ public class StatisticsController {
     @RequestMapping("/destinations")
     public List<CodeNameValue> getTopDestinations(Filter filter) {
         return repository.getTopDestinations(filter, SIZE);
+    }
+
+    @RequestMapping("/routes")
+    public List<PairValue> getTopRoutes(Filter filter) {
+        return repository.getTopRoutes(filter, SIZE);
     }
 }
