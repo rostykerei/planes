@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {CodeNameValue} from '../model/code-name-value';
 import {environment} from '../../environments/environment';
 import {DateValue} from "../model/date-value";
+import {PairValue} from "../model/pair-value";
 
 @Injectable()
 export class StatsService {
@@ -39,5 +40,12 @@ export class StatsService {
     url += filter ? '?' + filter : '';
 
     return this.http.get<DateValue[]>(url);
+  }
+
+  getTopRoutes(filter: string): Observable<PairValue[]> {
+    let url = environment.apiUrl + 'stats/routes';
+    url += filter ? '?' + filter : '';
+
+    return this.http.get<PairValue[]>(url);
   }
 }

@@ -3,6 +3,7 @@ import {StatsService} from './stats.service';
 import {CodeNameValue} from '../model/code-name-value';
 import {Filter} from '../filter/filter';
 import {DateValue} from "../model/date-value";
+import {PairValue} from "../model/pair-value";
 
 declare const google: any;
 
@@ -20,6 +21,8 @@ export class StatsComponent {
 
   flightsChart;
 
+  routesChart;
+
   constructor(private statsService: StatsService) {
   }
 
@@ -30,6 +33,7 @@ export class StatsComponent {
     this.statsService.getFlights(event.toQueryString()).subscribe(data => this.flightsLoaded(data));
     this.statsService.getTopOrigins(event.toQueryString()).subscribe(data => this.topOriginsLoaded(data));
     this.statsService.getTopDestinations(event.toQueryString()).subscribe(data => this.topDestinationsLoaded(data));
+    this.statsService.getTopRoutes(event.toQueryString()).subscribe(data => this.topRoutesLoaded(data));
   }
 
   topTypesLoaded(data: CodeNameValue[]): void {
@@ -133,8 +137,6 @@ export class StatsComponent {
   }
 
   private flightsLoaded(data: DateValue[]) {
-    console.log(data);
-
     const dataTable = [];
     dataTable.push(['Date', 'Flights']);
 
@@ -143,19 +145,37 @@ export class StatsComponent {
     });
 
     this.flightsChart = {
-      chartType: 'LineChart',
+      chartType: 'ColumnChart',
       dataTable: dataTable,
       options: {
-        title: 'Flights per day',
-        curveType: 'function',
         height: 300,
+        title: 'Number of flights',
         titleTextStyle: {
           fontName: 'Roboto',
           fontSize: 24,
           bold: false,
           color: '#000000'
         },
-      legend: 'none',
+        legend: 'none',
+        backgroundColor: { fill:'transparent' },
+        theme: 'material'
+      }
+    };
+  }
+
+  private topRoutesLoaded(data: PairValue[]) {
+    const dataTable = [];
+    dataTable.push(['From', 'To', 'Number of flights']);
+
+    data.forEach(d => {
+      dataTable.push(['From: ' + d.first, 'To: ' + d.second,  d.value]);
+    });
+
+    this.routesChart = {
+      chartType: 'Sankey',
+      dataTable: dataTable,
+      options: {
+        height: 300,
         backgroundColor: { fill:'transparent' },
         theme: 'material'
       }
