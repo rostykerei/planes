@@ -14,18 +14,32 @@ declare const google: any;
 })
 export class StatsComponent {
 
-  aircraftsChart;
+  typesChart;
   airlinesChart;
   originsChart;
   destinationsChart;
-
   flightsChart;
-
   routesChart;
+
+  pieOptions = {
+    height: 300,
+    legend: 'right',
+    titleTextStyle: {
+      fontName: 'Roboto',
+      fontSize: 24,
+      bold: false,
+      color: '#000000'
+    },
+    pieSliceText: 'none',
+    backgroundColor: {
+      fill: 'transparent'
+    },
+    theme: 'material'
+  };
+
 
   constructor(private statsService: StatsService) {
   }
-
 
   filterChange(event: Filter) {
     this.statsService.getTopTypes(event.toQueryString()).subscribe(data => this.topTypesLoaded(data));
@@ -38,101 +52,61 @@ export class StatsComponent {
 
   topTypesLoaded(data: CodeNameValue[]): void {
     const dataTable = [];
-    dataTable.push(['Types', 'Flights']);
+    dataTable.push(['Types', 'Flights', {'type': 'string', 'role': 'tooltip'}]);
 
     data.forEach(d => {
-      dataTable.push([d.code, d.value]);
+      dataTable.push([d.code, d.value, `${d.code}\n${d.name}\nFlights: ${d.value}`]);
     });
 
-    this.aircraftsChart = {
+    this.typesChart = {
       chartType: 'PieChart',
       dataTable: dataTable,
-      options: {
-        title: 'Top Types', height: 300, legend: 'right',
-        titleTextStyle: {
-          fontName: 'Roboto',
-          fontSize: 24,
-          bold: false,
-          color: '#000000'
-        },
-        backgroundColor: { fill:'transparent' },
-        theme: 'material'
-      }
+      options: Object.assign({ title: 'Top Types'}, this.pieOptions)
     };
   }
 
   topAirlinesLoaded(data: CodeNameValue[]): void {
     const dataTable = [];
-    dataTable.push(['Airlines', 'Flights']);
+    dataTable.push(['Airlines', 'Flights', {'type': 'string', 'role': 'tooltip'}]);
 
     data.forEach(d => {
-      dataTable.push([d.name, d.value]);
+      dataTable.push([d.code, d.value, `${d.code}\n${d.name}\nFlights: ${d.value}`]);
     });
 
     this.airlinesChart = {
       chartType: 'PieChart',
       dataTable: dataTable,
-      options: {
-        title: 'Top Airlines', height: 300, legend: 'right',
-        titleTextStyle: {
-          fontName: 'Roboto',
-          fontSize: 24,
-          bold: false,
-          color: '#000000'
-        },
-        backgroundColor: { fill:'transparent' },
-        theme: 'material'
-      }
+      options: Object.assign({ title: 'Top Airlines'}, this.pieOptions)
     };
   }
 
   topOriginsLoaded(data: CodeNameValue[]): void {
     const dataTable = [];
-    dataTable.push(['Airport', 'Flights']);
+    dataTable.push(['Airport', 'Flights', {'type': 'string', 'role': 'tooltip'}]);
 
     data.forEach(d => {
-      dataTable.push([d.name, d.value]);
+      dataTable.push([d.code, d.value, `${d.code}\n${d.name}\nFlights: ${d.value}`]);
     });
 
     this.originsChart = {
       chartType: 'PieChart',
       dataTable: dataTable,
-      options: {
-        title: 'Top Origins', height: 300, legend: 'right',
-        titleTextStyle: {
-          fontName: 'Roboto',
-          fontSize: 24,
-          bold: false,
-          color: '#000000'
-        },
-        backgroundColor: { fill:'transparent' },
-        theme: 'material'
-      }
+      options: Object.assign({ title: 'Top Origins'}, this.pieOptions)
     };
   }
 
   topDestinationsLoaded(data: CodeNameValue[]): void {
     const dataTable = [];
-    dataTable.push(['Airport', 'Flights']);
+    dataTable.push(['Airport', 'Flights', {'type': 'string', 'role': 'tooltip'}]);
 
     data.forEach(d => {
-      dataTable.push([d.name, d.value]);
+      dataTable.push([d.code, d.value, `${d.code}\n${d.name}\nFlights: ${d.value}`]);
     });
 
     this.destinationsChart = {
       chartType: 'PieChart',
       dataTable: dataTable,
-      options: {
-        title: 'Top Destinations', height: 300, legend: 'right',
-        titleTextStyle: {
-          fontName: 'Roboto',
-          fontSize: 24,
-          bold: false,
-          color: '#000000'
-        },
-        backgroundColor: { fill:'transparent' },
-        theme: 'material'
-      }
+      options: Object.assign({ title: 'Top Destinations'}, this.pieOptions)
     };
   }
 
@@ -157,7 +131,7 @@ export class StatsComponent {
           color: '#000000'
         },
         legend: 'none',
-        backgroundColor: { fill:'transparent' },
+        backgroundColor: {fill: 'transparent'},
         theme: 'material'
       }
     };
@@ -165,10 +139,11 @@ export class StatsComponent {
 
   private topRoutesLoaded(data: PairValue[]) {
     const dataTable = [];
-    dataTable.push(['From', 'To', 'Number of flights']);
+    dataTable.push(['From', 'To', 'Number of flights', {'type': 'string', 'role': 'tooltip'}]);
 
     data.forEach(d => {
-      dataTable.push(['From: ' + d.first, 'To: ' + d.second,  d.value]);
+      dataTable.push(['From: ' + d.first, 'To: ' + d.second, d.value,
+        `${d.first} -> ${d.second}\n${d.value}`]);
     });
 
     this.routesChart = {
@@ -176,7 +151,7 @@ export class StatsComponent {
       dataTable: dataTable,
       options: {
         height: 300,
-        backgroundColor: { fill:'transparent' },
+        backgroundColor: {fill: 'transparent'},
         theme: 'material'
       }
     };

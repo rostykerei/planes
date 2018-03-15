@@ -34,6 +34,8 @@ a {
   height: 3px;
 }
 
+/* google charts flickering bug */
+svg > g > g:last-child { pointer-events: none }
 
 // title bar
 .title {
