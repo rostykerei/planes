@@ -1,9 +1,8 @@
-<mat-drawer-container class="container" autosize>
+<mat-drawer-container autosize>
 
-  <mat-drawer #drawer class="sidenav" mode="side" [opened]="true" (onOpen)="showFilterBtn.checked = true" (onClose)="showFilterBtn.checked = false" >
-    <app-filter
-      goButtonIcon="show_chart" goButtonText="Stats" goButtonLink="/stats">
-    </app-filter>
+  <mat-drawer #drawer (openedChange)="onResize()" class="sidenav" mode="side" [opened]="true">
+    <app-filter (onReady)="filterChange($event)" (onChange)="filterChange($event)"
+                goButtonIcon="show_chart" goButtonText="Stats" goButtonLink="/stats"></app-filter>
   </mat-drawer>
 
   <div class="title">
@@ -11,12 +10,55 @@
       <mat-icon>flight_takeoff</mat-icon>
       <h1 class="mat-h1">Flights</h1>
     </div>
-  </div>
 
-  <div class="content">
-    <button mat-fab color="primary" (click)="drawer.toggle()" style="float: right; top: -48px; right: 16px;">
+    <button mat-fab color="primary" (click)="drawer.toggle()">
       <mat-icon>filter_list</mat-icon>
     </button>
   </div>
 
+  <div class="content">
+    <div class="table">
+      <mat-table #table [dataSource]="dataSource">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.position}}</mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <mat-header-cell *matHeaderCellDef> Weight</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.weight}}</mat-cell>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <mat-header-cell *matHeaderCellDef> Symbol</mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.symbol}}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+
+      <mat-paginator #paginator
+                     [pageSize]="10"
+                     [pageSizeOptions]="[5, 10, 20]"
+                     [showFirstLastButtons]="true">
+      </mat-paginator>
+    </div>
+
+  </div>
+
 </mat-drawer-container>
+
+
+
+

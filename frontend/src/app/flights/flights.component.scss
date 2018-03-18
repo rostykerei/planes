@@ -1,10 +1,4 @@
-.container {
-  width: 100%;
-  background: none;
-}
-
 .content {
-  height: 100%;
   padding: 20px;
   min-height: 1000px;
 }
@@ -12,9 +6,21 @@
 .sidenav {
   padding: 20px;
   width: 300px;
-  box-shadow: 0 0 1px rgba(0,0,0,.14), 0 1px 2px rgba(0,0,0,.28);
+  box-shadow: 0 0 1px rgba(0, 0, 0, .14), 0 1px 2px rgba(0, 0, 0, .28);
 }
 
 .title {
   background-color: #9C27B0;
+
+  button {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 48px;
+  }
 }
+
+.table {
+  box-shadow: 0 0 1px rgba(0, 0, 0, .14), 0 1px 2px rgba(0, 0, 0, .28);
+}
+

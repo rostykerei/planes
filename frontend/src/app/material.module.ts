@@ -11,6 +11,7 @@ import {
   MatIconModule,
   MatNativeDateModule,
   MatOptionModule,
+  MatPaginatorModule,
   MatSidenavModule,
   MatTableModule,
   MatTabsModule,
@@ -25,7 +26,7 @@ import {
     MatTooltipModule, MatIconModule, MatFormFieldModule,
     MatChipsModule, MatOptionModule, MatAutocompleteModule,
     MatSidenavModule, MatNativeDateModule, MatDatepickerModule,
-    MatButtonToggleModule
+    MatButtonToggleModule, MatPaginatorModule
   ],
   exports: [
     MatButtonModule, MatToolbarModule, MatTabsModule,
@@ -33,7 +34,7 @@ import {
     MatTooltipModule, MatIconModule, MatFormFieldModule,
     MatChipsModule, MatOptionModule, MatAutocompleteModule,
     MatSidenavModule, MatNativeDateModule, MatDatepickerModule,
-    MatButtonToggleModule
+    MatButtonToggleModule, MatPaginatorModule
   ]
 })
 export class MaterialModule {
