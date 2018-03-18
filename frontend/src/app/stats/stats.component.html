@@ -1,51 +1,39 @@
 <mat-drawer-container class="container" autosize>
 
-  <mat-drawer #drawer class="sidenav" mode="side" [opened]="true" (onOpen)="showFilterBtn.checked = true" (onClose)="showFilterBtn.checked = false" >
-    <app-filter
-      (onReady)="filterChange($event)" (onChange)="filterChange($event)"
+  <mat-drawer #drawer (openedChange)="onResize()" class="sidenav" mode="side" [opened]="true">
+    <app-filter (onReady)="filterChange($event)" (onChange)="filterChange($event)"
       goButtonIcon="flight_takeoff" goButtonText="Flights" goButtonLink="/flights"></app-filter>
   </mat-drawer>
 
-
   <div class="title">
     <div>
-      <mat-icon>show_chart</mat-icon>
+      <mat-icon (click)="drawer.toggle()">show_chart</mat-icon>
       <h1 class="mat-h1">Statistics</h1>
     </div>
+
+    <button mat-fab color="primary" (click)="drawer.toggle()"
+            style="position: absolute; z-index: 2; top: 16px; right: 48px;">
+      <mat-icon>filter_list</mat-icon>
+    </button>
   </div>
 
   <div class="content">
-
-    <button mat-fab color="primary" (click)="drawer.toggle()" style="float: right; top: -48px; right: 16px;">
-      <mat-icon>filter_list</mat-icon>
-    </button>
-
-
-    <div class="cards">
-      <div class="card">
-        <google-chart [data]="typesChart" ></google-chart>
-      </div>
-
-      <div class="card">
-        <google-chart [data]="airlinesChart" ></google-chart>
-      </div>
+    <div class="double">
+      <google-chart #typesChartView [data]="typesChart"></google-chart>
+      <google-chart #airlinesChartView [data]="airlinesChart"></google-chart>
     </div>
 
-    <div class="row">
-      <google-chart [data]="flightsChart" ></google-chart>
+    <div class="single">
+      <google-chart #flightsChartView [data]="flightsChart"></google-chart>
     </div>
 
-    <div class="cards">
-      <div class="card">
-        <google-chart [data]="originsChart" ></google-chart>
-      </div>
-      <div class="card">
-        <google-chart [data]="destinationsChart" ></google-chart>
-      </div>
+    <div class="double">
+      <google-chart #originsChartView [data]="originsChart"></google-chart>
+      <google-chart #destinationsChartView [data]="destinationsChart"></google-chart>
     </div>
 
-    <div class="row">
-      <google-chart [data]="routesChart" ></google-chart>
+    <div class="single">
+      <google-chart #routesChartView [data]="routesChart"></google-chart>
     </div>
   </div>
 

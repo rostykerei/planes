@@ -1,17 +1,17 @@
-.cards {
+.double {
   max-width: 960px;
   margin: 0 auto 0;
 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   grid-gap: 0;
+
+  google-chart {
+    position: relative;
+  }
 }
 
-.card {
-  position: relative;
-}
-
-.row {
+.single {
   max-width: 960px;
   margin: 0 auto 0;
 }

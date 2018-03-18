@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {StatsService} from './stats.service';
 import {CodeNameValue} from '../model/code-name-value';
 import {Filter} from '../filter/filter';
@@ -10,9 +10,19 @@ declare const google: any;
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.scss']
+  styleUrls: ['./stats.component.scss'],
+  host: {
+    '(window:resize)': 'onResize()'
+  }
 })
 export class StatsComponent {
+
+  @ViewChild('typesChartView') typesChartView;
+  @ViewChild('airlinesChartView') airlinesChartView;
+  @ViewChild('originsChartView') originsChartView;
+  @ViewChild('destinationsChartView') destinationsChartView;
+  @ViewChild('flightsChartView') flightsChartView;
+  @ViewChild('routesChartView') routesChartView;
 
   typesChart;
   airlinesChart;
@@ -155,5 +165,31 @@ export class StatsComponent {
         theme: 'material'
       }
     };
+  }
+
+  onResize() {
+    if (!!this.typesChartView.wrapper) {
+      this.typesChartView.redraw();
+    }
+
+    if (!!this.airlinesChartView.wrapper) {
+      this.airlinesChartView.redraw();
+    }
+
+    if (!!this.originsChartView.wrapper) {
+      this.originsChartView.redraw();
+    }
+
+    if (!!this.destinationsChartView.wrapper) {
+      this.destinationsChartView.redraw();
+    }
+
+    if (!!this.flightsChartView.wrapper) {
+      this.flightsChartView.redraw();
+    }
+
+    if (!!this.routesChartView.wrapper) {
+      this.routesChartView.redraw();
+    }
   }
 }
