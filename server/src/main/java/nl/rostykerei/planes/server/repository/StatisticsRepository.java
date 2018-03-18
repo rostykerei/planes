@@ -5,6 +5,7 @@ import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.response.CodeNameValue;
 import nl.rostykerei.planes.server.response.DateValue;
 import nl.rostykerei.planes.server.response.PairValue;
+import nl.rostykerei.planes.server.response.Table;
 
 import java.util.List;
 
@@ -23,5 +24,5 @@ public interface StatisticsRepository {
 
     List<PairValue> getTopRoutes(Filter filter, int size);
 
-    List<Flight> getFlights(Filter filter, int size);
+    Table<Flight> getFlightsTable(Filter filter, int size);
 }

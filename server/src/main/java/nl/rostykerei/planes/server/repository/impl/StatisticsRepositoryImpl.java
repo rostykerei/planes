@@ -7,6 +7,7 @@ import nl.rostykerei.planes.server.request.FilterField;
 import nl.rostykerei.planes.server.response.CodeNameValue;
 import nl.rostykerei.planes.server.response.DateValue;
 import nl.rostykerei.planes.server.response.PairValue;
+import nl.rostykerei.planes.server.response.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -168,7 +169,11 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     }
 
     @Override
-    public List<Flight> getFlights(Filter filter, int size) {
+    public Table<Flight> getFlightsTable(Filter filter, int size) {
+        return new Table<>(getFlightsList(filter, size), getFlightsCount(filter));
+    }
+
+    private List<Flight> getFlightsList(Filter filter, int size) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Flight> q = builder.createQuery(Flight.class);
 
@@ -195,6 +200,27 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
                 .setMaxResults(size)
                 .getResultList();
     }
+
+    private Long getFlightsCount(Filter filter) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Long> q = builder.createQuery(Long.class);
+        Root<Flight> c = q.from(Flight.class);
+
+        Join<Flight, Aircraft> aircraftFetch = c.join(Flight_.aircraft, JoinType.LEFT);
+        aircraftFetch.join(Aircraft_.type, JoinType.LEFT);
+        aircraftFetch.join(Aircraft_.airline, JoinType.LEFT);
+
+        Join<Flight, Route> routeFetch = c.join(Flight_.route, JoinType.LEFT);
+        routeFetch.join(Route_.airportFrom, JoinType.LEFT);
+        routeFetch.join(Route_.airportTo, JoinType.LEFT);
+
+        return em.createQuery(
+                q
+                        .select(builder.count(c.get(Flight_.id)))
+                        .where(buildPredicate(filter, builder, c))
+        ).getSingleResult();
+    }
+
 
     private List<CodeNameValue> getTopAirport(Filter filter, int size,
                                               SingularAttribute<Route, Airport> a1, SingularAttribute<Route, Airport> a2) {

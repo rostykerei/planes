@@ -6,6 +6,7 @@ import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.response.CodeNameValue;
 import nl.rostykerei.planes.server.response.DateValue;
 import nl.rostykerei.planes.server.response.PairValue;
+import nl.rostykerei.planes.server.response.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +25,8 @@ public class StatisticsController {
     private StatisticsRepository repository;
 
     @RequestMapping("/table")
-    public List<Flight> getFlights(Filter filter) {
-        return repository.getFlights(filter, 1);
+    public Table<Flight> getFlights(Filter filter) {
+        return repository.getFlightsTable(filter, 10);
     }
 
     @RequestMapping("/types")
