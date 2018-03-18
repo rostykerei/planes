@@ -4,6 +4,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {AboutComponent} from './about/about.component';
 import {StatsComponent} from './stats/stats.component';
 import {FlightsComponent} from './flights/flights.component';
+import {FlightDetailsComponent} from "./flights/flight-details/flight-details.component";
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
     component: FlightsComponent
   },
   {
+    path: 'flights/:id',
+    component: FlightDetailsComponent
+  },
+  {
     path: 'about',
     component: AboutComponent
   }
@@ -28,4 +33,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -29,7 +29,7 @@
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <a [routerLink]="['/flights', row.id]">{{ row.id }}</a>
+            <a routerLink="/flights/{{row.id}}">{{ row.id }}</a>
           </mat-cell>
         </ng-container>
 
