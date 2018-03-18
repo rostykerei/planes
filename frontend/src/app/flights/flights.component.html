@@ -1,6 +1,6 @@
 <mat-drawer-container autosize>
 
-  <mat-drawer #drawer (openedChange)="onResize()" class="sidenav" mode="side" [opened]="true">
+  <mat-drawer #drawer class="sidenav" mode="side" [opened]="true">
     <app-filter (onReady)="filterChange($event)" (onChange)="filterChange($event)"
                 goButtonIcon="show_chart" goButtonText="Stats" goButtonLink="/stats"></app-filter>
   </mat-drawer>
@@ -18,40 +18,91 @@
 
   <div class="content">
     <div class="table">
-      <mat-table #table [dataSource]="dataSource">
+      <div class="example-loading-shade" *ngIf="isLoadingResults">
+        <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+      </div>
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-          <mat-header-cell *matHeaderCellDef> No.</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.position}}</mat-cell>
+      <mat-table #table [dataSource]="dataSource" class="example-table"
+                 matSort matSortActive="created" matSortDisableClear matSortDirection="asc">
+
+
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <a [routerLink]="['/flights', row.id]">{{ row.id }}</a>
+          </mat-cell>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef> Name</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.name}}</mat-cell>
+        <ng-container matColumnDef="callsign">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Callsign</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span *ngIf="row.route && row.route.callsign">{{row.route.callsign}}</span>
+          </mat-cell>
         </ng-container>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-          <mat-header-cell *matHeaderCellDef> Weight</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.weight}}</mat-cell>
+        <ng-container matColumnDef="airline">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Airline</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span *ngIf="row.aircraft && row.aircraft.airline">{{row.aircraft.airline.code}}</span>
+          </mat-cell>
         </ng-container>
 
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-          <mat-header-cell *matHeaderCellDef> Symbol</mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.symbol}}</mat-cell>
+        <ng-container matColumnDef="from">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>From</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <div *ngIf="row.route && row.route.airportFrom">
+              <span *ngIf="row.route.airportFrom.country"
+                    matTooltip="{{row.route.airportFrom.country.code}} - {{row.route.airportFrom.country.name}}"
+                    [ngClass]="'flag-icon flag-icon-'+row.route.airportFrom.country.code.toLowerCase()"></span>
+              <span matTooltip="{{row.route.airportFrom.iataCode}} - {{row.route.airportFrom.name}}">
+              {{row.route.airportFrom.code}}
+              </span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="to">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>To</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <div *ngIf="row.route && row.route.airportTo">
+              <span *ngIf="row.route.airportTo.country"
+                    matTooltip="{{row.route.airportTo.country.code}} - {{row.route.airportTo.country.name}}"
+                    [ngClass]="'flag-icon flag-icon-'+row.route.airportTo.country.code.toLowerCase()"></span>
+              <span matTooltip="{{row.route.airportTo.iataCode}} - {{row.route.airportTo.name}}">
+              {{row.route.airportTo.code}}
+              </span>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="aircraft">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Aircraft</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span *ngIf="row.aircraft && row.aircraft.registration">{{row.aircraft.registration}}</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <span *ngIf="row.aircraft && row.aircraft.type">{{row.aircraft.type.type}}</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>First contact</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            {{ row.firstContact | date:'yyyy-MM-dd HH:mm:ss' }}
+          </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
 
-      <mat-paginator #paginator
-                     [pageSize]="10"
-                     [pageSizeOptions]="[5, 10, 20]"
-                     [showFirstLastButtons]="true">
+      <mat-paginator [length]="resultsLength"
+                     [pageSizeOptions]="[10, 25, 50, 100]"
+                     [pageSize]="50">
       </mat-paginator>
     </div>
 
