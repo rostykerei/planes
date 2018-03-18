@@ -149,11 +149,16 @@ export class StatsComponent {
 
   private topRoutesLoaded(data: PairValue[]) {
     const dataTable = [];
-    dataTable.push(['From', 'To', 'Number of flights', {'type': 'string', 'role': 'tooltip'}]);
+    dataTable.push(['From', 'To', 'Number of flights', {'type': 'string', 'role': 'tooltip', 'p': {'html': true}}]);
+
 
     data.forEach(d => {
-      dataTable.push(['From: ' + d.first, 'To: ' + d.second, d.value,
-        `${d.first} -> ${d.second}\n${d.value}`]);
+      let tooltip = `<div style="font-family: Roboto; color: rgba(0,0,0,.54); padding: 6px;"><b>${d.firstCode}</b> ${d.firstName}<br/>
+        <b>${d.secondCode}</b> ${d.secondName} <br/>
+        <b>Flights number:</b> ${d.value}
+        </div>`;
+
+      dataTable.push(['From: ' + d.firstCode, 'To: ' + d.secondCode, d.value, tooltip]);
     });
 
     this.routesChart = {
@@ -162,7 +167,8 @@ export class StatsComponent {
       options: {
         height: 300,
         backgroundColor: {fill: 'transparent'},
-        theme: 'material'
+        theme: 'material',
+        tooltip: { isHtml: true }
       }
     };
   }

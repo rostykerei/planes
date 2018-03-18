@@ -152,11 +152,13 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
         joinAircraft.join(Aircraft_.type, JoinType.LEFT);
 
         Path<String> fromCode = joinAirportFrom.get(Airport_.code);
+        Path<String> fromName = joinAirportFrom.get(Airport_.name);
         Path<String> toCode = joinAirportTo.get(Airport_.code);
+        Path<String> toName = joinAirportTo.get(Airport_.name);
         Expression<Long> count = builder.count(c.get(Flight_.id));
 
         CompoundSelection<PairValue> selection = builder.construct(PairValue.class,
-                fromCode, toCode, count);
+                fromCode, fromName, toCode, toName, count);
 
         Predicate predicate = buildPredicate(filter, builder, c);
 

@@ -2,24 +2,36 @@ package nl.rostykerei.planes.server.response;
 
 public class PairValue {
 
-    private String first;
+    private String firstCode;
+    private String firstName;
 
-    private String second;
+    private String secondCode;
+    private String secondName;
 
     private long value;
 
-    public PairValue(String first, String second, long value) {
-        this.first = first;
-        this.second = second;
+    public PairValue(String firstCode, String firstName, String secondCode, String secondName, long value) {
+        this.firstCode = firstCode;
+        this.firstName = firstName;
+        this.secondCode = secondCode;
+        this.secondName = secondName;
         this.value = value;
     }
 
-    public String getFirst() {
-        return first;
+    public String getFirstCode() {
+        return firstCode;
     }
 
-    public String getSecond() {
-        return second;
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getSecondCode() {
+        return secondCode;
+    }
+
+    public String getSecondName() {
+        return secondName;
     }
 
     public long getValue() {

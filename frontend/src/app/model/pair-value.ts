@@ -1,5 +1,7 @@
 export class PairValue {
-  first: string;
-  second: string;
+  firstCode: string;
+  firstName: string;
+  secondCode: string;
+  secondName: string;
   value: number;
 }
