@@ -167,6 +167,35 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
                 .getResultList();
     }
 
+    @Override
+    public List<Flight> getFlights(Filter filter, int size) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+        CriteriaQuery<Flight> q = builder.createQuery(Flight.class);
+
+        Root<Flight> c = q.from(Flight.class);
+
+        Fetch<Flight, Aircraft> aircraftFetch = c.fetch(Flight_.aircraft, JoinType.LEFT);
+        aircraftFetch.fetch(Aircraft_.type, JoinType.LEFT);
+        aircraftFetch.fetch(Aircraft_.airline, JoinType.LEFT).fetch(Airline_.country, JoinType.LEFT);
+
+        Fetch<Flight, Route> routeFetch = c.fetch(Flight_.route, JoinType.LEFT);
+        routeFetch.fetch(Route_.airportFrom, JoinType.LEFT).fetch(Airport_.country, JoinType.LEFT);
+        routeFetch.fetch(Route_.airportTo, JoinType.LEFT).fetch(Airport_.country, JoinType.LEFT);
+
+        Predicate predicate = buildPredicate(filter, builder, c);
+
+        return em.createQuery(
+                q
+                        .select(c)
+                        .where(predicate)
+                        .orderBy(
+                                builder.desc(c.get(Flight_.id))
+                        )
+        )
+                .setMaxResults(size)
+                .getResultList();
+    }
+
     private List<CodeNameValue> getTopAirport(Filter filter, int size,
                                               SingularAttribute<Route, Airport> a1, SingularAttribute<Route, Airport> a2) {
 

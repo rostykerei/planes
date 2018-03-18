@@ -1,5 +1,6 @@
 package nl.rostykerei.planes.server.controller;
 
+import nl.rostykerei.planes.server.model.Flight;
 import nl.rostykerei.planes.server.repository.StatisticsRepository;
 import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.response.CodeNameValue;
@@ -21,6 +22,11 @@ public class StatisticsController {
 
     @Autowired
     private StatisticsRepository repository;
+
+    @RequestMapping("/table")
+    public List<Flight> getFlights(Filter filter) {
+        return repository.getFlights(filter, 1);
+    }
 
     @RequestMapping("/types")
     public List<CodeNameValue> getTopTypes(Filter filter) {

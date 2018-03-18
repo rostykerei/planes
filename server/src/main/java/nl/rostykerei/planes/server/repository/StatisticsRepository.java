@@ -1,5 +1,6 @@
 package nl.rostykerei.planes.server.repository;
 
+import nl.rostykerei.planes.server.model.Flight;
 import nl.rostykerei.planes.server.request.Filter;
 import nl.rostykerei.planes.server.response.CodeNameValue;
 import nl.rostykerei.planes.server.response.DateValue;
@@ -21,4 +22,6 @@ public interface StatisticsRepository {
     List<CodeNameValue> getTopDestinations(Filter filter, int size);
 
     List<PairValue> getTopRoutes(Filter filter, int size);
+
+    List<Flight> getFlights(Filter filter, int size);
 }
