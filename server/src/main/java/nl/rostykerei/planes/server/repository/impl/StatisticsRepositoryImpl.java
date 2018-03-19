@@ -169,11 +169,11 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
     }
 
     @Override
-    public Table<Flight> getFlightsTable(Filter filter, int size) {
-        return new Table<>(getFlightsList(filter, size), getFlightsCount(filter));
+    public Table<Flight> getFlightsTable(Filter filter, SortColumn sortColumn, SortOrder sortOrder, int page, int size) {
+        return new Table<>(getFlightsList(filter, sortColumn, sortOrder, page, size), getFlightsCount(filter));
     }
 
-    private List<Flight> getFlightsList(Filter filter, int size) {
+    private List<Flight> getFlightsList(Filter filter, SortColumn sortColumn, SortOrder sortOrder, int page, int size) {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<Flight> q = builder.createQuery(Flight.class);
 
@@ -189,14 +189,17 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
 
         Predicate predicate = buildPredicate(filter, builder, c);
 
+        Path sort = c.get(Flight_.id);
+
+        Order orderBy = sortOrder == SortOrder.ASC ? builder.asc(sort) : builder.desc(sort);
+
         return em.createQuery(
                 q
                         .select(c)
                         .where(predicate)
-                        .orderBy(
-                                builder.desc(c.get(Flight_.id))
-                        )
+                        .orderBy(orderBy)
         )
+                .setFirstResult(page * size)
                 .setMaxResults(size)
                 .getResultList();
     }
@@ -223,7 +226,8 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
 
 
     private List<CodeNameValue> getTopAirport(Filter filter, int size,
-                                              SingularAttribute<Route, Airport> a1, SingularAttribute<Route, Airport> a2) {
+                                              SingularAttribute<Route, Airport> a1,
+                                              SingularAttribute<Route, Airport> a2) {
 
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<CodeNameValue> q = builder.createQuery(CodeNameValue.class);

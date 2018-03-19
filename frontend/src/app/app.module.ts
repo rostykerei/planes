@@ -30,6 +30,7 @@ import {AutocompleteTypesComponent} from './filter/autocomplete/autocomplete-typ
 import {AutocompleteRoutesComponent} from './filter/autocomplete/autocomplete-routes.component';
 import {DatepickerComponent} from './filter/datepicker/datepicker.component';
 import {FlightDetailsComponent} from './flights/flight-details/flight-details.component';
+import {FlightsService} from "./flights/flights.service";
 
 const stompConfig: StompConfig = {
   url: () => new SockJS(environment.apiUrl + '/ws'),
@@ -71,6 +72,7 @@ const stompConfig: StompConfig = {
   ],
   providers: [MapService,
     StatsService,
+    FlightsService,
     AutocompleteService,
     StompService,
     {

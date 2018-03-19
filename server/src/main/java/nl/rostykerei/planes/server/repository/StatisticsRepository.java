@@ -12,6 +12,14 @@ import java.util.List;
 
 public interface StatisticsRepository {
 
+    enum SortColumn {
+        ID, CALLSIGN, AIRLINE, FROM, TO, AIRCRAFT, TYPE, DATE
+    }
+
+    enum SortOrder {
+        ASC, DESC
+    }
+
     List<CodeNameValue> getTopTypes(Filter filter, int size);
 
     List<CodeNameValue> getTopAirlines(Filter filter, int size);
@@ -24,5 +32,5 @@ public interface StatisticsRepository {
 
     List<PairValue> getTopRoutes(Filter filter, int size);
 
-    Table<Flight> getFlightsTable(Filter filter, int size);
+    Table<Flight> getFlightsTable(Filter filter, SortColumn sortColumn, SortOrder sortOrder, int page, int size);
 }

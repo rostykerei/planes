@@ -23,7 +23,7 @@
       </div>
 
       <mat-table #table [dataSource]="dataSource" class="example-table"
-                 matSort matSortActive="created" matSortDisableClear matSortDirection="asc">
+                 matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
 
 
         <ng-container matColumnDef="id">
@@ -102,7 +102,7 @@
 
       <mat-paginator [length]="resultsLength"
                      [pageSizeOptions]="[10, 25, 50, 100]"
-                     [pageSize]="50">
+                     [pageSize]="25">
       </mat-paginator>
     </div>
 

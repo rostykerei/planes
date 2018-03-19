@@ -10,6 +10,7 @@ import nl.rostykerei.planes.server.response.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -25,8 +26,17 @@ public class StatisticsController {
     private StatisticsRepository repository;
 
     @RequestMapping("/table")
-    public Table<Flight> getFlights(Filter filter) {
-        return repository.getFlightsTable(filter, 10);
+    public Table<Flight> getFlights(Filter filter,
+                                    @RequestParam(value = "order", defaultValue = "desc") String order,
+                                    @RequestParam(value = "page", defaultValue = "0") int page,
+                                    @RequestParam(value = "size", defaultValue = "25") int size) {
+
+        StatisticsRepository.SortOrder tableSortOrder = "desc".equals(order) ?
+                StatisticsRepository.SortOrder.DESC : StatisticsRepository.SortOrder.ASC;
+
+        return repository.getFlightsTable(filter,
+                StatisticsRepository.SortColumn.ID,
+                tableSortOrder, page, Math.max(size, 100));
     }
 
     @RequestMapping("/types")
