@@ -27,16 +27,52 @@ public class StatisticsController {
 
     @RequestMapping("/table")
     public Table<Flight> getFlights(Filter filter,
+                                    @RequestParam(value = "sort", defaultValue = "id") String sort,
                                     @RequestParam(value = "order", defaultValue = "desc") String order,
                                     @RequestParam(value = "page", defaultValue = "0") int page,
                                     @RequestParam(value = "size", defaultValue = "25") int size) {
 
-        StatisticsRepository.SortOrder tableSortOrder = "desc".equals(order) ?
-                StatisticsRepository.SortOrder.DESC : StatisticsRepository.SortOrder.ASC;
+        StatisticsRepository.SortOrder tableSortOrder;
+        StatisticsRepository.SortColumn tableSortColumn;
 
-        return repository.getFlightsTable(filter,
-                StatisticsRepository.SortColumn.ID,
-                tableSortOrder, page, Math.max(size, 100));
+        switch (order) {
+            case "asc":
+                tableSortOrder = StatisticsRepository.SortOrder.ASC;
+                break;
+            default:
+                tableSortOrder = StatisticsRepository.SortOrder.DESC;
+                break;
+        }
+
+        switch (sort) {
+            case "callsign":
+                tableSortColumn = StatisticsRepository.SortColumn.CALLSIGN;
+                break;
+            case "airline":
+                tableSortColumn = StatisticsRepository.SortColumn.AIRLINE;
+                break;
+            case "from":
+                tableSortColumn = StatisticsRepository.SortColumn.FROM;
+                break;
+            case "to":
+                tableSortColumn = StatisticsRepository.SortColumn.TO;
+                break;
+            case "aircraft":
+                tableSortColumn = StatisticsRepository.SortColumn.AIRCRAFT;
+                break;
+            case "type":
+                tableSortColumn = StatisticsRepository.SortColumn.TYPE;
+                break;
+            default:
+                tableSortColumn = StatisticsRepository.SortColumn.ID;
+                break;
+        }
+
+        return repository.getFlightsTable(
+                filter,
+                tableSortColumn,
+                tableSortOrder, page, Math.min(size, 100)
+        );
     }
 
     @RequestMapping("/types")

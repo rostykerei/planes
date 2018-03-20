@@ -18,11 +18,12 @@
 
   <div class="content">
     <div class="table">
-      <div class="example-loading-shade" *ngIf="isLoadingResults">
+
+      <div class="loader" *ngIf="isLoadingResults">
         <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
       </div>
 
-      <mat-table #table [dataSource]="dataSource" class="example-table"
+      <mat-table #table [dataSource]="dataSource" [ngClass]="{'blurred': isLoadingResults}"
                  matSort matSortActive="id" matSortDisableClear matSortDirection="desc">
 
 
@@ -43,7 +44,8 @@
         <ng-container matColumnDef="airline">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Airline</mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <span *ngIf="row.aircraft && row.aircraft.airline">{{row.aircraft.airline.code}}</span>
+            <span *ngIf="row.aircraft && row.aircraft.airline"
+                  matTooltip="{{row.aircraft.airline.name}}">{{row.aircraft.airline.code}}</span>
           </mat-cell>
         </ng-container>
 
@@ -85,7 +87,8 @@
         <ng-container matColumnDef="type">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Type</mat-header-cell>
           <mat-cell *matCellDef="let row">
-            <span *ngIf="row.aircraft && row.aircraft.type">{{row.aircraft.type.type}}</span>
+            <span *ngIf="row.aircraft && row.aircraft.type"
+                  matTooltip="{{row.aircraft.model}}">{{row.aircraft.type.type}}</span>
           </mat-cell>
         </ng-container>
 
@@ -101,7 +104,7 @@
       </mat-table>
 
       <mat-paginator [length]="resultsLength"
-                     [pageSizeOptions]="[10, 25, 50, 100]"
+                     [pageSizeOptions]="[5, 10, 25, 50, 100]"
                      [pageSize]="25">
       </mat-paginator>
     </div>

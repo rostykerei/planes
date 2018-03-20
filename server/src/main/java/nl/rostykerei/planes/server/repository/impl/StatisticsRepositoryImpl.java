@@ -189,7 +189,35 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
 
         Predicate predicate = buildPredicate(filter, builder, c);
 
-        Path sort = c.get(Flight_.id);
+        Path sort;
+
+        switch (sortColumn) {
+            case CALLSIGN:
+                sort = c.get(Flight_.route).get(Route_.callsign);
+                break;
+            case AIRLINE:
+                sort = c.get(Flight_.aircraft).get(Aircraft_.airline).get(Airline_.code);
+                break;
+            case DATE:
+                sort = c.get(Flight_.firstContact);
+                break;
+            case FROM:
+                sort = c.get(Flight_.route).get(Route_.airportFrom).get(Airport_.code);
+                break;
+            case TO:
+                sort = c.get(Flight_.route).get(Route_.airportTo).get(Airport_.code);
+                break;
+            case AIRCRAFT:
+                sort = c.get(Flight_.aircraft).get(Aircraft_.registration);
+                break;
+            case TYPE:
+                sort = c.get(Flight_.aircraft).get(Aircraft_.type).get(AircraftType_.type);
+                break;
+            default:
+                sort = c.get(Flight_.id);
+                break;
+        }
+
 
         Order orderBy = sortOrder == SortOrder.ASC ? builder.asc(sort) : builder.desc(sort);
 
