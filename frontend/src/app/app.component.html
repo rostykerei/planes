@@ -1,5 +1,5 @@
 <app-navigation></app-navigation>
 
 <div style="margin-top: 48px;">
-  <router-outlet></router-outlet>
+  <router-outlet (activate)="onRouteActivate($event)"></router-outlet>
 </div>

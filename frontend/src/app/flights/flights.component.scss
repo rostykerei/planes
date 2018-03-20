@@ -23,6 +23,8 @@
 .table {
   box-shadow: 0 0 2px rgba(0, 0, 0, .14), 0 2px 4px rgba(0, 0, 0, .28);
   position: relative;
+  max-width: 960px;
+  margin: 0 auto 0;
 }
 
 .blurred {
