@@ -1,9 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent} from '@angular/material';
 import {AutocompleteService} from '../../autocomplete.service';
 
-@Component({})
 export abstract class AutocompleteComponent implements OnInit {
 
   @Input() title: string;
