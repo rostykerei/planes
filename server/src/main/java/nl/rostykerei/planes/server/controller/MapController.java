@@ -1,6 +1,5 @@
 package nl.rostykerei.planes.server.controller;
 
-import nl.rostykerei.planes.server.model.Flight;
 import nl.rostykerei.planes.server.response.FlightMapRow;
 import nl.rostykerei.planes.server.response.LngLat;
 import nl.rostykerei.planes.server.service.FlightLogService;
@@ -52,11 +51,6 @@ public class MapController {
         });
 
         return result;
-    }
-
-    @RequestMapping("/details/{id}")
-    public Flight details(@PathVariable("id") Integer flightId) {
-        return flightService.findById(flightId);
     }
 
 }

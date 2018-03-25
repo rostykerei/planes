@@ -1,5 +1,7 @@
 package nl.rostykerei.planes.server.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,10 +13,12 @@ import java.util.Date;
 public class FlightLog {
 
     @Id
+    @JsonIgnore
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "flight", foreignKey = @ForeignKey(name = "flight_log_flight_fk"), nullable = false)
     private Flight flight;
