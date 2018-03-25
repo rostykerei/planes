@@ -19,6 +19,7 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
   private logEntry: FlightLog;
   private logMap: any;
   private logMarker: any;
+  private logPath: any;
 
   constructor(private route: ActivatedRoute, private flightService: FlightService) {
   }
@@ -57,6 +58,25 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
   private logLoaded(log: FlightLog[]) {
     this.log = log;
     this.logEntry = log[log.length - 1];
+
+    let p = [];
+
+    log.forEach(e => {
+      if (e.latitude && e.longitude) {
+        p.push({lat: e.latitude, lng: e.longitude});
+      }
+    });
+
+    console.log(p);
+
+    this.logPath = new google.maps.Polyline({
+      map: this.logMap,
+      path: p,
+      geodesic: true,
+      strokeColor: '#FF0000',
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
 
     this.logMarker = new google.maps.Marker({
       map: this.logMap,
