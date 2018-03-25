@@ -14,6 +14,7 @@ import {
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSidenavModule,
+  MatSliderModule,
   MatSortModule,
   MatTableModule,
   MatTabsModule,
@@ -29,7 +30,7 @@ import {
     MatChipsModule, MatOptionModule, MatAutocompleteModule,
     MatSidenavModule, MatNativeDateModule, MatDatepickerModule,
     MatButtonToggleModule, MatPaginatorModule, MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule, MatSliderModule
   ],
   exports: [
     MatButtonModule, MatToolbarModule, MatTabsModule,
@@ -38,7 +39,7 @@ import {
     MatChipsModule, MatOptionModule, MatAutocompleteModule,
     MatSidenavModule, MatNativeDateModule, MatDatepickerModule,
     MatButtonToggleModule, MatPaginatorModule, MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule, MatSliderModule
   ]
 })
 export class MaterialModule {

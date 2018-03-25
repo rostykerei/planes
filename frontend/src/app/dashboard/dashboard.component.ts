@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {MapService} from '../map.service';
+import {FlightService} from '../flight.service';
 import {MapFlight} from '../model/map-flight';
 import {LngLat} from '../model/lng-lat';
 import {DashboardUtils} from './dashboard-utils';
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   details: any;
   activeFlight: MapFlight;
 
-  constructor(private mapService: MapService, private stompService: StompService) {
+  constructor(private flightService: FlightService, private stompService: StompService) {
 
   }
 
@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
       .map((message) => JSON.parse(message.body))
       .subscribe((f) => this.updateFlight(f));
 
-    this.mapService.getActiveFlights().subscribe(f => this.flightsPreLoaded(f));
+    this.flightService.getActiveFlights().subscribe(f => this.flightsPreLoaded(f));
   }
 
   flightsPreLoaded(flights: Map<number, MapFlight>): void {
@@ -151,7 +151,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   loadPath(id: number): void {
-    this.mapService.getFlightPath(id).subscribe(path => this.pathLoaded(id, path));
+    this.flightService.getFlightPath(id).subscribe(path => this.pathLoaded(id, path));
   }
 
   pathLoaded(id: number, path: LngLat[]): void {
@@ -176,7 +176,7 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadDetails(id: number): void {
-    this.mapService.getFlightDetails(id).subscribe(details => this.detailsLoaded(id, details));
+    this.flightService.getFlightDetails(id).subscribe(details => this.detailsLoaded(id, details));
   }
 
   detailsLoaded(id: number, details: any): void {

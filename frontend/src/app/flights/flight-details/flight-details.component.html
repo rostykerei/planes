@@ -5,6 +5,82 @@
   </div>
 </div>
 
-<p>
-  flight-details works!
-</p>
+<div class="container">
+
+  <div class="card full">
+    <h1>Flight log</h1>
+    <div id="log-map" style="height: 350px"></div>
+
+    <mat-card *ngIf="logEntry" class="data">
+      <div class="date">
+        <span>
+          {{logEntry.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}
+        </span>
+      </div>
+
+      <hr style="width: 100%;"/>
+
+      <div>
+        <span>Altitude</span>
+        <span *ngIf="logEntry.altitude">{{logEntry.altitude | number:'1.0'}}<small>ft</small></span>
+        <span *ngIf="!logEntry.altitude">&mdash;</span>
+      </div>
+
+      <div>
+        <span>Speed</span>
+        <span *ngIf="logEntry.speed">{{logEntry.speed | number:'1.0'}}<small>kt</small></span>
+        <span *ngIf="!logEntry.speed">&mdash;</span>
+      </div>
+
+      <div>
+        <span>Vert rate</span>
+        <span *ngIf="logEntry.verticalRate != null">{{logEntry.verticalRate | number:'1.0'}}<small>ft/min</small></span>
+        <span *ngIf="logEntry.verticalRate == null">&mdash;</span>
+      </div>
+
+      <div>
+        <span>Course</span>
+        <span *ngIf="logEntry.heading">{{logEntry.heading | number:'3.0'}}&deg;</span>
+        <span *ngIf="!logEntry.heading">&mdash;</span>
+      </div>
+
+      <div>
+        <span>Latitude</span>
+        <span *ngIf="logEntry.latitude">{{logEntry.latitude | number:'1.5-5'}}</span>
+        <span *ngIf="!logEntry.latitude">&mdash;</span>
+      </div>
+
+      <div>
+        <span>Longitude</span>
+        <span *ngIf="logEntry.longitude">{{logEntry.longitude | number:'1.5-5'}}</span>
+        <span *ngIf="!logEntry.longitude">&mdash;</span>
+      </div>
+
+      <div>
+        <span>Squawk</span>
+        <span *ngIf="logEntry.squawk">{{logEntry.squawk}}</span>
+        <span *ngIf="!logEntry.squawk">&mdash;</span>
+      </div>
+
+      <div>
+        <span>RSSI</span>
+        <span *ngIf="logEntry.rssi">{{logEntry.rssi | number:'1.1-1'}}<small>dBFS</small></span>
+        <span *ngIf="!logEntry.rssi">&mdash;</span>
+      </div>
+    </mat-card>
+
+    <div style="text-align: center">
+      <mat-slider [min]="0" [max]="log.length - 1" [step]="1" [value]="log.length - 1" (input)="sliderMove($event)"
+                  style="width: 90%;"></mat-slider>
+    </div>
+  </div>
+
+  <div class="card">
+    <h1>Route</h1>
+  </div>
+
+  <div class="card">
+    <h1>Aircraft</h1>
+  </div>
+
+</div>

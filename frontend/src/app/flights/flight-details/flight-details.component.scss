@@ -1,3 +1,57 @@
 .title {
   background-color: #9C27B0;
 }
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 960px;
+  margin: 10px auto 0;
+
+  .card {
+    flex: 1 440px;
+    min-width: 0;
+    margin: 10px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, .14), 0 2px 4px rgba(0, 0, 0, .28);
+    position: relative;
+  }
+
+  .full {
+    flex-basis: 100%;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: 'Roboto';
+    font-size: 24px;
+    font-weight: 400;
+    padding: 10px;
+  }
+
+  .data {
+    position: absolute;
+    top: 88px;
+    right: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 170px;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      flex-basis: 100%;
+
+      span:first-of-type {
+        font-weight: bold;
+      }
+    }
+
+    .date {
+      justify-content: space-around;
+
+    }
+  }
+}
+
+

@@ -11,7 +11,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {FlightsComponent} from './flights/flights.component';
 import {AboutComponent} from './about/about.component';
 import {NavigationComponent} from './navigation/navigation.component';
-import {MapService} from './map.service';
+import {FlightService} from './flight.service';
 import {HttpClientModule} from '@angular/common/http';
 import {DashboardDetailsComponent} from './dashboard/dashboard-details/dashboard-details.component';
 import {StompConfig, StompService} from '@stomp/ng2-stompjs';
@@ -70,7 +70,7 @@ const stompConfig: StompConfig = {
     MatInputModule,
     Ng2GoogleChartsModule
   ],
-  providers: [MapService,
+  providers: [FlightService,
     StatsService,
     FlightsService,
     AutocompleteService,
