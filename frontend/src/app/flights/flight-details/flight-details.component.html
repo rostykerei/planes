@@ -73,6 +73,8 @@
       <mat-slider [min]="0" [max]="log.length - 1" [step]="1" [value]="log.length - 1" (input)="sliderMove($event)"
                   style="width: 90%;"></mat-slider>
     </div>
+
+    <google-chart #logChartView [data]="logChart"></google-chart>
   </div>
 
   <div class="card">

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {FlightService} from "../../flight.service";
 import {LngLat} from "../../model/lng-lat";
@@ -20,6 +20,9 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
   private logMap: any;
   private logMarker: any;
   private logPath: any;
+
+  @ViewChild('logChartView') logChartView;
+  logChart: any;
 
   constructor(private route: ActivatedRoute, private flightService: FlightService) {
   }
@@ -60,14 +63,16 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
     this.logEntry = log[log.length - 1];
 
     let p = [];
+    const dataTable = [];
+    dataTable.push(['Time', 'Altitude (ft)', 'Speed (kt)']);
 
     log.forEach(e => {
       if (e.latitude && e.longitude) {
         p.push({lat: e.latitude, lng: e.longitude});
       }
-    });
 
-    console.log(p);
+      dataTable.push([new Date(e.timestamp), e.altitude, e.speed]);
+    });
 
     this.logPath = new google.maps.Polyline({
       map: this.logMap,
@@ -78,9 +83,27 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
       strokeWeight: 2
     });
 
+
+    this.logChart = {
+      chartType: 'LineChart',
+      dataTable: dataTable,
+      options: {
+        height: 200,
+        curveType: 'function',
+        backgroundColor: {fill: 'transparent'},
+        theme: 'material',
+        legend: {position: 'bottom'},
+        series: {
+          0: {targetAxisIndex: 0},
+          1: {targetAxisIndex: 1},
+        },
+        chartArea: {width: '87%', height: '80%'}
+      }
+    };
+
     this.logMarker = new google.maps.Marker({
       map: this.logMap,
-      position: {lat:  this.logEntry.latitude, lng: this.logEntry.longitude},
+      position: {lat: this.logEntry.latitude, lng: this.logEntry.longitude},
       icon: this.getIcon(this.logEntry.heading || 0)
     });
   }
@@ -108,4 +131,6 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
       rotation: heading
     };
   }
+
+
 }
