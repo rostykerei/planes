@@ -74,7 +74,14 @@
                   style="width: 90%;"></mat-slider>
     </div>
 
-    <google-chart #logChartView [data]="logChart"></google-chart>
+    <div style="position: relative;">
+      <google-chart #logChartView (chartReady)='logChartReady($event)' [data]="logChart"></google-chart>
+      <div [style.top]="logChartMarker.top"
+           [style.left]="logChartMarker.left"
+           [style.height]="logChartMarker.height"
+           style="position: absolute; background-color: red; width: 2px;"></div>
+    </div>
+
   </div>
 
   <div class="card">

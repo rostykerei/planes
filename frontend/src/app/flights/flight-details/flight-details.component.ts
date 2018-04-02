@@ -5,6 +5,7 @@ import {LngLat} from "../../model/lng-lat";
 import {FlightLog} from "../../model/flight-log";
 import {MatSliderChange} from "@angular/material";
 import {environment} from "../../../environments/environment";
+import {ChartReadyEvent} from "ng2-google-charts";
 
 declare const google: any;
 
@@ -22,7 +23,13 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
   private logPath: any;
 
   @ViewChild('logChartView') logChartView;
+
   logChart: any;
+  logChartMarker: any = {
+    left: '0px',
+    top: '0px',
+    height: '0px'
+  };
 
   constructor(private route: ActivatedRoute, private flightService: FlightService) {
   }
@@ -62,27 +69,25 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
     this.log = log;
     this.logEntry = log[log.length - 1];
 
-    let p = [];
+    let path = [];
     const dataTable = [];
     dataTable.push(['Time', 'Altitude (ft)', 'Speed (kt)']);
 
-    log.forEach(e => {
-      if (e.latitude && e.longitude) {
-        p.push({lat: e.latitude, lng: e.longitude});
+    for (let entry of log) {
+      if (entry.latitude && entry.longitude) {
+        path.push({lat: entry.latitude, lng: entry.longitude});
       }
-
-      dataTable.push([new Date(e.timestamp), e.altitude, e.speed]);
-    });
+      dataTable.push([new Date(entry.timestamp), entry.altitude, entry.speed]);
+    }
 
     this.logPath = new google.maps.Polyline({
       map: this.logMap,
-      path: p,
+      path: path,
       geodesic: true,
       strokeColor: '#FF0000',
       strokeOpacity: 1.0,
       strokeWeight: 2
     });
-
 
     this.logChart = {
       chartType: 'LineChart',
@@ -97,15 +102,19 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
           0: {targetAxisIndex: 0},
           1: {targetAxisIndex: 1},
         },
+        interpolateNulls: true,
         chartArea: {width: '87%', height: '80%'}
       }
     };
 
     this.logMarker = new google.maps.Marker({
       map: this.logMap,
-      position: {lat: this.logEntry.latitude, lng: this.logEntry.longitude},
       icon: this.getIcon(this.logEntry.heading || 0)
     });
+
+    if (this.logEntry.latitude && this.logEntry.longitude) {
+      this.logMarker.setPosition({lat: this.logEntry.latitude, lng: this.logEntry.longitude});
+    }
   }
 
   sliderMove($event: MatSliderChange) {
@@ -116,6 +125,8 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
     }
 
     this.logMarker.setIcon(this.getIcon(this.logEntry.heading || 0));
+
+    this.logChartMarker.left = this.logChartView.wrapper.getChart().getChartLayoutInterface().getXLocation(new Date(this.logEntry.timestamp)) + 'px';
   }
 
 
@@ -132,5 +143,14 @@ export class FlightDetailsComponent implements OnInit, AfterViewInit {
     };
   }
 
+  private logChartReady($event: ChartReadyEvent) {
+    let cli = this.logChartView.wrapper.getChart().getChartLayoutInterface();
 
+    if (this.logEntry) {
+      this.logChartMarker.left = cli.getXLocation(new Date(this.logEntry.timestamp)) + 'px';
+    }
+
+    this.logChartMarker.top = cli.getChartAreaBoundingBox().top + 'px';
+    this.logChartMarker.height = cli.getChartAreaBoundingBox().height + 'px';
+  }
 }
